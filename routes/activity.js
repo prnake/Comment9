@@ -1,0 +1,125 @@
+const express = require('express');
+const router = express.Router();
+const Activity = require('../models/activity');
+const auth = require('../utils/auth');
+const config = require('../config')
+
+router.get('/list', auth.routerSessionAuth, function (req, res) {
+    Activity.findByOwner(req.session.manage_user_id, function (err, data) {
+        if (err)
+            res.json({ success: false, reason: 'unknown error' });
+        else
+            res.json({ success: true, activities: data });
+    })
+});
+
+router.post('/new', auth.routerSessionAuth, function (req, res) {
+    if (!req.body.name)
+        res.json({ success: false, reason: 'invalid name' });
+    else {
+        Activity.createActivity(req.body.name, req.session.manage_user_id , function (err, _id) {
+            if (err) {
+                res.json({ success: false, reason: 'duplicate names' });
+            }
+            else {
+                res.json({ success: true, id: _id });
+            }
+        });
+    }
+});
+
+router.post('/delete', auth.routerSessionAuth, auth.routerActivityByOwner, function (req, res) {
+    req.activity.remove(function (err) {
+        res.json({ success: !err });
+    })
+});
+
+router.post('/config', auth.routerSessionAuth, auth.routerActivityByOwner, function (req, res) {
+    const info = [];
+    const data = req.activity.toJSON();
+    
+    data.permList = [];
+    data.addonList = [];
+    data.senderList = config.danmaku.senders;
+    data.filterList = config.danmaku.filters;
+
+    for (const name of req.activity.senders) {
+        info.push(require("./sender/" + name).info);
+    }
+
+    for (const name of req.activity.filters) {
+        info.push(require("../utils/filter/" + name).info);
+    }
+
+    info.filter(item => item.perms).map(item => data.permList.push(...item.perms));
+    info.filter(item => item.addons).map(item => data.addonList.push(...item.addons));
+        
+    res.json({ success: true, data: data });
+});
+
+router.post('/set', auth.routerSessionAuth, auth.routerActivityByOwner, function (req, res) {
+    switch (req.body.method) {
+        case 'updateName':
+            req.activity.updateName(req.body.name, function (err) {
+                res.json({ success: !err });
+            });
+            break;
+        case 'setAudit':
+            req.activity.setAudit(req.body.value, function (err) {
+                res.json({ success: !err });
+            });
+            break;
+        case 'setToken':
+            req.activity.setToken(req.body.name, req.body.token, req.body.perms, function (err) {
+                res.json({ success: !err });
+            });
+            break;
+        case 'setSenders':
+            if (config.danmaku.senders.includes(req.body.senders)) {
+                req.activity.setSenders(req.body.senders, function (err) {
+                    res.json({ success: !err });
+                });
+            }
+            else {
+                res.json({ success: false });
+            }
+            break;
+        case 'setFilters':
+            const isContain = function(arr1, arr2) {
+                for (let i = arr2.length - 1; i >= 0; i--) {
+                    if (!arr1.includes(arr2[i])) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            if (req.body.filters && isContain(config.danmaku.filters,req.body.filters)) {
+                req.activity.setFilters(req.body.filters, function (err) {
+                    res.json({ success: !err });
+                });
+            }
+            else {
+                res.json({ success: false });
+            }
+            break;
+        case 'delToken':
+            req.activity.delToken(req.body.name, function (err) {
+                res.json({ success: !err });
+            });
+            break;
+        case 'setAddon':
+            req.activity.setAddon(req.body.name, req.body.value, function (err) {
+                res.json({ success: !err });
+            });
+            break;
+        case 'delAddon':
+            req.activity.delAddon(req.body.name, function (err) {
+                res.json({ success: !err });
+            });
+            break;
+        default:
+            res.json({ success: false, reason: "method not found" });
+    }
+});
+
+module.exports = router;
