@@ -51,6 +51,7 @@ activitySchema.methods.delToken = function (name, callback) {
 }
 
 activitySchema.methods.setAddon = function (name, value, callback) {
+	if (!this.addons) this.addons = {};
 	this.addons[name] = value;
 	this.markModified('addons');
     this.save(callback);
