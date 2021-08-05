@@ -43,15 +43,14 @@ router.get('/url', async function (req, res) {
     res.json({ success: true, url: url });
 });
 
-const socket = function (io,path) {
+const socket = function (io, path) {
     io.of(path).use((socket, next) => {
-        logger.info('New socket');
         auth.socketActivityByToken(socket, next);
     }).on('connection', async function (socket) {
         const activity = socket.activity;
         if (!activity.senders.includes("danmaku")) socket.close();
 
-        const address = socket.handshake.address, nspName = socket.nsp.name;
+        const address = socket.handshake.headers["x-real-ip"] || socket.handshake.address, nspName = socket.nsp.name;
         logger.info('New socket connection from ' + address + ' to ' + nspName + ' on activity ' + activity.name + ' with token of ' + socket.activity_token_name);
         
         const perms = new Set(socket.activity_token.perms);
