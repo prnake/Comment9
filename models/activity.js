@@ -11,7 +11,7 @@ const activitySchema = mongodb.Schema(
 		senders: { type: [String], default: ["danmaku"]},
 		filters: { type: [String], default: ["default"] },
 		tokens: { type: Map, of: { token: String, perms: [String] }, default: {} },
-		addons: mongodb.Schema.Types.Mixed,
+		addons: { type: mongodb.Schema.Types.Mixed, default: {} },
 	},
 	{
 		timestamps: true,
