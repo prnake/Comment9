@@ -1,0 +1,31 @@
+version: '1.0'
+
+services:
+  mongo:
+    image: mongo:latest
+    ports:
+      - "127.0.0.1:27017:27017"
+    volumes:
+      - ~/Comment9/db:/data/db
+  redis:
+    image: redis:latest
+    ports:
+      - "127.0.0.1:6379:6379"
+  web:
+    build: .
+    links:
+      - mongo
+      - redis
+    depends_on:
+      - mongo
+      - redis
+    ports:
+      - 3000:3000
+    environment:
+      REDIS_HOST: "redis"
+      REDIS_PORT: 6379
+      MONGO_HOST: "mongo"
+      MONGO_PORT: 27017
+      MONGO_DATABASE: "danmaku"
+    volumes:
+      - ~/Comment9/pm2logs:/root/.pm2/logs
