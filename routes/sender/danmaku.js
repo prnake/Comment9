@@ -45,6 +45,7 @@ router.get('/url', async function (req, res) {
 
 const socket = function (io,path) {
     io.of(path).use((socket, next) => {
+        logger.info('New socket');
         auth.socketActivityByToken(socket, next);
     }).on('connection', async function (socket) {
         const activity = socket.activity;
