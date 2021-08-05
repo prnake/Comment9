@@ -30,7 +30,7 @@ function routerActivityByOwner(req, res, next) {
 
 function routerActivityByToken(req, res, next) {
     const params = req.method === 'POST' ? req.body : req.query;
-    if (!params.activity || !params.name || !params.token) {
+    if (!params.activity || !params.name) {
         res.status(500).end();
         return;
     }
@@ -40,7 +40,7 @@ function routerActivityByToken(req, res, next) {
         } else if (!activity) {
             res.json({ success: false, reason: 'activity not exist' });
             res.end();
-        } else if (activity.tokens.get(params.name).token !== params.token) {
+        } else if (!activity.tokens.get(params.name) || activity.tokens.get(params.name).token !== params.token) {
             res.json({ success: false, reason: 'permission denied' });
             res.end();
         } else {
@@ -53,19 +53,24 @@ function routerActivityByToken(req, res, next) {
 function socketActivityByToken(socket, next) {
     const query = socket.handshake.query;
     const activity = query["acitivity"], tokenName = query["tokenName"], token = query["token"];
-    if (!activity || !tokenName) next(new Error("Unauthorized"));
-    if (!token) token = "";
+    if (!activity || !tokenName) {
+        next(new Error("Unauthorized"));
+        return;
+    }
     Activity.getActivity(activity, function (err, activity) {
         if (err || !activity) {
             next(new Error("Unauthorized"));
         } else {
             const activity_token = activity.tokens.get(tokenName);
-            if (activity_token === undefined || activity_token.token !== token)
+            if (activity_token === undefined || activity_token.token !== token) {
                 next(new Error("Unauthorized"));
-            socket.activity = activity;
-            socket.activity_token_name = tokenName;
-            socket.activity_token = activity_token;
-            next();
+            }
+            else {
+                socket.activity = activity;
+                socket.activity_token_name = tokenName;
+                socket.activity_token = activity_token;
+                next();
+            }
         }
     })
 }

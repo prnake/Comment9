@@ -13,14 +13,13 @@ module.exports = {
         password: process.env.REDIS_PASSWORD || null,
     },
     session: {
-        cookieSecrect: 'Danmaku',
+        cookieSecrect: process.env.SECRET || 'Danmaku',
     },
     danmaku: {
         expire: 5,
-        historySize: 10,
         senders: ["danmaku"],
         filters: ["default","blacklist"],
     },
-    host: 'http://localhost:3000',
-    rootPath: '/comment'
+    host: process.env.HOST || 'http://localhost:3000',
+    rootPath: process.env.ROOT_PATH || '/'
 };
