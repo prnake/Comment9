@@ -1,0 +1,673 @@
+<template>
+  <div class="home">
+    <el-container>
+      <el-header>
+        <el-row type="flex" justify="center" align="middle">
+          <el-col :xs="{ span: 24 }" :sm="{ span: 22 }" :md="{ span: 20 }">
+            <el-menu
+              :default-active="activeIndex"
+              class="menu"
+              mode="horizontal"
+              text-color="#34495e"
+              active-text-color="#1abc9c"
+              @select="handleSelect"
+            >
+              <el-menu-item index="/">
+                <div class="logo">Comment9</div>
+              </el-menu-item>
+              <el-menu-item index="name">{{ activityName }}</el-menu-item>
+              <el-submenu index="activity">
+                <template slot="title">{{ $t("ACTIVITY") }}</template>
+                <div
+                  v-for="(activity, index) in activities"
+                  v-bind:key="activity.id"
+                >
+                  <el-menu-item :index="index">{{
+                    activity.name
+                  }}</el-menu-item>
+                </div>
+                <el-menu-item index="creat">{{ $t("CREAT") }}</el-menu-item>
+              </el-submenu>
+              <el-menu-item index="logout" class="docker-right">{{
+                $t("Log Out")
+              }}</el-menu-item>
+            </el-menu>
+          </el-col>
+        </el-row>
+      </el-header>
+      <el-main>
+        <el-row type="flex" justify="center" align="middle">
+          <el-col :xs="{ span: 24 }" :sm="{ span: 22 }" :md="{ span: 20 }">
+            <div class="container" v-if="!hasActivity">
+              <div>
+                <h1>{{ $t("Welcome to Comment9") }}</h1>
+                <p>{{ $t("To start, creat an actvity first.") }}</p>
+              </div>
+            </div>
+            <div v-else>
+              <div class="container">
+                <h1>{{ $t("Activity Setting") }}</h1>
+                <el-input
+                  class="font-16"
+                  :placeholder="$t('Activity Name')"
+                  v-model="activityEditInfo.name"
+                >
+                  <template slot="prepend">{{ $t("Activity Name") }}</template>
+                </el-input>
+                <el-checkbox class="col-20" v-model="activityEditInfo.audit">{{
+                  $t("Enable manual audit")
+                }}</el-checkbox>
+                <p class="height-5">{{ $t("Sender List") }}</p>
+                <el-checkbox-group v-model="activityEditInfo.senders">
+                  <div
+                    v-for="sender in activityEditInfo.senderList"
+                    v-bind:key="sender"
+                  >
+                    <el-checkbox :label="sender">{{
+                      $t("sender:" + sender)
+                    }}</el-checkbox>
+                  </div>
+                </el-checkbox-group>
+                <p class="height-5">{{ $t("Filter List") }}</p>
+                <el-checkbox-group v-model="activityEditInfo.filters">
+                  <div
+                    v-for="filter in activityEditInfo.filterList"
+                    v-bind:key="filter"
+                  >
+                    <el-checkbox :label="filter">{{
+                      $t("filter:" + filter)
+                    }}</el-checkbox>
+                  </div>
+                </el-checkbox-group>
+
+                <el-button
+                  class="col-20"
+                  type="primary"
+                  @click="saveBasicInfo()"
+                  >{{ $t("Save") }}<i class="el-icon-upload el-icon--right"></i
+                ></el-button>
+                <el-button
+                  class="col-20 docker-right"
+                  type="danger"
+                  @click="deleteActivity()"
+                  >{{ $t("Delete")
+                  }}<i class="el-icon-delete el-icon--right"></i
+                ></el-button>
+              </div>
+              <div class="container">
+                <h1>{{ $t("Token Setting") }}</h1>
+                <el-table :data="activityTokens" style="width: 100%">
+                  <el-table-column :label="$t('Name')">
+                    <template slot-scope="scope">
+                      <p>{{ scope.row.name }}</p>
+                    </template>
+                  </el-table-column>
+
+                  <el-table-column :label="$t('Token')">
+                    <template slot-scope="scope">
+                      <p>{{ scope.row.token }}</p>
+                    </template>
+                  </el-table-column>
+
+                  <el-table-column :label="$t('Perms')">
+                    <template slot-scope="scope">
+                      <el-popover
+                        v-for="perm in scope.row.perms"
+                        v-bind:key="perm"
+                        trigger="hover"
+                        placement="top"
+                        width="200"
+                      >
+                        <p>{{ $t(permDescription[perm]) }}</p>
+                        <el-tag size="medium" slot="reference">{{
+                          perm
+                        }}</el-tag>
+                      </el-popover>
+                    </template>
+                  </el-table-column>
+
+                  <el-table-column :label="$t('Method')">
+                    <template slot-scope="scope">
+                      <el-button
+                        size="mini"
+                        @click="
+                          tokenForm = scope.row;
+                          tokenFormVisible = true;
+                        "
+                      >
+                        {{ $t("Edit") }}</el-button
+                      >
+                      <el-button
+                        size="mini"
+                        type="danger"
+                        @click="removeToken(scope.row)"
+                        >{{ $t("Remove") }}</el-button
+                      >
+                    </template>
+                  </el-table-column>
+                </el-table>
+
+                <el-button
+                  class="col-20"
+                  type="primary"
+                  @click="
+                    tokenForm = { name: '', token: '', perms: [] };
+                    activityTokens.push(tokenForm);
+                    tokenFormVisible = true;
+                  "
+                  >{{ $t("Add") }}<i class="el-icon-plus el-icon--right"></i
+                ></el-button>
+
+                <el-dialog
+                  :title="$t('Edit Token')"
+                  :visible.sync="tokenFormVisible"
+                  width="30%"
+                >
+                  <el-input
+                    class="font-16"
+                    :placeholder="$t('Name')"
+                    v-model="tokenForm.name"
+                  >
+                    <template slot="prepend">{{ $t("Name") }}</template>
+                  </el-input>
+                  <el-input
+                    class="font-16"
+                    :placeholder="$t('Token')"
+                    v-model="tokenForm.token"
+                  >
+                    <template slot="prepend">{{ $t("Token") }}</template>
+                  </el-input>
+                  <p class="font-16 height-5">{{ $t("Perms") }}</p>
+                  <el-checkbox-group v-model="tokenForm.perms">
+                    <div
+                      v-for="perm in activityEditInfo.permList"
+                      v-bind:key="perm.name"
+                    >
+                      <el-checkbox :label="perm.name"
+                        >{{ perm.name + ": " + $t(permDescription[perm.name]) }}
+                      </el-checkbox>
+                    </div>
+                  </el-checkbox-group>
+                  <span slot="footer" class="dialog-footer">
+                    <el-button @click="tokenFormVisible = false">{{
+                      $t("Cancel")
+                    }}</el-button>
+                    <el-button
+                      type="primary"
+                      @click="
+                        editToken(tokenForm);
+                        tokenFormVisible = false;
+                      "
+                      >{{ $t("Save") }}</el-button
+                    >
+                  </span>
+                </el-dialog>
+              </div>
+              <div class="container">
+                <h1>{{ $t("Addon Setting") }}</h1>
+                <el-table
+                  :data="activityEditInfo.addonList"
+                  style="width: 100%"
+                >
+                  <el-table-column :label="$t('Name')">
+                    <template slot-scope="scope">
+                      <p>{{ scope.row.name }}</p>
+                    </template>
+                  </el-table-column>
+
+                  <el-table-column :label="$t('Description')">
+                    <template slot-scope="scope">
+                      <p>{{ $t(scope.row.description) }}</p>
+                    </template>
+                  </el-table-column>
+
+                  <el-table-column :label="$t('Value')">
+                    <template slot-scope="scope">
+                      <p>{{ activityEditInfo.addons[scope.row.name] }}</p>
+                    </template>
+                  </el-table-column>
+
+                  <el-table-column :label="$t('Method')">
+                    <template slot-scope="scope">
+                      <el-button
+                        size="mini"
+                        @click="
+                          addonForm = {
+                            name: scope.row.name,
+                            type: scope.row.type,
+                            value: activityEditInfo.addons[scope.row.name],
+                          };
+                          if (!addonForm.value)
+                            addonForm.value = scope.row.default;
+                          if (addonForm.type == 'List')
+                            addonForm.value = addonForm.value.join('\n');
+                          addonFormVisible = true;
+                        "
+                      >
+                        {{ $t("Edit") }}</el-button
+                      >
+                      <el-button
+                        size="mini"
+                        type="danger"
+                        @click="removeAddon(scope.row)"
+                        >{{ $t("Remove") }}</el-button
+                      >
+                    </template>
+                  </el-table-column>
+                </el-table>
+                <el-dialog
+                  :title="$t('Edit Addon')"
+                  :visible.sync="addonFormVisible"
+                  width="30%"
+                >
+                  <h1>{{ addonForm.name }}</h1>
+                  <el-input
+                    class="font-16"
+                    :placeholder="$t('Number')"
+                    v-model="addonForm.value"
+                    v-if="addonForm.type == 'Number'"
+                  >
+                    <template slot="prepend">{{ $t("Number") }}</template>
+                  </el-input>
+                  <el-input
+                    class="font-16"
+                    :placeholder="$t('String')"
+                    v-model="addonForm.value"
+                    v-if="addonForm.type == 'String'"
+                  >
+                    <template slot="prepend">{{ $t("String") }}</template>
+                  </el-input>
+                  <el-switch
+                    v-model="addonForm.value"
+                    active-color="#13ce66"
+                    inactive-color="#ff4949"
+                    v-if="addonForm.type == 'Boolean'"
+                  >
+                  </el-switch>
+                  <el-input
+                    type="textarea"
+                    :autosize="{ minRows: 2, maxRows: 10 }"
+                    :placeholder="$t('Please input value split by line')"
+                    v-model="addonForm.value"
+                    v-if="addonForm.type == 'List'"
+                  >
+                  </el-input>
+                  <p class="height-5" v-if="addonForm.type == 'List'">
+                    {{ $t("Please input value split by line.") }}
+                  </p>
+
+                  <span slot="footer" class="dialog-footer">
+                    <el-button @click="addonFormVisible = false">{{
+                      $t("Cancel")
+                    }}</el-button>
+                    <el-button
+                      type="primary"
+                      @click="
+                        editAddon(addonForm);
+                        addonFormVisible = false;
+                      "
+                      >{{ $t("Save") }}</el-button
+                    >
+                  </span>
+                </el-dialog>
+              </div>
+            </div>
+          </el-col>
+        </el-row>
+      </el-main>
+      <el-footer>Copyright (c) 2014-2021 SAST</el-footer>
+    </el-container>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      activeIndex: "name",
+      activityName: "",
+      activityId: "",
+      activities: [],
+      activityInfo: {},
+      activityEditInfo: {},
+      activityTokens: [],
+      permDescription: {},
+      tokenForm: {},
+      tokenFormVisible: false,
+      addonForm: {},
+      addonFormVisible: false,
+    };
+  },
+  computed: {
+    hasActivity: function () {
+      return this.activities.length > 0;
+    },
+  },
+  created: async function () {
+    await this.getActivityList();
+    if (this.$route.params.id == "creat" || !this.hasActivity) {
+      this.activityName = this.$t("CREAT");
+      this.creatPanel();
+    } else if (this.$route.params.id) {
+      this.getActivityInfo(this.$route.params.id);
+    } else {
+      this.getActivityInfo(this.activities[0].id);
+    }
+    // console.log(result.data);
+    //     if (this.activities.length>0) {
+    //         this.handleSelect("0");
+    //     } else {
+    //         this.handleSelect("add");
+    //     }
+
+    // this.activityName = "活动"
+  },
+  methods: {
+    async editAddon(row) {
+      let value = row.value;
+      if (row.type == "List") value = value.split("\n");
+      switch (row.type) {
+        case "List":
+          if (!(value instanceof Array)) {
+            this.$message({
+              type: "error",
+              message: this.$t("input error"),
+            });
+            return;
+          }
+          break;
+        case "Boolean":
+          value = !!value;
+          break;
+        case "String":
+          break;
+        case "Number":
+          value = parseInt(value);
+          if (isNaN(value)) {
+            this.$message({
+              type: "error",
+              message: this.$t("input error"),
+            });
+            return;
+          }
+          break;
+        default:
+          break;
+      }
+      const result = await this.axios
+        .post(this.$rootPath + "/activity/set", {
+          activity: this.activityId,
+          method: "setAddon",
+          name: row.name,
+          value: value,
+        })
+        .then((data) => data.data);
+      this.handleResult(result);
+    },
+    async removeAddon(row) {
+      const result = await this.axios
+        .post(this.$rootPath + "/activity/set", {
+          activity: this.activityId,
+          method: "delAddon",
+          name: row.name,
+        })
+        .then((data) => data.data);
+      this.handleResult(result);
+    },
+    async editToken(row) {
+      const result = await this.axios
+        .post(this.$rootPath + "/activity/set", {
+          activity: this.activityId,
+          method: "setToken",
+          name: row.name,
+          token: row.token,
+          perms: row.perms,
+        })
+        .then((data) => data.data);
+      this.handleResult(result);
+    },
+    async removeToken(row) {
+      const result = await this.axios
+        .post(this.$rootPath + "/activity/set", {
+          activity: this.activityId,
+          method: "delToken",
+          name: row.name,
+        })
+        .then((data) => data.data);
+      this.handleResult(result);
+    },
+    handleSelect(key) {
+      if (key == "creat") {
+        this.creatPanel();
+      } else if (key == "name") {
+        if (this.activityName == this.$t("CREAT")) this.creatPanel();
+      } else {
+        this.getActivityInfo(this.activities[key].id);
+      }
+    },
+    handleResult(result) {
+      if (result.success) {
+        this.$message({
+          type: "success",
+          message: this.$t("Saved"),
+        });
+        this.getActivityList();
+        this.getActivityInfo(this.activityId);
+      } else {
+        this.$message({
+          type: "error",
+          message: this.$t(result.reason),
+        });
+      }
+    },
+    async saveBasicInfo() {
+      let result = { success: true };
+      if (
+        this.activityEditInfo.name &&
+        this.activityEditInfo.name != this.activityInfo.name
+      ) {
+        result = await this.axios
+          .post(this.$rootPath + "/activity/set", {
+            activity: this.activityId,
+            method: "updateName",
+            name: this.activityEditInfo.name,
+          })
+          .then((data) => data.data);
+      }
+      if (result.success) {
+        result = await this.axios
+          .post(this.$rootPath + "/activity/set", {
+            activity: this.activityId,
+            method: "updateInfo",
+            audit: this.activityEditInfo.audit,
+            senders: this.activityEditInfo.senders,
+            filters: this.activityEditInfo.filters,
+          })
+          .then((data) => data.data);
+        this.handleResult(result);
+      } else {
+        this.$message({
+          type: "error",
+          message: this.$t(result.reason),
+        });
+      }
+    },
+    async getActivityList() {
+      const result = await this.axios.get(this.$rootPath + "/activity/list", {
+        validateStatus: false,
+      });
+      //   result.status = 200;
+      //   result.data = {
+      //     success: true,
+      //     activities: [
+      //       {
+      //         _id: "61014c583ff837f67bdfa5b6",
+      //         name: "学生节",
+      //         id: "61014c583ff837f67bdfa5b6",
+      //       },
+      //       {
+      //         _id: "61014c613ff837f67bdfa5c0",
+      //         name: "测试",
+      //         id: "61014c613ff837f67bdfa5c0",
+      //       },
+      //     ],
+      //   };
+      if (result.status != 200 || !result.data.success) {
+        this.$router.push({ name: "Home" });
+      }
+      this.activities = result.data.activities;
+    },
+    creatPanel() {
+      this.$prompt(this.$t("Activity Name"), this.$t("Creat An Activity"), {
+        confirmButtonText: this.$t("Yes"),
+        cancelButtonText: this.$t("No"),
+      })
+        .then(async ({ value }) => {
+          const result = await this.axios
+            .post(this.$rootPath + "/activity/new", {
+              name: value,
+            })
+            .then((data) => data.data);
+          if (result.success) {
+            this.$message({
+              type: "success",
+              message: this.$t("Creat Activity: ") + value,
+            });
+            this.getActivityList();
+            this.getActivityInfo(result.id);
+          } else {
+            this.$message({
+              type: "error",
+              message: this.$t(result.reason),
+            });
+            this.creatPanel();
+          }
+        })
+        .catch(() => {});
+    },
+    deleteActivity() {
+      this.$confirm(
+        this.$t(
+          "This operation will delete the activity permanently, continue?"
+        ),
+        this.$t("Notice"),
+        {
+          confirmButtonText: this.$t("Yes"),
+          cancelButtonText: this.$t("No"),
+          type: "warning",
+        }
+      ).then(async () => {
+        const result = await this.axios
+          .post(this.$rootPath + "/activity/delete", {
+            activity: this.activityId,
+          })
+          .then((data) => data.data);
+        if (result.success) {
+          this.$message({
+            type: "success",
+            message: this.$t("Activity Delete"),
+          });
+          await this.getActivityList();
+          if (!this.hasActivity) {
+            this.activityName = this.$t("CREAT");
+            this.creatPanel();
+          } else {
+            this.getActivityInfo(this.activities[0].id);
+          }
+        }
+      });
+    },
+    async getActivityInfo(id) {
+      this.activityId = id;
+      const result = await this.axios
+        .post(this.$rootPath + "/activity/config", {
+          activity: id,
+        })
+        .then((data) => data.data);
+      if (result.success) {
+        this.activityName = result.data.name;
+        this.activityInfo = result.data;
+        this.activityEditInfo = JSON.parse(JSON.stringify(this.activityInfo));
+        this.activityTokens = [];
+        for (const name in this.activityInfo.tokens) {
+          this.activityTokens.push({
+            name: name,
+            token: this.activityInfo.tokens[name].token,
+            perms: this.activityInfo.tokens[name].perms,
+          });
+        }
+        for (const perm of this.activityInfo.permList) {
+          this.permDescription[perm.name] = perm.description;
+        }
+        if (!this.activityEditInfo.addons) this.activityEditInfo.addons = {};
+        for (const addon of this.activityInfo.addonList) {
+          if (!this.activityEditInfo.addons[addon.name])
+            this.activityEditInfo.addons[addon.name] = addon.default;
+        }
+      }
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+.menu {
+  min-width: 80%;
+}
+.logo {
+  color: #34495e;
+  font-size: 24px;
+  font-weight: 700;
+  transition: color 0.3s;
+  -moz-transition: color 0.3s;
+  -webkit-transition: color 0.3s;
+  -o-transition: color 0.3s;
+}
+.logo:hover {
+  color: #1abc9c;
+}
+@media screen and (max-width: 550px) {
+  .logo {
+    display: none;
+  }
+  .el-menu-item,
+  .el-submenu /deep/ .el-submenu__title {
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+@media screen and (min-width: 550px) {
+  .el-menu-item,
+  .el-submenu /deep/ .el-submenu__title {
+    font-size: 16px;
+    font-weight: 500;
+  }
+}
+.docker-right,
+.el-menu--horizontal > .el-menu-item.docker-right {
+  float: right;
+}
+.container {
+  font-size: 24px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-right: 60px;
+  padding-left: 60px;
+  line-height: 1em;
+  text-align: left;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+}
+.col-20 {
+  margin-top: 20px;
+}
+.font-16,
+/deep/ .el-checkbox__label {
+  font-size: 16px;
+}
+.height-5 {
+  height: 5px;
+}
+.el-table {
+  font-size: 16px;
+}
+</style>

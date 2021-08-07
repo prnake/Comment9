@@ -14,10 +14,10 @@ let info = {perms:[], addons:[]};
 const setPerms = (name, description) => info.perms.push({ name: name, description: description });
 const setAddons = (name, description, type, def) => info.addons.push({name:name,description:description,type:type,default:def});
 
-setPerms("pull", "拉取最近弹幕的权限");
-setPerms("push", "为单用户提交弹幕的权限（无法自定义userid）");
-setPerms("pushmult", "为多用户提交弹幕的权限（能够自定义userid）");
-setPerms("audit", "审核弹幕的权限");
+setPerms("pull", "permission to pull recent danmaku");
+setPerms("push", "permission to pull danmaku for single");
+setPerms("pushmult", "permission to pull danmaku for group(customize userid)");
+setPerms("audit", "permission to audit danmaku");
 
 router.get('/pull', auth.routerActivityByToken, async function (req, res) {
     const keysAsync = promisify(redis.keys).bind(redis);

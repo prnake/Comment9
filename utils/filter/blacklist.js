@@ -5,9 +5,9 @@ let info = { perms: [], addons: [] };
 const setPerms = (name, description) => info.perms.push({ name: name, description: description });
 const setAddons = (name, description, type, def) => info.addons.push({ name: name, description: description, type: type, default: def });
 
-setAddons("blacklist", "禁用用户", "List", "");
-setAddons("blackwords", "禁用词", "List", "");
-setAddons("blackwordsDict", "使用内置禁用词库", "Boolean", "false");
+setAddons("blacklist", "forbidden user list", "List", []);
+setAddons("blackwords", "custom forbidden word list", "List", []);
+setAddons("blackwordsDict", "using built-in forbidden word list", "Boolean", false);
 
 const fs = require('fs')
 let map = {}

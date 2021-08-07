@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const config = require('../config');
 const User = require('../models/user');
+const auth = require('../utils/auth');
 
 router.post('/login', function (req, res) {
     const post = req.body;
@@ -19,7 +20,7 @@ router.post('/login', function (req, res) {
     });
 });
 
-router.post('/reg', function (req, res) {
+router.post('/register', function (req, res) {
     var post = req.body;
     if (post.user && post.password && /\w+/.test(post.user)) {
         User.createUser(post.user, post.password, function (err, uid) {
@@ -28,6 +29,15 @@ router.post('/reg', function (req, res) {
     } else {
         res.json({ success: false, reason: 'invalid user/password' });
     }
+});
+
+router.get('/logout', function (req, res) {
+    delete req.session.manage_user_id;
+    res.json({ success: true });
+});
+
+router.get('/status', function (req, res) {
+    res.json({ success: !!req.session.manage_user_id });
 });
 
 router.get('/logout', function (req, res) {

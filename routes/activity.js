@@ -59,13 +59,25 @@ router.post('/config', auth.routerSessionAuth, auth.routerActivityByOwner, funct
 
 router.post('/set', auth.routerSessionAuth, auth.routerActivityByOwner, function (req, res) {
     switch (req.body.method) {
-        case 'updateName':
-            req.activity.updateName(req.body.name, function (err) {
+        case 'updateInfo':
+            req.activity.updateInfo(req.body, function (err) {
                 res.json({ success: !err });
             });
             break;
+        case 'updateName':
+            if (!req.body.name)
+                res.json({ success: false, reason: 'invalid name' });
+            req.activity.updateName(req.body.name, function (err) {
+                if (err) {
+                    res.json({ success: false, reason: 'duplicate names' });
+                }
+                else {
+                    res.json({ success: true });
+                }
+            });
+            break;
         case 'setAudit':
-            req.activity.setAudit(req.body.value, function (err) {
+            req.activity.setAudit(req.body.audit, function (err) {
                 res.json({ success: !err });
             });
             break;
@@ -75,32 +87,14 @@ router.post('/set', auth.routerSessionAuth, auth.routerActivityByOwner, function
             });
             break;
         case 'setSenders':
-            if (config.danmaku.senders.includes(req.body.senders)) {
-                req.activity.setSenders(req.body.senders, function (err) {
-                    res.json({ success: !err });
-                });
-            }
-            else {
-                res.json({ success: false });
-            }
+            req.activity.setSenders(req.body.senders, function (err) {
+                res.json({ success: !err });
+            });
             break;
         case 'setFilters':
-            const isContain = function(arr1, arr2) {
-                for (let i = arr2.length - 1; i >= 0; i--) {
-                    if (!arr1.includes(arr2[i])) {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            if (req.body.filters && isContain(config.danmaku.filters,req.body.filters)) {
-                req.activity.setFilters(req.body.filters, function (err) {
-                    res.json({ success: !err });
-                });
-            }
-            else {
-                res.json({ success: false });
-            }
+            req.activity.setFilters(req.body.filters, function (err) {
+                res.json({ success: !err });
+            });
             break;
         case 'delToken':
             req.activity.delToken(req.body.name, function (err) {

@@ -3,6 +3,15 @@ const mongodb = require('../utils/mongodb');
 const logger = require('../utils/logger');
 const crypto = require("crypto");
 
+const isContain = function (arr1, arr2) {
+	for (let i = arr2.length - 1; i >= 0; i--) {
+		if (!arr1.includes(arr2[i])) {
+			return false;
+		}
+	}
+	return true;
+}
+
 const activitySchema = mongodb.Schema(
 	{
 		name: { type: String, unique: true},
@@ -19,23 +28,37 @@ const activitySchema = mongodb.Schema(
 	}
 );
 
+activitySchema.methods.updateInfo = function (data, callback) {
+	if (data.audit)
+		this.audit = !!data.audit;
+	if (data.senders &&
+		isContain(config.danmaku.senders, data.senders))
+		this.senders = data.senders;
+	if (data.filters &&
+		isContain(config.danmaku.filters, data.filters))
+		this.filters = data.filters;
+	this.save(callback);
+}
+
 activitySchema.methods.updateName = function (name, callback) {
 	this.name = name;
 	this.save(callback);
 }
 
-activitySchema.methods.setAudit = function (value, callback) {
-	this.audit = value === '1';
+activitySchema.methods.setAudit = function (audit, callback) {
+	this.audit = !!audit;
 	this.save(callback);
 }
 
 activitySchema.methods.setSenders = function (senders, callback) {
-	this.senders = senders;
+	if (senders && isContain(config.danmaku.senders, senders))
+		this.senders = senders;
 	this.save(callback);
 }
 
 activitySchema.methods.setFilters = function (filters, callback) {
-	this.filters = filters;
+	if (filters && isContain(config.danmaku.filters, filters))
+		this.filters = filters;
 	this.save(callback);
 }
 
