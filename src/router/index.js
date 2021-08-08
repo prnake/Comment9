@@ -3,6 +3,8 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import Manage from "../views/Manage.vue";
+import Wall from "../views/Wall.vue";
+import Sender from "../views/Sender.vue";
 // import store from '../store/';
 
 Vue.use(VueRouter);
@@ -27,6 +29,16 @@ const routes = [
     path: "/manage/:id",
     name: "Manage",
     component: Manage,
+  },
+  {
+    path: "/wall/:id/:name/:token",
+    name: "Wall",
+    component: Wall,
+  },
+  {
+    path: "/sender/:id/:name/:token",
+    name: "Sender",
+    component: Sender,
   },
   {
     path: "/about",

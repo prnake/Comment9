@@ -15,8 +15,8 @@ const setPerms = (name, description) => info.perms.push({ name: name, descriptio
 const setAddons = (name, description, type, def) => info.addons.push({name:name,description:description,type:type,default:def});
 
 setPerms("pull", "permission to pull recent danmaku");
-setPerms("push", "permission to pull danmaku for single");
-setPerms("pushmult", "permission to pull danmaku for group(customize userid)");
+setPerms("push", "permission to push danmaku for single user");
+setPerms("pushmult", "permission to push danmaku for multi-users(customize userid)");
 setPerms("audit", "permission to audit danmaku");
 
 router.get('/pull', auth.routerActivityByToken, async function (req, res) {
@@ -33,6 +33,10 @@ router.get('/pull', auth.routerActivityByToken, async function (req, res) {
         );
         res.json({ success: true, danmaku: danmaku });
     }
+});
+
+router.get('/config', auth.routerActivityByToken, async function (req, res) {
+    res.json({ success: true, data: { name: req.activity.name} });
 });
 
 router.get('/url', async function (req, res) {

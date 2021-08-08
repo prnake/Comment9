@@ -29,7 +29,7 @@ const activitySchema = mongodb.Schema(
 );
 
 activitySchema.methods.updateInfo = function (data, callback) {
-	if (data.audit)
+	if (data.audit !== undefined)
 		this.audit = !!data.audit;
 	if (data.senders &&
 		isContain(config.danmaku.senders, data.senders))

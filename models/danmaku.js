@@ -9,7 +9,7 @@ const danmakuSchema = mongodb.Schema(
         userid: { type: String },                                   // 发送者id
         username: { type: String },                                 // 发送者昵称
         userimg: { type: String, default: '' },                     // 发送者头像
-        type: { type: Number, default: 1 },                         // 模式
+        mode: { type: Number, default: 1 },                         // 模式
         text: { type: String },                                     // 内容
         dur: { type: Number, default: 4000 },                       // 持续时间
         size: { type: Number, default: 25 },                        // 文字大小
@@ -33,13 +33,13 @@ danmakuSchema.statics.createDanmaku = function (config, activity_id, callback) {
     if (!callback) {
         callback = function () {};
     }
-    if (!config.type || !config.userid || !config.text || !config.time) {
-        logger.info(config);
+    if (!config.mode || !config.userid || !config.text || !config.time) {
         callback(new Error('missing params'));
         return;
     }
-    
-    redis.incr(`acitivity:${activity_id}:danmaku:count`, function (err, id) {
+
+    redis.incr(`acitivity:${activity_id}:danmaku:count`);
+    redis.incr(`danmaku:count`, function (err, id) {
         if (err) {
             callback("unknown error");
             return;
@@ -49,7 +49,7 @@ danmakuSchema.statics.createDanmaku = function (config, activity_id, callback) {
                 userid: config.userid,
                 username: config.username | config.userid,
                 userimg: config.userimg,
-                type: config.type,
+                mode: config.mode,
                 text: config.text,
                 dur: config.dur,
                 size: config.size,            
