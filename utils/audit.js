@@ -26,13 +26,13 @@ function filters(danmaku, activity, callback) {
     compose(middleware)(danmaku, activity).then(function (err) {
         if (err) {
             logger.error(err.message);
-            danmaku.updateStatus("reject", function () { callback(err) });
+            danmaku.updateStatus({status: "reject"}, function () { callback(err) });
         }
         else {
             if (activity.audit) {
-                danmaku.updateStatus("audit", function () { callback(null) });
+                danmaku.updateStatus({ status: "audit" }, function () { callback(null) });
             } else {
-                danmaku.updateStatus("publish", function () { callback(null) });
+                danmaku.updateStatus({ status: "publish" }, function () { callback(null) });
             }
         }
     });

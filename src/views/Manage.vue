@@ -423,6 +423,39 @@
                     ></a
                   >
                 </el-input>
+
+                <p class="height-5">
+                  {{ $t("Danmaku Auditor") }}
+                  <el-popover
+                    v-for="perm in ['pull', 'push', 'audit']"
+                    v-bind:key="perm"
+                    trigger="hover"
+                    placement="top"
+                    width="200"
+                  >
+                    <p>{{ $t(permDescription[perm]) }}</p>
+                    <el-tag size="medium" slot="reference">{{ perm }}</el-tag>
+                  </el-popover>
+                </p>
+                <el-input
+                  class="font-16 pad-right-130"
+                  v-for="url in danmakuAuditUrl"
+                  v-bind:key="url"
+                  :value="url.url"
+                  :disabled="true"
+                >
+                  <template slot="prepend"
+                    >{{ $t("Token") + " " + url.name }}
+                  </template>
+                  <a slot="suffix" target="_blank" :href="url.url"
+                    ><el-button
+                      type="text"
+                      icon="el-icon-share"
+                      @click="$copyText(url.url)"
+                      >{{ $t("Open in new tab") }}</el-button
+                    ></a
+                  >
+                </el-input>
               </div>
             </div>
           </el-col>
@@ -504,6 +537,25 @@ export default {
       const perms = ["pull", "push"];
       const cal = function (id, name, token) {
         const url = `${config.host}${config.rootPath}/#/sender/${id}/${name}/${token}`;
+        return url;
+      };
+      for (const token of this.activityTokens) {
+        if (
+          token.perms.every((perm) => perms.includes(perm)) &&
+          perms.every((perm) => token.perms.includes(perm))
+        )
+          result.push({
+            name: token.name,
+            url: cal(this.activityId, token.name, token.token),
+          });
+      }
+      return result;
+    },
+    danmakuAuditUrl: function () {
+      let result = [];
+      const perms = ["pull", "push", "audit"];
+      const cal = function (id, name, token) {
+        const url = `${config.host}${config.rootPath}/#/audit/${id}/${name}/${token}`;
         return url;
       };
       for (const token of this.activityTokens) {

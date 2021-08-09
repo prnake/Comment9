@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
+    "lint": "eslint models/**/*.js routes/**/*.js utils/**/*.js src/**/*.{js,vue} --fix",
     "i18n:report": "vue-cli-service i18n:report --src \"./src/**/*.?(js|vue)\" --locales \"./src/langs/**/*.json\"",
     "start": "node bin/www",
     "start-dev": "env NODE_ENV=development node bin/www"
@@ -16,6 +16,7 @@
     "connect-redis": "^6.0.0",
     "cookie-parser": "~1.4.4",
     "core-js": "^3.6.5",
+    "dayjs": "^1.10.6",
     "element-ui": "^2.4.5",
     "express": "~4.16.1",
     "express-session": "^1.17.2",
@@ -32,9 +33,9 @@
     "vue": "^2.6.11",
     "vue-axios": "^3.2.5",
     "vue-clipboard2": "^0.3.1",
-    "vue-color": "^2.8.1",
     "vue-i18n": "^8.22.3",
     "vue-router": "^3.2.0",
+    "vue-tinder": "^2.0.3",
     "vuex": "^3.4.0"
   },
   "devDependencies": {
@@ -64,6 +65,7 @@
     "extends": [
       "plugin:vue/essential",
       "eslint:recommended",
+      "plugin:prettier/recommended",
       "@vue/prettier"
     ],
     "parserOptions": {

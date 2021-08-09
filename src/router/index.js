@@ -5,7 +5,7 @@ import Login from "../views/Login.vue";
 import Manage from "../views/Manage.vue";
 import Wall from "../views/Wall.vue";
 import Sender from "../views/Sender.vue";
-// import store from '../store/';
+import Audit from "../views/Audit.vue";
 
 Vue.use(VueRouter);
 
@@ -39,6 +39,11 @@ const routes = [
     path: "/sender/:id/:name/:token",
     name: "Sender",
     component: Sender,
+  },
+  {
+    path: "/audit/:id/:name/:token",
+    name: "Audit",
+    component: Audit,
   },
   {
     path: "/about",

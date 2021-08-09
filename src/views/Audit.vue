@@ -3,8 +3,94 @@
     <remote-script
       :src="$rootPath + '/js/CommentCoreLibrary.min.js'"
     ></remote-script>
+
     <div id="damaku-player" class="damaku-player">
       <h1>{{ activityName }}</h1>
+      <Tinder
+        ref="tinder"
+        key-name="id"
+        :queue.sync="queue"
+        :offset-y="10"
+        @submit="onSubmit"
+      >
+        <template slot-scope="scope">
+          <div class="card">
+            <img
+              class="card-avater"
+              :src="
+                scope.data.userimg
+                  ? scope.data.userimg
+                  : $rootPath + '/img/avater.png'
+              "
+            />
+            <div class="card-comment">
+              <div class="card-head">
+                {{ scope.data.username }}
+              </div>
+              <div class="card-meta">
+                {{ scope.data.userid }}
+                <el-tag size="medium" color="#f1b8e4" class="card-tag"
+                  >#{{ scope.data.id }}</el-tag
+                >
+                <el-tag size="medium" color="#f1ccb8" class="card-tag">{{
+                  scope.data.modeText
+                }}</el-tag>
+                <el-tag size="medium" color="#f1f1b8" class="card-tag">{{
+                  scope.data.size
+                }}</el-tag>
+                <el-tag size="medium" color="#b8f1ed" class="card-tag">{{
+                  scope.data.timeText
+                }}</el-tag>
+              </div>
+              <div class="card-content">
+                {{ scope.data.text }}
+              </div>
+            </div>
+          </div>
+        </template>
+        <img
+          class="like-pointer"
+          slot="like"
+          :src="$rootPath + '/img/tinder/like-txt.png'"
+        />
+        <img
+          class="nope-pointer"
+          slot="nope"
+          :src="$rootPath + '/img/tinder/nope-txt.png'"
+        />
+        <img
+          class="super-pointer"
+          slot="super"
+          :src="$rootPath + '/img/tinder/super-txt.png'"
+        />
+        <img
+          class="rewind-pointer"
+          slot="rewind"
+          :src="$rootPath + '/img/tinder/rewind-txt.png'"
+        />
+      </Tinder>
+      <div class="btns">
+        <img
+          :src="$rootPath + '/img/tinder/rewind.png'"
+          @click="decide('rewind')"
+        />
+        <img
+          :src="$rootPath + '/img/tinder/nope.png'"
+          @click="decide('nope')"
+        />
+        <img
+          :src="$rootPath + '/img/tinder/super-like.png'"
+          @click="decide('super')"
+        />
+        <img
+          :src="$rootPath + '/img/tinder/like.png'"
+          @click="decide('like')"
+        />
+        <img
+          :src="$rootPath + '/img/tinder/help.png'"
+          @click="decide('help')"
+        />
+      </div>
       <div id="damaku-container" class="damaku-container"></div>
     </div>
     <el-row type="flex" justify="center" align="middle">
@@ -92,9 +178,14 @@
 <script>
 import { io } from "socket.io-client";
 import tinycolor from "tinycolor2";
+import Tinder from "vue-tinder";
+import dayjs from "dayjs";
 
 export default {
   name: "Wall",
+  components: {
+    Tinder,
+  },
   data() {
     return {
       activityId: "",
@@ -109,6 +200,16 @@ export default {
         time: 0,
       },
       color: "rgba(0, 0, 0, 1)",
+      queue: [],
+      offset: 0,
+      history: [],
+      mode: {
+        1: "Top scrolling",
+        2: "Bottom scrolling",
+        4: "Bottom",
+        5: "Top",
+        6: "Reverse",
+      },
     };
   },
   mounted() {
@@ -123,6 +224,59 @@ export default {
     });
   },
   methods: {
+    getAuditDanmaku() {
+      if (!this.queue.length) {
+        this.socket.emit("get audit list", 1);
+      }
+    },
+    parseAuditDanmaku(danmakuList) {
+      for (let danmaku of danmakuList) {
+        danmaku.modeText = this.$t(this.mode[danmaku.mode]);
+        danmaku.timeText = dayjs(danmaku.createdAt).format(
+          "YYYY/MM/DD HH:mm:ss"
+        );
+        this.queue.push(danmaku);
+      }
+    },
+    onSubmit(data) {
+      console.log(data);
+      switch (data.type) {
+        case "nope":
+          this.socket.emit("set audit status", {
+            id: data.item.id,
+            status: "reject",
+            star: false,
+          });
+          break;
+        case "super":
+          this.socket.emit("set audit status", {
+            id: data.item.id,
+            status: "publish",
+            star: true,
+          });
+          break;
+        case "like":
+          this.socket.emit("set audit status", {
+            id: data.item.id,
+            status: "publish",
+            star: false,
+          });
+          break;
+      }
+      this.getAuditDanmaku();
+      this.history.push(data.item);
+    },
+    async decide(choice) {
+      if (choice === "rewind") {
+        if (this.history.length) {
+          this.$refs.tinder.rewind([this.history.pop()]);
+        }
+      } else if (choice === "help") {
+        this.getAuditDanmaku();
+      } else {
+        this.$refs.tinder.decide(choice);
+      }
+    },
     sendDanmaku: async function () {
       const color = tinycolor(this.color);
       if (!this.danmaku.text) return;
@@ -217,7 +371,11 @@ export default {
           message: this.$t(data),
         });
       });
-      console.log(this.socket);
+      this.socket.on("get audit list", (data) => {
+        this.parseAuditDanmaku(data);
+      });
+      this.getAuditDanmaku();
+      this.getAuditDanmakuClock = setInterval(this.getAuditDanmaku, 1000);
     },
     getActivityConfig: async function () {
       const result = await this.axios
@@ -411,4 +569,185 @@ body {
   font-family: "\5FAE\8F6F\96C5\9ED1";
   src: local("Microsoft YaHei");
 }
+</style>
+
+<style>
+html,
+body {
+  height: 100%;
+}
+
+/* body {
+  margin: 0;
+  background-color: #20262e;
+  overflow: hidden;
+} */
+
+#app .vue-tinder {
+  position: absolute;
+  z-index: 9999;
+  left: 0;
+  right: 0;
+  top: 20%;
+  margin: auto;
+  width: calc(100% - 20px);
+  height: 50%;
+  max-width: 600px;
+}
+
+.nope-pointer,
+.like-pointer {
+  position: absolute;
+  z-index: 1;
+  bottom: 20px;
+  width: 64px;
+  height: 64px;
+}
+
+.nope-pointer {
+  right: 10px;
+}
+
+.like-pointer {
+  left: 10px;
+}
+
+.super-pointer,
+.down-pointer {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 112px;
+  height: 78px;
+}
+
+.super-pointer {
+  bottom: 40px;
+}
+
+.down-pointer {
+  top: 40px;
+}
+
+.rewind-pointer {
+  position: absolute;
+  z-index: 1;
+  top: 20px;
+  right: 10px;
+  width: 112px;
+  height: 78px;
+}
+
+.card {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+}
+
+.card .card-avater {
+  width: 5em;
+  height: 5em;
+  float: left;
+  border-radius: 50%;
+  margin-right: 0.7525em;
+  border: 1px solid #f5f5f5;
+  padding: 0.125em;
+}
+
+.card .card-comment {
+  line-height: 1.5;
+  margin-top: 0;
+  text-align: left;
+  padding: 15px;
+}
+
+.card .card-tag {
+  color: black;
+  border-color: white;
+}
+
+.card .card-head {
+  line-height: 1.5;
+  margin-top: 0;
+  font-size: 25px;
+  font-weight: 500;
+}
+
+.card .card-meta {
+  line-height: 1;
+  font-size: 15px;
+  position: relative;
+}
+
+.card .card-content {
+  font-size: 20px;
+  word-wrap: break-word;
+  word-break: break-all;
+  line-height: 2;
+  position: relative;
+  margin-bottom: 0.75em;
+  padding-top: 0.625em;
+}
+
+.btns {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 75%;
+  margin: auto;
+  height: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 300px;
+  max-width: 355px;
+  z-index: 9999;
+}
+
+.btns img {
+  margin-right: 12px;
+  box-shadow: 0 4px 9px rgba(0, 0, 0, 0.15);
+  border-radius: 50%;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btns img:nth-child(2n + 1) {
+  width: 53px;
+}
+
+.btns img:nth-child(2n) {
+  width: 65px;
+}
+
+.btns img:nth-last-child(1) {
+  margin-right: 0;
+}
+
+/* .vue-tinder.right-end,
+.vue-tinder.left-end {
+  transform: translateZ(20px);
+}
+.vue-tinder.right-end .tinder-card:nth-child(1) {
+  animation: rightEnd 0.2s ease-in-out;
+}
+.vue-tinder.left-end .tinder-card:nth-child(1) {
+  animation: leftEnd 0.2s ease-in-out;
+}
+@keyframes leftEnd {
+  50% {
+    transform: rotateY(8deg);
+  }
+}
+@keyframes rightEnd {
+  50% {
+    transform: rotateY(-8deg);
+  }
+} */
 </style>
