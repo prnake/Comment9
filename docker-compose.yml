@@ -1,5 +1,4 @@
 version: '2.2'
-
 services:
   mongo:
     image: mongo:latest
@@ -26,6 +25,6 @@ services:
       REDIS_PORT: 6379
       MONGO_HOST: "mongo"
       MONGO_PORT: 27017
-      MONGO_DATABASE: "danmaku"
+      MONGO_DATABASE: "Comment9"
     volumes:
       - ~/Comment9/pm2logs:/root/.pm2/logs

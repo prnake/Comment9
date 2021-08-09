@@ -1,6 +1,9 @@
-FROM node:latest
+FROM keymetrics/pm2:latest-alpine
 WORKDIR /usr/src/app
-RUN npm install
-RUN npm install pm2 -g
+COPY package.json .
+COPY ecosystem.config.js .
+RUN yarn install --production
+COPY . .
+RUN yarn build
 EXPOSE 3000
-CMD pm2-docker bin/www
+CMD ["pm2-runtime", "start", "ecosystem.config.js"]
