@@ -21,5 +21,5 @@ module.exports = {
     filters: ["default", "blacklist"],
   },
   host: process.env.VUE_APP_HOST || "http://localhost:3000",
-  rootPath: process.env.BASE_URL || "/comment",
+  rootPath: process.env.VUE_APP_BASE_URL || "/comment",
 };
