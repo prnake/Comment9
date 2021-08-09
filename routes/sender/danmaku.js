@@ -93,7 +93,9 @@ const socket = function (io, path) {
           if (!err && res) {
             res.map((key) =>
               redis.get(key, (err, res) => {
-                if (!err) socket.emit("danmaku", JSON.parse(res));
+                if (!err) {
+                  socket.emit("danmaku", JSON.parse(res));
+                }
               })
             );
           }
@@ -114,6 +116,7 @@ const socket = function (io, path) {
                   socket.emit("message", autherr.message);
                 } else {
                   if (danmaku.status === "publish") {
+                    socket.emit("danmaku", danmaku.toJSON());
                     socket.to(activity.id).emit("danmaku", danmaku.toJSON());
                     redis.setex(
                       `acitvity:${activity.id}:danmaku:${danmaku.id}`,
@@ -174,6 +177,7 @@ const socket = function (io, path) {
                           socket.emit("message", "unknown error");
                         } else {
                           if (danmaku.status === "publish") {
+                            socket.emit("danmaku", danmaku.toJSON());
                             socket
                               .to(activity.id)
                               .emit("danmaku", danmaku.toJSON());

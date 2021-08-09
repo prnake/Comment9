@@ -287,17 +287,17 @@ export default {
           opacity: color.getAlpha(),
         },
       };
-      this.cm.send({
-        shadow: false,
-        ...danmaku.addons,
-        mode: danmaku.mode,
-        text: danmaku.text,
-        dur: danmaku.dur,
-        size: danmaku.size,
-        color: danmaku.color,
-        stime: danmaku.time,
-        border: true,
-      });
+      // this.cm.send({
+      //   shadow: false,
+      //   ...danmaku.addons,
+      //   mode: danmaku.mode,
+      //   text: danmaku.text,
+      //   dur: danmaku.dur,
+      //   size: danmaku.size,
+      //   color: danmaku.color,
+      //   stime: danmaku.time,
+      //   border: true,
+      // });
       this.socket.emit("push", danmaku);
       this.danmaku.text = "";
     },

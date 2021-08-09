@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "yarn build && yarn start",
     "build": "vue-cli-service build",
     "lint": "eslint models/**/*.js routes/**/*.js utils/**/*.js src/**/*.{js,vue} --fix",
     "i18n:report": "vue-cli-service i18n:report --src \"./src/**/*.?(js|vue)\" --locales \"./src/langs/**/*.json\"",
