@@ -28,9 +28,12 @@
                 </div>
                 <el-menu-item index="creat">{{ $t("CREAT") }}</el-menu-item>
               </el-submenu>
-              <el-menu-item index="logout" class="docker-right">{{
-                $t("Log Out")
-              }}</el-menu-item>
+              <el-menu-item
+                index="logout"
+                class="docker-right"
+                @click="logout()"
+                >{{ $t("Log Out") }}</el-menu-item
+              >
             </el-menu>
           </el-col>
         </el-row>
@@ -591,6 +594,12 @@ export default {
     // this.activityName = "活动"
   },
   methods: {
+    async logout() {
+      await this.axios
+        .get(this.$rootPath + "/user/logout")
+        .then((data) => data.data);
+      this.$router.push({ name: "Home" });
+    },
     async editAddon(row) {
       let value = row.value;
       if (row.type == "List") value = value.split("\n");
