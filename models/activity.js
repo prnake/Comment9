@@ -1,7 +1,7 @@
 const config = require("../config");
 const mongodb = require("../utils/mongodb");
 const logger = require("../utils/logger");
-const crypto = require("crypto");
+const auth = require("../utils/auth");
 
 const isContain = function (arr1, arr2) {
   for (let i = arr2.length - 1; i >= 0; i--) {
@@ -30,8 +30,10 @@ const activitySchema = mongodb.Schema(
 
 activitySchema.methods.updateInfo = function (data, callback) {
   if (data.audit !== undefined) this.audit = !!data.audit;
-  if (data.senders && isContain(config.danmaku.senders, data.senders))
+  if (data.senders && isContain(config.danmaku.senders, data.senders)) {
+    data.senders.filter((name) => !this.senders.includes(name)).map(name => { require(`../routes/sender/${name}`).init(this) });
     this.senders = data.senders;
+  }
   if (data.filters && isContain(config.danmaku.filters, data.filters))
     this.filters = data.filters;
   this.save(callback);
@@ -82,26 +84,14 @@ activitySchema.methods.delAddon = function (name, callback) {
   this.save(callback);
 };
 
-const genToken = function () {
-  let hash = crypto.createHash("sha1");
-  hash.update(crypto.randomBytes(32));
-  hash.update("t" + new Date().getTime());
-  return hash.digest("hex");
-};
-
-activitySchema.statics.genToken = genToken;
+activitySchema.statics.genToken = auth.genToken;
 
 activitySchema.statics.createActivity = function (name, owner, callback) {
   if (!callback) {
     callback = function () {};
   }
   const item = new Activity({ name: name, owner: owner });
-  item.tokens.set("screen", { token: genToken(), perms: ["pull"] });
-  item.tokens.set("user", { token: genToken(), perms: ["pull", "push"] });
-  item.tokens.set("audit", {
-    token: genToken(),
-    perms: ["pull", "push", "audit"],
-  });
+  config.danmaku.default_senders.map(name => { require(`../routes/sender/${name}`).init(item) });
   item.save(function (err) {
     if (err) logger.error(err);
     callback(err, item._id);

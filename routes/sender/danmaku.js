@@ -28,6 +28,18 @@ setPerms(
 );
 setPerms("audit", "permission to audit danmaku");
 
+const init = function (activity) {
+  if (!activity.tokens.get("screen"))
+    activity.tokens.set("screen", { token: auth.genToken(), perms: ["pull"] });
+  if (!activity.tokens.get("user"))
+    activity.tokens.set("user", { token: auth.genToken(), perms: ["pull", "push"] });
+  if (!activity.tokens.get("audit"))
+    activity.tokens.set("audit", {
+      token: auth.genToken(),
+      perms: ["pull", "push", "audit"],
+    });
+}
+
 router.get("/pull", auth.routerActivityByToken, async function (req, res) {
   const keysAsync = promisify(redis.keys).bind(redis);
   const getAsync = promisify(redis.get).bind(redis);
@@ -206,4 +218,4 @@ const socket = function (io, path) {
     });
 };
 
-module.exports = { router, socket, info };
+module.exports = { router, socket, info, init };

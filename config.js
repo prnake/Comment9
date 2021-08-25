@@ -17,7 +17,9 @@ module.exports = {
   },
   danmaku: {
     expire: 5,
-    senders: ["danmaku"],
+    default_senders: ["danmaku"],
+    senders: ["danmaku","wechat"],
+    default_filters: ["default"],
     filters: ["default", "blacklist"],
   },
   host: process.env.VUE_APP_HOST || "http://localhost:3000",

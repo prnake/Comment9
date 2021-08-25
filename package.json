@@ -36,7 +36,8 @@
     "vue-i18n": "^8.22.3",
     "vue-router": "^3.2.0",
     "vue-tinder": "^2.0.3",
-    "vuex": "^3.4.0"
+    "vuex": "^3.4.0",
+    "wechat": "^2.1.0"
   },
   "devDependencies": {
     "@intlify/vue-i18n-loader": "^1.0.0",

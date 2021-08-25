@@ -1,5 +1,6 @@
 const Activity = require('../models/activity');
 const logger = require('../utils/logger');
+const crypto = require("crypto");
 
 function routerSessionAuth(req, res, next) {
     if (!req.session.manage_user_id) {
@@ -30,7 +31,7 @@ function routerActivityByOwner(req, res, next) {
 }
 
 function routerActivityByToken(req, res, next) {
-    const params = req.method === 'POST' ? req.body : req.query;
+    const params = req.params || req.query || req.body;
     if (!params.activity || !params.name)
         return res.status(500).end();
     Activity.getActivity(params.activity, function (err, activity) {
@@ -44,6 +45,7 @@ function routerActivityByToken(req, res, next) {
             res.end();
         } else {
             req.activity = activity;
+            req.activity_token = activity.tokens.get(params.name)
             next();
         }
     })
@@ -74,4 +76,11 @@ function socketActivityByToken(socket, next) {
     })
 }
 
-module.exports = { routerSessionAuth, routerActivityByOwner, routerActivityByToken, socketActivityByToken };
+const genToken = function () {
+    let hash = crypto.createHash("sha1");
+    hash.update(crypto.randomBytes(32));
+    hash.update("t" + new Date().getTime());
+    return hash.digest("hex");
+};
+
+module.exports = { routerSessionAuth, routerActivityByOwner, routerActivityByToken, socketActivityByToken, genToken };
