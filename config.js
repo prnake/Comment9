@@ -1,3 +1,4 @@
+require('dotenv').config({ path: '.env.local' })
 module.exports = {
   port: process.env.PORT || 3000,
   mongodb: {

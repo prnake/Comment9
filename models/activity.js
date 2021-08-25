@@ -1,7 +1,7 @@
 const config = require("../config");
 const mongodb = require("../utils/mongodb");
 const logger = require("../utils/logger");
-const auth = require("../utils/auth");
+// const auth = require("../utils/auth");
 
 const isContain = function (arr1, arr2) {
   for (let i = arr2.length - 1; i >= 0; i--) {
@@ -31,7 +31,11 @@ const activitySchema = mongodb.Schema(
 activitySchema.methods.updateInfo = function (data, callback) {
   if (data.audit !== undefined) this.audit = !!data.audit;
   if (data.senders && isContain(config.danmaku.senders, data.senders)) {
-    data.senders.filter((name) => !this.senders.includes(name)).map(name => { require(`../routes/sender/${name}`).init(this) });
+    data.senders
+      .filter((name) => !this.senders.includes(name))
+      .map((name) => {
+        require(`../routes/sender/${name}`).init(this);
+      });
     this.senders = data.senders;
   }
   if (data.filters && isContain(config.danmaku.filters, data.filters))
@@ -84,14 +88,14 @@ activitySchema.methods.delAddon = function (name, callback) {
   this.save(callback);
 };
 
-activitySchema.statics.genToken = auth.genToken;
-
 activitySchema.statics.createActivity = function (name, owner, callback) {
   if (!callback) {
     callback = function () {};
   }
   const item = new Activity({ name: name, owner: owner });
-  config.danmaku.default_senders.map(name => { require(`../routes/sender/${name}`).init(item) });
+  config.danmaku.default_senders.map((name) => {
+    require(`../routes/sender/${name}`).init(item);
+  });
   item.save(function (err) {
     if (err) logger.error(err);
     callback(err, item._id);

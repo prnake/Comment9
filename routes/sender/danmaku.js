@@ -7,6 +7,7 @@ const logger = require("../../utils/logger");
 const redis = require("../../utils/redis");
 const Danmaku = require("../../models/danmaku");
 const config = require("../../config");
+// const io = require("socket.io")();
 
 let info = { perms: [], addons: [] };
 
@@ -32,13 +33,16 @@ const init = function (activity) {
   if (!activity.tokens.get("screen"))
     activity.tokens.set("screen", { token: auth.genToken(), perms: ["pull"] });
   if (!activity.tokens.get("user"))
-    activity.tokens.set("user", { token: auth.genToken(), perms: ["pull", "push"] });
+    activity.tokens.set("user", {
+      token: auth.genToken(),
+      perms: ["pull", "push"],
+    });
   if (!activity.tokens.get("audit"))
     activity.tokens.set("audit", {
       token: auth.genToken(),
       perms: ["pull", "push", "audit"],
     });
-}
+};
 
 router.get("/pull", auth.routerActivityByToken, async function (req, res) {
   const keysAsync = promisify(redis.keys).bind(redis);
@@ -73,6 +77,40 @@ router.get("/url", async function (req, res) {
     "danmaQ://" + Buffer.from(JSON.stringify(info)).toString("base64");
   res.json({ success: true, url: url });
 });
+
+const pushDanmaku = function (data, activity, io, callback) {
+  if (!callback) {
+    callback = function () {};
+  }
+  Danmaku.createDanmaku(data, activity.id, function (err, danmaku) {
+    if (err) {
+      logger.error(err);
+      callback(new Error("danmaku creat error"));
+    } else {
+      audit.filters(danmaku, activity, function (autherr) {
+        if (autherr) {
+          callback(new Error(autherr.message));
+        } else {
+          if (danmaku.status === "publish") {
+            io.of(config.rootPath + "/danmaku")
+              .to(activity.id)
+              .emit("danmaku", danmaku.toJSON());
+            redis.setex(
+              `acitvity:${activity.id}:danmaku:${danmaku.id}`,
+              config.danmaku.expire,
+              JSON.stringify(danmaku)
+            );
+          } else if (danmaku.status === "audit")
+            redis.sadd(
+              `acitvity:${activity.id}:audit`,
+              `${JSON.stringify(danmaku)}`
+            );
+          callback(null, danmaku);
+        }
+      });
+    }
+  });
+};
 
 const socket = function (io, path) {
   io.of(path)
@@ -119,30 +157,11 @@ const socket = function (io, path) {
           data.time = Date.now();
           if (!perms.has("pushmult") || !data.userid)
             data.userid = "ip:" + address;
-          Danmaku.createDanmaku(data, activity.id, function (err, danmaku) {
+          pushDanmaku(data, activity, io, function (err, danmaku) {
             if (err) {
-              socket.emit("message", "danmaku creat error");
+              socket.emit("message", err.message);
             } else {
-              audit.filters(danmaku, activity, function (autherr) {
-                if (autherr) {
-                  socket.emit("message", autherr.message);
-                } else {
-                  if (danmaku.status === "publish") {
-                    socket.emit("danmaku", danmaku.toJSON());
-                    socket.to(activity.id).emit("danmaku", danmaku.toJSON());
-                    redis.setex(
-                      `acitvity:${activity.id}:danmaku:${danmaku.id}`,
-                      config.danmaku.expire,
-                      JSON.stringify(danmaku)
-                    );
-                  } else if (danmaku.status === "audit")
-                    redis.sadd(
-                      `acitvity:${activity.id}:audit`,
-                      `${JSON.stringify(danmaku)}`
-                    );
-                  socket.emit("push", danmaku.status);
-                }
-              });
+              socket.emit("push", danmaku.status);
             }
           });
         });
@@ -218,4 +237,4 @@ const socket = function (io, path) {
     });
 };
 
-module.exports = { router, socket, info, init };
+module.exports = { router, socket, info, init, pushDanmaku };
