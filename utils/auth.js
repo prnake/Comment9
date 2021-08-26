@@ -76,11 +76,4 @@ function socketActivityByToken(socket, next) {
     })
 }
 
-const genToken = function () {
-    let hash = crypto.createHash("sha1");
-    hash.update(crypto.randomBytes(32));
-    hash.update("t" + new Date().getTime());
-    return hash.digest("hex");
-};
-
-module.exports = { routerSessionAuth, routerActivityByOwner, routerActivityByToken, socketActivityByToken, genToken };
+module.exports = { routerSessionAuth, routerActivityByOwner, routerActivityByToken, socketActivityByToken };

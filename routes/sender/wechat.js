@@ -3,26 +3,17 @@ const router = express.Router();
 const auth = require("../../utils/auth");
 const logger = require("../../utils/logger");
 const { pushDanmaku } = require("./danmaku");
+const tool = require("../../utils/tool");
 const config = require("../../config");
 const wechat = require("wechat");
 
-let info = { perms: [], addons: [] };
+let info = { perms: [], addons: [], panel: {} };
 
-const setPerms = (name, description) =>
-  info.perms.push({ name: name, description: description });
-const setAddons = (name, description, type, def) =>
-  info.addons.push({
-    name: name,
-    description: description,
-    type: type,
-    default: def,
-  });
+tool.setPerms(info,"wechat", "permission to connect with wechat");
 
-setPerms("wechat", "permission to connect with wechat");
-
-setAddons("wechatToken", "please set manually", "String", "");
-setAddons("wechatAppid", "please set manually", "String", "");
-setAddons("wechatAESKey", "please set manually", "String", "");
+tool.setAddons(info,"wechatToken", "please set manually", "String", "");
+tool.setAddons(info,"wechatAppid", "please set manually", "String", "");
+tool.setAddons(info,"wechatAESKey", "please set manually", "String", "");
 
 info.urls = function (activity) {
   const wechatScreenToken = activity.tokens.get("wechatScreen");
@@ -34,12 +25,12 @@ info.urls = function (activity) {
 const init = function (activity) {
   if (!activity.tokens.get("wechat"))
     activity.tokens.set("wechat", {
-      token: auth.genToken(),
+      token: tool.genToken(),
       perms: ["wechat"],
     });
   if (!activity.tokens.get("wechatScreen"))
     activity.tokens.set("wechatScreen", {
-      token: auth.genToken(),
+      token: tool.genToken(),
       perms: ["pull"],
     });
 };

@@ -5,22 +5,13 @@ const logger = require("../../utils/logger");
 const { pushDanmaku } = require("./danmaku");
 const config = require("../../config");
 const TelegramBot = require('node-telegram-bot-api');
+const tool = require("../../utils/tool");
 
-let info = { perms: [], addons: [] };
+let info = { perms: [], addons: [], panel: {} };
 
-const setPerms = (name, description) =>
-    info.perms.push({ name: name, description: description });
-const setAddons = (name, description, type, def) =>
-    info.addons.push({
-        name: name,
-        description: description,
-        type: type,
-        default: def,
-    });
+tool.setPerms(info,"telegram", "permission to connect with telegram");
 
-setPerms("telegram", "permission to connect with telegram");
-
-setAddons("telegramToken", "please set manually", "String", "");
+tool.setAddons(info,"telegramToken", "please set manually", "String", "");
 
 info.urls = function (activity) {
     const telegramToken = activity.addons.telegramToken;
@@ -39,12 +30,12 @@ info.urls = function (activity) {
 const init = function (activity) {
     if (!activity.tokens.get("telegram"))
         activity.tokens.set("telegram", {
-            token: auth.genToken(),
+            token: tool.genToken(),
             perms: ["telegram"],
         });
     if (!activity.tokens.get("telegramScreen"))
         activity.tokens.set("telegramScreen", {
-            token: auth.genToken(),
+            token: tool.genToken(),
             perms: ["pull"],
         });
 };
@@ -93,20 +84,24 @@ router.all(
                         0xff4500, 0xff8c00, 0xffd700, 0x90ee90, 0x00ced1, 0x1e90ff,
                         0xc71585,
                     ][Math.floor(Math.random() * 7)];
-                pushDanmaku(
-                    danmaku,
-                    activity,
-                    req.app.get("socketio"),
-                    (err, danmaku) => {
-                        if (err) {
-                            logger.error(err);
-                            bot.sendMessage(msg.chat.id,"弹幕发送失败, 请稍后再试\nFailed to send, please try again later");
-                        } else {
-                            if (danmaku.status == "publish") bot.sendMessage(msg.chat.id,"弹幕发送成功\nSend successfully");
-                            else bot.sendMessage(msg.chat.id,"弹幕发送成功，审核中\nSend successfully, review in progress");
+                if (!danmaku.text) {
+                    bot.sendMessage(msg.chat.id, "弹幕内容为空\nDanmuku is empty");
+                } else {
+                    pushDanmaku(
+                        danmaku,
+                        activity,
+                        req.app.get("socketio"),
+                        (err, danmaku) => {
+                            if (err) {
+                                logger.error(err);
+                                bot.sendMessage(msg.chat.id, "弹幕发送失败, 请稍后再试\nFailed to send, please try again later");
+                            } else {
+                                if (danmaku.status == "publish") bot.sendMessage(msg.chat.id, "弹幕发送成功\nSend successfully");
+                                else bot.sendMessage(msg.chat.id, "弹幕发送成功，审核中\nSend successfully, review in progress");
+                            }
                         }
-                    }
-                );
+                    );
+                }
             } else if (content.toLowerCase() === "/help") {
                 bot.sendMessage(msg.chat.id,
                     "Usage: \n" +

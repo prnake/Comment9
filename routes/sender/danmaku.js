@@ -7,39 +7,30 @@ const logger = require("../../utils/logger");
 const redis = require("../../utils/redis");
 const Danmaku = require("../../models/danmaku");
 const config = require("../../config");
-// const io = require("socket.io")();
+const tool = require("../../utils/tool");
 
-let info = { perms: [], addons: [] };
+let info = { perms: [], addons: [], panel: {} };
 
-const setPerms = (name, description) =>
-  info.perms.push({ name: name, description: description });
-// const setAddons = (name, description, type, def) =>
-//   info.addons.push({
-//     name: name,
-//     description: description,
-//     type: type,
-//     default: def,
-//   });
-
-setPerms("pull", "permission to pull recent danmaku");
-setPerms("push", "permission to push danmaku for single user");
-setPerms(
+tool.setPerms(info,"pull", "permission to pull recent danmaku");
+tool.setPerms(info,"push", "permission to push danmaku for single user");
+tool.setPerms(
+  info,
   "pushmult",
   "permission to push danmaku for multi-users(customize userid)"
 );
-setPerms("audit", "permission to audit danmaku");
+tool.setPerms(info,"audit", "permission to audit danmaku");
 
 const init = function (activity) {
   if (!activity.tokens.get("screen"))
-    activity.tokens.set("screen", { token: auth.genToken(), perms: ["pull"] });
+    activity.tokens.set("screen", { token: tool.genToken(), perms: ["pull"] });
   if (!activity.tokens.get("user"))
     activity.tokens.set("user", {
-      token: auth.genToken(),
+      token: tool.genToken(),
       perms: ["pull", "push"],
     });
   if (!activity.tokens.get("audit"))
     activity.tokens.set("audit", {
-      token: auth.genToken(),
+      token: tool.genToken(),
       perms: ["pull", "push", "audit"],
     });
 };

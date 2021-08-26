@@ -1,20 +1,10 @@
-// const Danmaku = require("../../models/danmaku");
-// const logger = require("../../utils/logger");
+const tool = require("../../utils/tool");
+
 let info = { perms: [], addons: [] };
 
-// const setPerms = (name, description) =>
-//   info.perms.push({ name: name, description: description });
-const setAddons = (name, description, type, def) =>
-  info.addons.push({
-    name: name,
-    description: description,
-    type: type,
-    default: def,
-  });
-
-setAddons("blacklist", "forbidden user list", "List", []);
-setAddons("blackwords", "custom forbidden word list", "List", []);
-setAddons(
+tool.setAddons(info,"blacklist", "forbidden user list", "List", []);
+tool.setAddons(info,"blackwords", "custom forbidden word list", "List", []);
+tool.setAddons(info,
   "blackwordsDict",
   "using built-in forbidden word list",
   "Boolean",
