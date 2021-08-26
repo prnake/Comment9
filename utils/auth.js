@@ -11,7 +11,7 @@ function routerSessionAuth(req, res, next) {
 }
 
 function routerActivityByOwner(req, res, next) {
-    const params = req.method === 'POST' ? req.body : req.params;
+    const params = Object.assign({}, req.params, req.query, req.body);
     if (!params.activity)
         return res.status(500).end();
     Activity.getActivity(params.activity, function (err, activity) {
@@ -31,7 +31,7 @@ function routerActivityByOwner(req, res, next) {
 }
 
 function routerActivityByToken(req, res, next) {
-    const params = req.params || req.query || req.body;
+    const params = Object.assign({}, req.params, req.query, req.body);
     if (!params.activity || !params.name)
         return res.status(500).end();
     Activity.getActivity(params.activity, function (err, activity) {

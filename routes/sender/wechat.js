@@ -48,6 +48,7 @@ router.all(
   "/:activity/:name/:token",
   auth.routerActivityByToken,
   async function (req, res) {
+    if (!req.activity_token.perms.includes("wechat")) return res.json({ success: false });
     const activity = req.activity;
     const wechatConfig = {
       token: activity.addons.wechatToken,
