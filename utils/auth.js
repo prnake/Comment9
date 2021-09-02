@@ -52,8 +52,8 @@ function routerActivityByToken(req, res, next) {
 }
 
 function socketActivityByToken(socket, next) {
-    const query = socket.handshake.query;
-    const activity = query["acitivity"], tokenName = query["tokenName"], token = query["token"];
+    const query = Object.assign({}, socket.handshake.auth,socket.handshake.query);;
+    const activity = query["activity"], tokenName = query["tokenName"], token = query["token"];
     if (!activity || !tokenName) {
         next(new Error("Unauthorized"));
         return;

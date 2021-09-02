@@ -59,7 +59,7 @@ router.get("/url", async function (req, res) {
   const info = {
     host: config.host + config.rootPath + "/danmaku",
     query: {
-      acitivity: params.activity,
+      activity: params.activity,
       tokenName: params.name,
       token: params.token,
     },
@@ -145,6 +145,7 @@ const socket = function (io, path) {
 
       if (perms.has("push") || perms.has("pushmult")) {
         socket.on("push", function (data) {
+          console.log(data);
           data.time = Date.now();
           if (!perms.has("pushmult") || !data.userid)
             data.userid = "ip:" + address;

@@ -41,7 +41,7 @@ danmakuSchema.statics.createDanmaku = function (config, activity_id, callback) {
     return;
   }
 
-  redis.incr(`acitivity:${activity_id}:danmaku:count`);
+  redis.incr(`activity:${activity_id}:danmaku:count`);
   redis.incr(`danmaku:count`, function (err, id) {
     if (err) {
       callback("unknown error");

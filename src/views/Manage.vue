@@ -498,7 +498,7 @@ export default {
       const cal = function (id, name, token) {
         const info = {
           host: config.host + config.rootPath + "/danmaku",
-          query: { acitivity: id, tokenName: name, token: token },
+          query: { activity: id, tokenName: name, token: token },
         };
         const url =
           "danmaQ://" + Buffer.from(JSON.stringify(info)).toString("base64");

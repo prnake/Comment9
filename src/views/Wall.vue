@@ -51,7 +51,7 @@ export default {
     setSocket: function () {
       this.socket = io(this.$rootPath + "/danmaku", {
         query: {
-          acitivity: this.activityId,
+          activity: this.activityId,
           tokenName: this.tokenName,
           token: this.token,
         },
@@ -82,7 +82,7 @@ export default {
       });
       this.socket.on("danmaku", (data) => {
         const danmaku = {
-          shadow: false,
+          shadow: data.color == 0xffffff ? true : false,
           ...data.addons,
           mode: data.mode,
           text: data.text,
