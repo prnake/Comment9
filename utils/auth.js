@@ -46,6 +46,7 @@ function routerActivityByToken(req, res, next) {
         } else {
             req.activity = activity;
             req.activity_token = activity.tokens.get(params.name)
+            req.activity_token_name = params.name
             next();
         }
     })

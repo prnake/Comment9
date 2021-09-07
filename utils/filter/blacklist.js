@@ -1,15 +1,21 @@
 const tool = require("../../utils/tool");
 
-let info = { perms: [], addons: [] };
+const info = function (activity) {
+  let data = { perms: [], addons: [] };
 
-tool.setAddons(info,"blacklist", "forbidden user list", "List", []);
-tool.setAddons(info,"blackwords", "custom forbidden word list", "List", []);
-tool.setAddons(info,
-  "blackwordsDict",
-  "using built-in forbidden word list",
-  "Boolean",
-  false
-);
+  tool.setAddons(data.addons, "blacklist", "forbidden user list", "List", []);
+  tool.setAddons(data.addons, "blackwords", "custom forbidden word list", "List", []);
+  tool.setAddons(data.addons,
+    "blackwordsDict",
+    "using built-in forbidden word list",
+    "Boolean",
+    false
+  );
+
+  return data;
+}
+
+
 
 const fs = require("fs");
 let map = {};

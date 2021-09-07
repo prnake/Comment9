@@ -7,15 +7,23 @@ const tool = require("../../utils/tool");
 const config = require("../../config");
 const wechat = require("wechat");
 
-let info = { perms: [], addons: [], panel: {} };
+const info = function (activity) {
+  let data = { perms: [], addons: [], panel: {} };
 
-tool.setPerms(info,"wechat", "permission to connect with wechat");
+  tool.setPerms(data.perms, "wechat", "permission to connect with wechat");
 
-tool.setAddons(info,"wechatToken", "please set manually", "String", "");
-tool.setAddons(info,"wechatAppid", "please set manually", "String", "");
-tool.setAddons(info,"wechatAESKey", "please set manually", "String", "");
+  tool.setAddons(data.addons, "wechatToken", "please set manually", "String", "");
+  tool.setAddons(data.addons, "wechatAppid", "please set manually", "String", "");
+  tool.setAddons(data.addons, "wechatAESKey", "please set manually", "String", "");
 
-info.urls = function (activity) {
+  tool.setPanelTitle(data.panel, "Wechat Configuration", 'Please read the <a href="https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Access_Overview.html">docs</a> and manually set addons begin with "wechat".');
+  
+  tool.addPanelItem(data.panel, "Server Url", ["wechat"], "Configure in wechat background.", `${config.host}${config.rootPath}/wechat/${activity.id}/wechat/${activity.tokens.get("wechat").token}`, "copy");
+
+  return data;
+}
+
+const generate_url = function (activity) {
   const wechatScreenToken = activity.tokens.get("wechatScreen");
   return {
     wechat_screen_url: `${config.host}${config.rootPath}/#/wall/${activity.id}/wechatScreen/${wechatScreenToken.token}`,
@@ -53,7 +61,7 @@ router.all(
     const middleware = wechat(wechatConfig, function (req, res) {
       // 微信输入信息都在req.weixin上
       const message = req.weixin;
-      const urls = info.urls(activity);
+      const urls = generate_url(activity);
       logger.info("Got wechat message %o", message);
       if (message.MsgType == "text") {
         let content = message.Content.toString();

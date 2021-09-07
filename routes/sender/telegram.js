@@ -7,13 +7,28 @@ const config = require("../../config");
 const TelegramBot = require('node-telegram-bot-api');
 const tool = require("../../utils/tool");
 
-let info = { perms: [], addons: [], panel: {} };
+const info = function (activity) {
+    let data = { perms: [], addons: [], panel: {} };
+    const urls = generate_url(activity);
 
-tool.setPerms(info,"telegram", "permission to connect with telegram");
+    tool.setPerms(data.perms, "telegram", "permission to connect with telegram");
 
-tool.setAddons(info,"telegramToken", "please set manually", "String", "");
+    tool.setAddons(data.addons, "telegramToken", "please set manually", "String", "");
 
-info.urls = function (activity) {
+    tool.setPanelTitle(data.panel, "Telegram Configuration", 'Please manually set "telegramToken" in addons.');
+
+    if (activity.addons.telegramToken) {
+        tool.addPanelItem(data.panel, "Set Webhook", ["telegram"], "Please open the url below once to set the webhook of your telegram bot.", urls.telegram_webhook_set_url, "open");
+    } else {
+        tool.addPanelItem(data.panel, "Set Webhook", ["telegram"], 'Please manually set "telegramToken" first.',"", "open");
+    }
+
+    return data;
+}
+
+
+
+const generate_url = function (activity) {
     const telegramToken = activity.addons.telegramToken;
     const telegramWebhookToken = activity.tokens.get("telegram");
     const telegramScreenToken = activity.tokens.get("telegramScreen");
@@ -44,8 +59,7 @@ router.all("/update", auth.routerSessionAuth, auth.routerActivityByOwner, functi
     const token = req.activity.addons.telegramToken;
     if(token){
         const bot = new TelegramBot(token);
-        console.log(token, info.urls(req.activity).telegram_webhook)
-        bot.setWebHook(info.urls(req.activity).telegram_webhook);
+        bot.setWebHook(generate_url(req.activity).telegram_webhook);
     }else{
         res.json({ success: false, reason: "telegram token not set" });
     }
@@ -57,7 +71,7 @@ router.all(
     async function (req, res) {
         if (!req.activity_token.perms.includes("telegram")) return res.json({ success: false });
         const activity = req.activity;
-        const urls = info.urls(activity);
+        const urls = generate_url(activity);
         const token = activity.addons.telegramToken;
         if (!token) return res.json({ success: false, reason: "telegram token not set" });
         const bot = new TelegramBot(token);

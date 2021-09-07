@@ -9,16 +9,31 @@ const Danmaku = require("../../models/danmaku");
 const config = require("../../config");
 const tool = require("../../utils/tool");
 
-let info = { perms: [], addons: [], panel: {} };
+const info = function (activity) {
+  let data = { perms: [], addons: [], panel:{} };
 
-tool.setPerms(info,"pull", "permission to pull recent danmaku");
-tool.setPerms(info,"push", "permission to push danmaku for single user");
-tool.setPerms(
-  info,
-  "pushmult",
-  "permission to push danmaku for multi-users(customize userid)"
-);
-tool.setPerms(info,"audit", "permission to audit danmaku");
+  tool.setPerms(data.perms, "pull", "permission to pull recent danmaku");
+  tool.setPerms(data.perms, "push", "permission to push danmaku for single user");
+  tool.setPerms(
+    data.perms,
+    "pushmult",
+    "permission to push danmaku for multi-users(customize userid)"
+  );
+  tool.setPerms(data.perms, "audit", "permission to audit danmaku");
+
+  tool.setPanelTitle(data.panel, "Danmaku Address", "These are basic urls used for web and danmaQ.");
+
+  const danmaq_info = {
+    host: config.host + config.rootPath + "/danmaku",
+    query: { activity: activity.id, tokenName: "screen", token: activity.tokens.get("screen").token },
+  };
+
+  tool.addPanelItem(data.panel, "DanmaQ Player", ["pull"], "Copy to address bar in danmaQ.", "danmaQ://" + Buffer.from(JSON.stringify(danmaq_info)).toString("base64"), "copy");
+
+  tool.addPanelItem(data.panel, "Danmaku Wall", ["pull"], "", `${config.host}${config.rootPath}/#/wall/${activity.id}/screen/${activity.tokens.get("screen").token}`, "open");
+
+  return data;
+}
 
 const init = function (activity) {
   if (!activity.tokens.get("screen"))
@@ -145,7 +160,6 @@ const socket = function (io, path) {
 
       if (perms.has("push") || perms.has("pushmult")) {
         socket.on("push", function (data) {
-          console.log(data);
           data.time = Date.now();
           if (!perms.has("pushmult") || !data.userid)
             data.userid = "ip:" + address;

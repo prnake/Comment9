@@ -1,8 +1,14 @@
 const tool = require("../../utils/tool");
 
-let info = { perms: [], addons: [] };
+const info = function (activity) {
+  let data = { perms: [], addons: [] };
 
-tool.setAddons(info,"limitLength", "limit word length (0 for no-limit)", "Number", 0);
+  tool.setAddons(data.addons, "limitLength", "limit word length (0 for no-limit)", "Number", 0);
+
+  return data;
+}
+
+
 
 async function filter(danmaku, activity, next) {
   const limitLength = parseInt(activity.addons.limitLength);

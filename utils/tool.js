@@ -1,7 +1,8 @@
-const setPerms = (info, name, description) =>
-    info.perms.push({ name: name, description: description });
-const setAddons = (info, name, description, type, def) =>
-    info.addons.push({
+const crypto = require('crypto');
+const setPerms = (perms, name, description) =>
+    perms.push({ name: name, description: description });
+const setAddons = (addons, name, description, type, def) =>
+    addons.push({
         name: name,
         description: description,
         type: type,
@@ -14,14 +15,14 @@ const genToken = function () {
     return hash.digest("hex");
 };
 
-const setPanelTitle = (info, title, description) => {
-    info.panel["title"] = title;
-    info.panel["description"] = description;
+const setPanelTitle = (panel, title, description) => {
+    panel["title"] = title;
+    panel["description"] = description;
 }
 
-const addPanelUrl = (info, name, perms, description, url, type) => {
-    if (!info.panel["data"]) info.panel["data"] = [];
-    info.panel["data"].push({
+const addPanelItem = (panel, name, perms, description,url,type) => {
+    if (!panel["items"]) panel["items"] = [];
+    panel["items"].push({
         name: name,
         perms: perms,
         description: description,
@@ -29,7 +30,5 @@ const addPanelUrl = (info, name, perms, description, url, type) => {
         type: type
     });
 }
-   
 
-
-module.exports = { setPerms, setAddons, genToken, setPanelTitle, addPanelUrl };
+module.exports = { setPerms, setAddons, genToken, setPanelTitle, addPanelItem };

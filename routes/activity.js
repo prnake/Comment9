@@ -36,23 +36,26 @@ router.post('/delete', auth.routerSessionAuth, auth.routerActivityByOwner, funct
 
 router.post('/config', auth.routerSessionAuth, auth.routerActivityByOwner, function (req, res) {
     const info = [];
-    const data = req.activity.toJSON();
+    const activity = req.activity;
+    const data = activity.toJSON();
     
     data.permList = [];
     data.addonList = [];
+    data.panelList = [];
     data.senderList = config.danmaku.senders;
     data.filterList = config.danmaku.filters;
 
-    for (const name of req.activity.senders) {
-        info.push(require("./sender/" + name).info);
+    for (const name of activity.senders) {
+        info.push(require("./sender/" + name).info(activity));
     }
 
-    for (const name of req.activity.filters) {
-        info.push(require("../utils/filter/" + name).info);
+    for (const name of activity.filters) {
+        info.push(require("../utils/filter/" + name).info(activity));
     }
 
     info.filter(item => item.perms).map(item => data.permList.push(...item.perms));
     info.filter(item => item.addons).map(item => data.addonList.push(...item.addons));
+    info.filter(item => item.panel && Object.keys(item.panel).length).map(item => data.panelList.push(item.panel));
         
     res.json({ success: true, data: data });
 });
