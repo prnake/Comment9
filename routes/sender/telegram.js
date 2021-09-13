@@ -34,7 +34,7 @@ const generate_url = function (activity) {
     const telegramScreenToken = activity.tokens.get("telegramScreen");
     const telegram_screen_url = `${config.host}${config.rootPath}/#/wall/${activity.id}/telegramScreen/${telegramScreenToken.token}`;
     const telegram_webhook = `${config.host}${config.rootPath}/telegram/push/${activity.id}/telegram/${telegramWebhookToken.token}`;
-    const telegram_webhook_set_url = `https://api.telegram.org/${telegramToken}/setWebhook?url=${telegram_webhook}`;
+    const telegram_webhook_set_url = `https://api.telegram.org/bot${telegramToken}/setWebhook?url=${telegram_webhook}`;
     return {
         telegram_screen_url: telegram_screen_url,
         telegram_webhook: telegram_webhook,
@@ -46,12 +46,12 @@ const init = function (activity) {
     if (!activity.tokens.get("telegram"))
         activity.tokens.set("telegram", {
             token: tool.genToken(),
-            perms: ["telegram"],
+            perms: ["telegram", "keep"],
         });
     if (!activity.tokens.get("telegramScreen"))
         activity.tokens.set("telegramScreen", {
             token: tool.genToken(),
-            perms: ["pull"],
+            perms: ["pull", "keep"],
         });
 };
 

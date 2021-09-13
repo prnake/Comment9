@@ -16,8 +16,10 @@ const info = function (activity) {
   tool.setAddons(data.addons, "wechatAppid", "please set manually", "String", "");
   tool.setAddons(data.addons, "wechatAESKey", "please set manually", "String", "");
 
-  tool.setPanelTitle(data.panel, "Wechat Configuration", 'Please read the <a href="https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Access_Overview.html">docs</a> and manually set addons begin with "wechat".');
+  tool.setPanelTitle(data.panel, "Wechat Configuration", 'Please read the docs and manually set addons begin with "wechat".');
   
+  tool.addPanelItem(data.panel, "Wechat Docs", ["wechat"], "", "https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Access_Overview.html", "open");
+
   tool.addPanelItem(data.panel, "Server Url", ["wechat"], "Configure in wechat background.", `${config.host}${config.rootPath}/wechat/${activity.id}/wechat/${activity.tokens.get("wechat").token}`, "copy");
 
   return data;
@@ -34,12 +36,12 @@ const init = function (activity) {
   if (!activity.tokens.get("wechat"))
     activity.tokens.set("wechat", {
       token: tool.genToken(),
-      perms: ["wechat"],
+      perms: ["wechat", "keep"],
     });
   if (!activity.tokens.get("wechatScreen"))
     activity.tokens.set("wechatScreen", {
       token: tool.genToken(),
-      perms: ["pull"],
+      perms: ["pull", "keep"],
     });
 };
 

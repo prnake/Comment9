@@ -12,6 +12,7 @@ const tool = require("../../utils/tool");
 const info = function (activity) {
   let data = { perms: [], addons: [], panel:{} };
 
+  tool.setPerms(data.perms, "keep", "only token can be edit otherwise some plugins may not work");
   tool.setPerms(data.perms, "pull", "permission to pull recent danmaku");
   tool.setPerms(data.perms, "push", "permission to push danmaku for single user");
   tool.setPerms(
@@ -31,22 +32,24 @@ const info = function (activity) {
   tool.addPanelItem(data.panel, "DanmaQ Player", ["pull"], "Copy to address bar in danmaQ.", "danmaQ://" + Buffer.from(JSON.stringify(danmaq_info)).toString("base64"), "copy");
 
   tool.addPanelItem(data.panel, "Danmaku Wall", ["pull"], "", `${config.host}${config.rootPath}/#/wall/${activity.id}/screen/${activity.tokens.get("screen").token}`, "open");
+  tool.addPanelItem(data.panel, "Danmaku Web Sender", ["pull", "push"], "", `${config.host}${config.rootPath}/#/Sender/${activity.id}/user/${activity.tokens.get("user").token}`, "open");
+  tool.addPanelItem(data.panel, "Danmaku Audit", ["pull", "push", "audit"], "", `${config.host}${config.rootPath}/#/Audit/${activity.id}/audit/${activity.tokens.get("audit").token}`, "open");
 
   return data;
 }
 
 const init = function (activity) {
   if (!activity.tokens.get("screen"))
-    activity.tokens.set("screen", { token: tool.genToken(), perms: ["pull"] });
+    activity.tokens.set("screen", { token: tool.genToken(), perms: ["pull","keep"] });
   if (!activity.tokens.get("user"))
     activity.tokens.set("user", {
       token: tool.genToken(),
-      perms: ["pull", "push"],
+      perms: ["pull", "push", "keep"],
     });
   if (!activity.tokens.get("audit"))
     activity.tokens.set("audit", {
       token: tool.genToken(),
-      perms: ["pull", "push", "audit"],
+      perms: ["pull", "push", "audit", "keep"],
     });
 };
 
