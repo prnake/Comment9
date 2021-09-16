@@ -4,7 +4,7 @@
       ref="loginForm"
       :model="form"
       :rules="rules"
-      label-width="80px"
+      label-width="100px"
       class="login-box"
     >
       <h1 class="login-title">Comment9</h1>
@@ -49,6 +49,14 @@ export default {
         ],
       },
     };
+  },
+  async mounted() {
+    const result = await this.axios
+      .get(this.$rootPath + "/user/status")
+      .then((data) => data.data);
+    if (result.success) {
+      this.$router.push({ name: "Manage" });
+    }
   },
   methods: {
     login() {
