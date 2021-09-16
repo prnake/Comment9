@@ -28,12 +28,36 @@
                 </div>
                 <el-menu-item index="creat">{{ $t("CREAT") }}</el-menu-item>
               </el-submenu>
+
               <el-menu-item
                 index="logout"
                 class="docker-right"
                 @click="logout()"
                 >{{ $t("Log Out") }}</el-menu-item
               >
+
+              <el-submenu style="float:right;">
+                <template slot="title">Language</template>
+                  <el-menu-item
+                  index="zh_CN"
+                  @click="change_language('zh_CN')"
+                  >简体中文</el-menu-item
+                >
+                <el-menu-item
+                  index="zh_TW"
+                  @click="change_language('zh_TW')"
+                  >繁體中文</el-menu-item
+                >
+                <el-menu-item
+                  index="en"
+                  @click="change_language('en')"
+                  >English</el-menu-item
+                >
+                <el-menu-item
+                  index="ja"
+                  @click="change_language('ja')"
+                  >日本語</el-menu-item>
+              </el-submenu>
             </el-menu>
           </el-col>
         </el-row>
@@ -99,7 +123,7 @@
               </div>
               <div class="container">
                 <h1>{{ $t("Token Setting") }}</h1>
-                <el-table :data="activityTokens" style="width: 100%">
+                <el-table :data="activityTokens" style="width: 100%" :row-style="{height: '0'}" :cell-style="{padding: '0'}">
                   <el-table-column :label="$t('Name')">
                     <template slot-scope="scope">
                       <p>{{ scope.row.name }}</p>
@@ -143,7 +167,7 @@
                       <el-button
                         size="mini"
                         type="danger"
-                        v-if="!scope.row.perms.includes('keep')"
+                        v-if="!scope.row.perms.includes('protect')"
                         @click="removeToken(scope.row)"
                         >{{ $t("Remove") }}</el-button
                       >
@@ -169,7 +193,7 @@
                 >
                   <el-input
                     class="font-16"
-                    v-if="!tokenForm.perms.includes('keep')"
+                    v-if="!tokenForm.perms.includes('protect')"
                     :placeholder="$t('Name')"
                     v-model="tokenForm.name"
                   >
@@ -185,7 +209,7 @@
                   <p class="font-16 height-5">{{ $t("Perms") }}</p>
                   <el-checkbox-group v-model="tokenForm.perms">
                     <div
-                      v-for="perm in tokenForm.perms.includes('keep') ? activityEditInfo.permList.filter(perm => perm.name === 'keep'):activityEditInfo.permList"
+                      v-for="perm in tokenForm.perms.includes('protect') ? activityEditInfo.permList.filter(perm => perm.name === 'protect'):activityEditInfo.permList"
                       v-bind:key="perm.name"
                     >
                       <el-checkbox :label="perm.name"
@@ -213,6 +237,8 @@
                 <el-table
                   :data="activityEditInfo.addonList"
                   style="width: 100%"
+                  :row-style="{height: '0'}"
+                  :cell-style="{padding: '0'}"
                 >
                   <el-table-column :label="$t('Name')">
                     <template slot-scope="scope">
@@ -290,7 +316,7 @@
                   <el-input
                     type="textarea"
                     :autosize="{ minRows: 2, maxRows: 10 }"
-                    :placeholder="$t('Please input value split by line')"
+                    :placeholder="$t('Please input value split by line.')"
                     v-model="addonForm.value"
                     v-if="addonForm.type == 'List'"
                   >
@@ -353,7 +379,10 @@
                     slot="suffix"
                     type="text"
                     icon="el-icon-document-copy"
-                    @click="$copyText(item.url)"
+                    @click="$copyText(item.url);$message({
+          type: 'success',
+          message: $t('Copied'),
+        });"
                     >{{ $t("Copy") }}</el-button>
                 </el-input>
 
@@ -367,7 +396,6 @@
                     ><el-button
                       type="text"
                       icon="el-icon-share"
-                      @click="$copyText(item.url)"
                       >{{ $t("Open in new tab") }}</el-button
                     ></a
                   >
@@ -385,6 +413,7 @@
 
 <script>
 import config from "../../config";
+import Cookies from "js-cookie";
 export default {
   data() {
     return {
@@ -611,6 +640,10 @@ export default {
         });
       }
     },
+    change_language(language) {
+      this.$i18n.locale = language
+      Cookies.set('language', language)
+    },
     async saveBasicInfo() {
       let result = { success: true };
       if (
@@ -682,7 +715,7 @@ export default {
           if (result.success) {
             this.$message({
               type: "success",
-              message: this.$t("Creat Activity: ") + value,
+              message: this.$t("Creat Activity:") + " " + value,
             });
             this.getActivityList();
             this.getActivityInfo(result.id);
@@ -829,6 +862,10 @@ export default {
 }
 .el-table {
   font-size: 16px;
+}
+.el-tag
+{
+  margin-right: 3px;
 }
 /deep/.el-input.is-disabled.pad-right-60 .el-input__inner {
   padding-right: 60px;

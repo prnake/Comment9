@@ -46,12 +46,12 @@ const init = function (activity) {
     if (!activity.tokens.get("telegram"))
         activity.tokens.set("telegram", {
             token: tool.genToken(),
-            perms: ["telegram", "keep"],
+            perms: ["telegram", "protect"],
         });
     if (!activity.tokens.get("telegramScreen"))
         activity.tokens.set("telegramScreen", {
             token: tool.genToken(),
-            perms: ["pull", "keep"],
+            perms: ["pull", "protect"],
         });
 };
 

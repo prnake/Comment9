@@ -22,7 +22,7 @@
             placement="top-start"
             slot="prefix"
             class="sketch"
-            title="Advanced Settings"
+            :title="$t('Advanced Settings')"
             width="250"
             trigger="click"
           >
@@ -70,6 +70,17 @@
                 <el-radio-button :label="36">{{ $t("Big") }}</el-radio-button>
               </el-radio-group>
             </div>
+            <div style="margin-top: 20px">
+              <p class="height-5">{{ $t("Choose Language") }}</p>
+              <el-radio-group v-model="$i18n.locale" size="small" @change="change_language">
+                <el-radio-button label="zh_CN">简体中文</el-radio-button>
+                <el-radio-button label="zh_TW">繁體中文</el-radio-button>
+              </el-radio-group>
+              <el-radio-group v-model="$i18n.locale" size="small" @change="change_language">
+                <el-radio-button label="en">English</el-radio-button>
+                <el-radio-button label="ja">日本語</el-radio-button>
+              </el-radio-group>
+            </div>
             <el-button
               slot="reference"
               type="text"
@@ -92,6 +103,7 @@
 <script>
 import { io } from "socket.io-client";
 import tinycolor from "tinycolor2";
+import Cookies from "js-cookie";
 
 export default {
   name: "Wall",
@@ -233,6 +245,9 @@ export default {
         this.activityName = result.data.name;
         this.wordLimit = result.data.wordLimit || 200;
       }
+    },
+    change_language(language) {
+      Cookies.set('language', language)
     },
     danmakuTest: function () {
       const cmt = [

@@ -34,7 +34,8 @@ activitySchema.methods.updateInfo = function (data, callback) {
     data.senders
       .filter((name) => !this.senders.includes(name))
       .map((name) => {
-        require(`../routes/sender/${name}`).init(this);
+        const init = require(`../routes/sender/${name}`).init;
+        if(init) init(this);
       });
     this.senders = data.senders;
   }

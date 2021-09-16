@@ -4,11 +4,12 @@ import enLocale from "element-ui/lib/locale/lang/en";
 import zh_CNLocale from "element-ui/lib/locale/lang/zh-CN";
 import zh_TWLocale from "element-ui/lib/locale/lang/zh-TW";
 import jaLocale from "element-ui/lib/locale/lang/ja";
+import Cookies from "js-cookie"
 
 Vue.use(VueI18n);
 
 export default new VueI18n({
-  locale: process.env.VUE_APP_I18N_LOCALE || "en",
+  locale: Cookies.get('language') || process.env.VUE_APP_I18N_LOCALE || "en",
   fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || "en",
   messages: {
     en: Object.assign(require("./langs/en"), enLocale),

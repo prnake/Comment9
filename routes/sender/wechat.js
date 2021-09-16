@@ -36,12 +36,12 @@ const init = function (activity) {
   if (!activity.tokens.get("wechat"))
     activity.tokens.set("wechat", {
       token: tool.genToken(),
-      perms: ["wechat", "keep"],
+      perms: ["wechat", "protect"],
     });
   if (!activity.tokens.get("wechatScreen"))
     activity.tokens.set("wechatScreen", {
       token: tool.genToken(),
-      perms: ["pull", "keep"],
+      perms: ["pull", "protect"],
     });
 };
 

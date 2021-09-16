@@ -12,7 +12,7 @@ const tool = require("../../utils/tool");
 const info = function (activity) {
   let data = { perms: [], addons: [], panel:{} };
 
-  tool.setPerms(data.perms, "keep", "only token can be edit otherwise some plugins may not work");
+  tool.setPerms(data.perms, "protect", "only token can be edit");
   tool.setPerms(data.perms, "pull", "permission to pull recent danmaku");
   tool.setPerms(data.perms, "push", "permission to push danmaku for single user");
   tool.setPerms(
@@ -40,16 +40,16 @@ const info = function (activity) {
 
 const init = function (activity) {
   if (!activity.tokens.get("screen"))
-    activity.tokens.set("screen", { token: tool.genToken(), perms: ["pull","keep"] });
+    activity.tokens.set("screen", { token: tool.genToken(), perms: ["pull","protect"] });
   if (!activity.tokens.get("user"))
     activity.tokens.set("user", {
       token: tool.genToken(),
-      perms: ["pull", "push", "keep"],
+      perms: ["pull", "push", "protect"],
     });
   if (!activity.tokens.get("audit"))
     activity.tokens.set("audit", {
       token: tool.genToken(),
-      perms: ["pull", "push", "audit", "keep"],
+      perms: ["pull", "push", "audit", "protect"],
     });
 };
 

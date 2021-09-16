@@ -1,5 +1,8 @@
 {
-    "sender:danmaku": "Basic danmaku sender(web api)",
+    "sender:danmaku": "Basic danmaku sender",
+    "sender:wechat": "Wechat",
+    "sender:telegram": "Telegram",
+    "sender:develop": "Develop",
     "filter:default": "Default filter",
     "filter:blacklist": "Blacklist filter"
 }
