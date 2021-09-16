@@ -90,7 +90,7 @@ router.all(
           res.reply(`请先发送xm+您的姓名到公众号设置您的姓名`);
         } else if (command[content.substr(0, 2).toLowerCase()]) {
           let danmaku = {
-            userid: "wechat:" + message.FromUserName.toString(),
+            userid: user_name,
             mode: command[content.substr(0, 2).toLowerCase()],
             text: content.substr(2).trim(),
             time: Date.now(),
