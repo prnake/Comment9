@@ -30,7 +30,7 @@ const info = function (activity) {
   // };
 
   tool.addPanelItem(data.panel, "DanmaQ Address", ["pull"], "Copy to the address bar in danmaQ.", config.host + config.rootPath, "copy");
-  tool.addPanelItem(data.panel, "DanmaQ Room", ["pull"], "This is the name of this activity.", activity.name, "copy");
+  tool.addPanelItem(data.panel, "DanmaQ Channel", ["pull"], "This is the name of this activity.", activity.name, "copy");
   tool.addPanelItem(data.panel, "DanmaQ Name", ["pull"], "You can use any other token with perm \"pull\".", "screen", "copy");
   tool.addPanelItem(data.panel, "DanmaQ Token", ["pull"], "This is the value of \"screen\" token.", activity.tokens.get("screen").token, "copy");
 
