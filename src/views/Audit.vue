@@ -232,7 +232,7 @@ export default {
     window.addEventListener("load", () => {
       this.setDanmaku();
       this.setSocket();
-      //   this.danmakuTest();
+      //this.danmakuTest();
     });
   },
   methods: {

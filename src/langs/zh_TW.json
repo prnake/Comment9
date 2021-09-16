@@ -86,7 +86,7 @@
     "Danmaku Address": "彈幕地址",
     "These are basic urls used for web and danmaQ.": "這些是適用於 danmaQ 和網頁端的地址。",
     "DanmaQ Player": "DanmaQ 播放器",
-    "Copy to address bar in danmaQ.": "複製到 danmaQ 地址欄中使用。",
+    "Copy to the address bar in danmaQ.": "複製到 danmaQ 地址欄中使用。",
     "Danmaku Wall": "彈幕牆",
     "Danmaku Web Sender": "彈幕網頁發送器",
     "Danmaku Audit": "彈幕審核",
@@ -103,5 +103,18 @@
     "Development": "開發",
     "Docs for developer.": "開發者文檔",
     "API Docs": "API 文檔",
-    "Backend Docs": "後端文檔"
+    "Backend Docs": "後端文檔",
+    "unknown error": "未知錯誤",
+    "invalid name": "名稱不合法",
+    "duplicate name": "名稱重復",
+    "wrong user/password": "錯誤的用戶名/密碼",
+    "activity not exist": "活動不存在",
+    "permission denied": "權限不足",
+    "DanmaQ Address": "DanmaQ 地址",
+    "DanmaQ Room": "DanmaQ 房間",
+    "DanmaQ Name": "DanmaQ 名稱",
+    "DanmaQ Token": "DanmaQ 密碼",
+    "This is the name of this activity.": "這是這個活動的名稱。",
+    "You can use any other token with perm \"pull\".": "您也可以使用其他擁有 \"pull\" 權限的密鑰。",
+    "This is the value of \"screen\" token.": "這是密鑰 \"screen\" 的值。"
 }

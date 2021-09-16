@@ -19,7 +19,7 @@ router.post('/new', auth.routerSessionAuth, function (req, res) {
     else {
         Activity.createActivity(req.body.name, req.session.manage_user_id , function (err, _id) {
             if (err) {
-                res.json({ success: false, reason: 'duplicate names' });
+                res.json({ success: false, reason: 'duplicate name' });
             }
             else {
                 res.json({ success: true, id: _id });
@@ -72,7 +72,7 @@ router.post('/set', auth.routerSessionAuth, auth.routerActivityByOwner, function
                 res.json({ success: false, reason: 'invalid name' });
             req.activity.updateName(req.body.name, function (err) {
                 if (err) {
-                    res.json({ success: false, reason: 'duplicate names' });
+                    res.json({ success: false, reason: 'duplicate name' });
                 }
                 else {
                     res.json({ success: true });
