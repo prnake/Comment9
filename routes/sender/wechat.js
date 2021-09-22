@@ -6,7 +6,7 @@ const { pushDanmaku } = require("./danmaku");
 const tool = require("../../utils/tool");
 const config = require("../../config");
 const wechat = require("wechat");
-const DanmakuUser = require("../../models/danmaku_user");
+const DanmakuUser = require("../../models/danmakuUser");
 
 const info = function (activity) {
   let data = { perms: [], addons: [], panel: {} };
@@ -91,6 +91,8 @@ router.all(
         } else if (command[content.substr(0, 2).toLowerCase()]) {
           let danmaku = {
             userid: user_name,
+            username: user_info.name,
+            userimg: user_info.imgurl,
             mode: command[content.substr(0, 2).toLowerCase()],
             text: content.substr(2).trim(),
             time: Date.now(),

@@ -86,7 +86,7 @@
     "Danmaku Address": "ポップアップアドレス",
     "These are basic urls used for web and danmaQ.": "danmaQやWebページのアドレスです。",
     "DanmaQ Player": "DanmaQプレーヤー",
-    "Copy to address bar in danmaQ.": "danmaQのアドレスバーにコピーしてお使いください。",
+    "Copy to the address bar in danmaQ.": "danmaQのアドレスバーにコピーしてお使いください。",
     "Danmaku Wall": "ポップアップウォール",
     "Danmaku Web Sender": "ポップアップWebページの送信者",
     "Danmaku Audit": "ポップアップ監査",
@@ -103,5 +103,18 @@
     "Development": "開発",
     "Docs for developer.": "開発者向けドキュメント",
     "API Docs": "APIドキュメント",
-    "Backend Docs": "バックエンドドキュメント"
+    "Backend Docs": "バックエンドドキュメント",
+    "unknown error": "不明なエラー",
+    "invalid name": "無効な名前",
+    "duplicate name": "ネームリピート",
+    "wrong user/password": "ユーザー名/パスワードの誤り",
+    "activity not exist": "アクティビティが存在しない",
+    "permission denied": "許可が下りない",
+    "DanmaQ Address": "DanmaQアドレス",
+    "DanmaQ Channel": "DanmaQチャンネル",
+    "DanmaQ Name": "DanmaQルーム",
+    "DanmaQ Token": "DanmaQパスワード",
+    "This is the name of this activity.": "これはイベントの名前です。",
+    "You can use any other token with perm \"pull\".": "また、「pull」の権限を持つ他のキーを使用することもできます。",
+    "This is the value of \"screen\" token.": "これが「screen」の値です。"
 }

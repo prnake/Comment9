@@ -12,9 +12,9 @@ export default new VueI18n({
   locale: Cookies.get('language') || process.env.VUE_APP_I18N_LOCALE || "en",
   fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || "en",
   messages: {
-    en: Object.assign(require("./langs/en"), enLocale),
-    zh_CN: Object.assign(require("./langs/zh_CN"), zh_CNLocale),
-    zh_TW: Object.assign(require("./langs/zh_TW"), zh_TWLocale),
-    ja: Object.assign(require("./langs/ja"), jaLocale),
+    en: { ...require("./langs/en"), ...enLocale },
+    zh_CN: { ...require("./langs/zh_CN"), ...zh_CNLocale },
+    zh_TW: { ...require("./langs/zh_TW"), ...zh_TWLocale },
+    ja: { ...require("./langs/ja"), ...jaLocale }
   },
 });

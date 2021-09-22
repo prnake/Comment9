@@ -24,12 +24,15 @@ const info = function (activity) {
 
   tool.setPanelTitle(data.panel, "Danmaku Address", "These are basic urls used for web and danmaQ.");
 
-  const danmaq_info = {
-    host: config.host + config.rootPath + "/danmaku",
-    query: { activity: activity.id, tokenName: "screen", token: activity.tokens.get("screen").token },
-  };
+  // const danmaq_info = {
+  //   host: config.host + config.rootPath + "/danmaku",
+  //   query: { activity: activity.id, tokenName: "screen", token: activity.tokens.get("screen").token },
+  // };
 
-  tool.addPanelItem(data.panel, "DanmaQ Player", ["pull"], "Copy to address bar in danmaQ.", "danmaQ://" + Buffer.from(JSON.stringify(danmaq_info)).toString("base64"), "copy");
+  tool.addPanelItem(data.panel, "DanmaQ Address", ["pull"], "Copy to the address bar in danmaQ.", config.host + config.rootPath, "copy");
+  tool.addPanelItem(data.panel, "DanmaQ Channel", ["pull"], "This is the name of this activity.", activity.name, "copy");
+  tool.addPanelItem(data.panel, "DanmaQ Name", ["pull"], "You can use any other token with perm \"pull\".", "screen", "copy");
+  tool.addPanelItem(data.panel, "DanmaQ Token", ["pull"], "This is the value of \"screen\" token.", activity.tokens.get("screen").token, "copy");
 
   tool.addPanelItem(data.panel, "Danmaku Wall", ["pull"], "", `${config.host}${config.rootPath}/#/wall/${activity.id}/screen/${activity.tokens.get("screen").token}`, "open");
   tool.addPanelItem(data.panel, "Danmaku Web Sender", ["pull", "push"], "", `${config.host}${config.rootPath}/#/Sender/${activity.id}/user/${activity.tokens.get("user").token}`, "open");

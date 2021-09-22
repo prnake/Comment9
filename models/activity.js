@@ -119,7 +119,13 @@ activitySchema.statics.deleteById = function (id, callback) {
 
 activitySchema.statics.getActivity = function (id, callback) {
   if (!callback) return;
-  Activity.findOne({ _id: id }, callback);
+  Activity.findOne({ _id: id }, function (err, activity) {
+    if(!activity){
+      Activity.findOne({ name: id }, callback);
+    } else {
+      callback(err, activity);
+    }
+  });
 };
 
 const Activity = mongodb.model("Activity", activitySchema);

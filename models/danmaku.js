@@ -1,6 +1,7 @@
 const mongodb = require("../utils/mongodb");
 const redis = require("../utils/redis");
 const logger = require("../utils/logger");
+const counter = require("./counter");
 
 const danmakuSchema = mongodb.Schema(
   {
@@ -40,9 +41,8 @@ danmakuSchema.statics.createDanmaku = function (config, activity_id, callback) {
     callback(new Error("missing params"));
     return;
   }
-
-  redis.incr(`activity:${activity_id}:danmaku:count`);
-  redis.incr(`danmaku:count`, function (err, id) {
+  counter(`activity:${activity_id}:danmaku:count`);
+  counter(`danmaku:count`, function (err, id) {
     if (err) {
       callback("unknown error");
       return;

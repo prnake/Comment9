@@ -789,6 +789,9 @@ export default {
             this.activityEditInfo.addons[addon.name] = addon.default;
         }
       }
+      else {
+        this.$router.push({ name: "Login" });
+      }
     },
   },
 };
@@ -830,6 +833,9 @@ export default {
 .docker-right,
 .el-menu--horizontal > .el-menu-item.docker-right {
   float: right;
+}
+/deep/.el-input.is-disabled > .el-input__inner {
+  color: #2c3e50;
 }
 .container {
   font-size: 24px;
