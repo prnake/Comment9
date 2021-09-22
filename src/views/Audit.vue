@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="text-align:center">
     <remote-script
       :src="$rootPath + '/js/CommentCoreLibrary.min.js'"
     ></remote-script>

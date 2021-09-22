@@ -13,6 +13,10 @@ Vue.config.productionTip = false;
 Vue.prototype.$hostUrl = config.host;
 Vue.prototype.$rootPath = config.rootPath;
 
+Vue.config.ignoredElements = [
+  /^yt-/
+]
+
 new Vue({
   store,
   router,

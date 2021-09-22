@@ -5,6 +5,8 @@ import Manage from "../views/Manage.vue";
 import Wall from "../views/Wall.vue";
 import Sender from "../views/Sender.vue";
 import Audit from "../views/Audit.vue";
+import List from "../views/List.vue";
+import NotFound from "../views/NotFound.vue";
 
 Vue.use(VueRouter);
 
@@ -34,6 +36,7 @@ const routes = [
     name: "Wall",
     component: Wall,
   },
+  { path: '/list/test', name: 'TEST_LIST', component: List, props: route => ({ strConfig: route.query }) },
   {
     path: "/sender/:id/:name/:token",
     name: "Sender",
@@ -53,6 +56,7 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/About.vue"),
   },
+  { path: '*', component: NotFound }
 ];
 
 const router = new VueRouter({

@@ -406,7 +406,7 @@
           </el-col>
         </el-row>
       </el-main>
-      <el-footer>Copyright (c) 2014-2021 SAST</el-footer>
+      <el-footer style="text-align: center;">Copyright (c) 2014-2021 SAST</el-footer>
     </el-container>
   </div>
 </template>

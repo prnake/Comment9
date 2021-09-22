@@ -65,6 +65,7 @@ for (const name of config.danmaku.senders) {
   if (sender.socket) sender.socket(io, config.rootPath + "/" + name);
 }
 
+app.use(config.rootPath + "/livechat/", express.static(path.join(__dirname,"livechat","dist")));
 app.use(config.rootPath, express.static(path.join(__dirname, "dist")));
 app.use(history());
 app.use(config.rootPath, express.static(path.join(__dirname, "public")));

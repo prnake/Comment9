@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="text-align:center">
     <el-form
       ref="loginForm"
       :model="form"
