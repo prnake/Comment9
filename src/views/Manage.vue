@@ -400,6 +400,21 @@
                     ></a
                   >
                 </el-input>
+
+                <el-input
+                  class="font-16 pad-right-130"
+                  v-if="item.type==='download'"
+                  :value="item.url"
+                  :disabled="true"
+                >
+                  <a slot="suffix" target="_blank" :href="item.url" :download="item.description"
+                    ><el-button
+                      type="text"
+                      icon="el-icon-download"
+                      >{{ $t("Download") }}</el-button
+                    ></a
+                  >
+                </el-input>
                 </div>
               </div>
             </div>

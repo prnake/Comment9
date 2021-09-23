@@ -19,7 +19,7 @@ module.exports = {
   danmaku: {
     expire: 5,
     default_senders: ["danmaku"],
-    senders: ["danmaku","wechat","telegram","develop"],
+    senders: ["danmaku","wechat","telegram","develop","export"],
     default_filters: ["default"],
     filters: ["default", "blacklist"],
   },

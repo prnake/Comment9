@@ -126,5 +126,7 @@
     "DanmaQ Token": "DanmaQ 密碼",
     "This is the name of this activity.": "這是這個活動的名稱。",
     "You can use any other token with perm \"pull\".": "您也可以使用其他擁有 \"pull\" 權限的密鑰。",
-    "This is the value of \"screen\" token.": "這是密鑰 \"screen\" 的值。"
+    "This is the value of \"screen\" token.": "這是密鑰 \"screen\" 的值。",
+    "Danmaku Export": "彈幕導出",
+    "sender:export": "彈幕導出"
 }

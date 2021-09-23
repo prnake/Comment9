@@ -3,6 +3,7 @@
     "sender:wechat": "Wechat",
     "sender:telegram": "Telegram",
     "sender:develop": "Develop",
+    "sender:export": "Danmaku Export",
     "filter:default": "Default filter",
     "filter:blacklist": "Blacklist filter"
 }

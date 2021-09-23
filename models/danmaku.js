@@ -89,6 +89,20 @@ danmakuSchema.statics.getDanmaku = function (id, callback) {
   Danmaku.findOne({ id: id }, callback);
 };
 
+danmakuSchema.statics.getAllDanmaku = function (activity_id, callback) {
+  if (!callback) {
+    callback = function () { };
+  }
+  Danmaku.find({ activity: activity_id }, callback);
+};
+
+danmakuSchema.statics.getAllDanmakuText = function (activity_id, callback) {
+  if (!callback) {
+    callback = function () { };
+  }
+  Danmaku.find({ activity: activity_id }, "text", callback);
+};
+
 const Danmaku = mongodb.model("Danmaku", danmakuSchema);
 
 module.exports = Danmaku;

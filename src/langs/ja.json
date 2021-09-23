@@ -126,5 +126,7 @@
     "DanmaQ Token": "DanmaQパスワード",
     "This is the name of this activity.": "これはイベントの名前です。",
     "You can use any other token with perm \"pull\".": "また、「pull」の権限を持つ他のキーを使用することもできます。",
-    "This is the value of \"screen\" token.": "これが「screen」の値です。"
+    "This is the value of \"screen\" token.": "これが「screen」の値です。",
+    "Danmaku Export": "弾幕エクスポート",
+    "sender:export": "弾幕エクスポート"
 }
