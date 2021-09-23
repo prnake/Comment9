@@ -42,8 +42,18 @@ const routes = [
     name: "Wall",
     component: Wall,
   },
-  { path: '/list/test', name: 'Test List', component: List, props: route => ({ strConfig: route.query }) },
-  { path: '/list/:id/:name/:token', name: 'LIST', component: List, props: route => ({ strConfig: route.query }) },
+  {
+    path: "/list/test",
+    name: "Test List",
+    component: List,
+    props: (route) => ({ strConfig: route.query }),
+  },
+  {
+    path: "/list/:id/:name/:token",
+    name: "LIST",
+    component: List,
+    props: (route) => ({ strConfig: route.query }),
+  },
   {
     path: "/sender/:id/:name/:token",
     name: "Sender",
@@ -73,7 +83,7 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/About.vue"),
   },
-  { path: '*', component: NotFound }
+  { path: "*", component: NotFound },
 ];
 
 const router = new VueRouter({

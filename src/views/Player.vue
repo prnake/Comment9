@@ -1,54 +1,62 @@
 <template>
-    <div style="padding-left:15%;padding-right:15%;">
-        <center>
-		<h1>{{ activityName }}</h1>
-	    </center>
-        <div id="damaku-player" class="damaku-player" style="height: 70vh">
-        <remote-script
+  <div style="padding-left: 15%; padding-right: 15%">
+    <center>
+      <h1>{{ activityName }}</h1>
+    </center>
+    <div id="damaku-player" class="damaku-player" style="height: 70vh">
+      <remote-script
         :src="$rootPath + '/js/CommentCoreLibrary.min.js'"
-        ></remote-script>
-        <d-player id="damaku-container" class="damaku-container" ref="player" @autoplay="autoplay" :logo="logo" :lang="lang" :video="video" :contextmenu="contextmenu"></d-player>
+      ></remote-script>
+      <d-player
+        id="damaku-container"
+        class="damaku-container"
+        ref="player"
+        @autoplay="autoplay"
+        :logo="logo"
+        :lang="lang"
+        :video="video"
+        :contextmenu="contextmenu"
+      ></d-player>
     </div>
-    </div>
-    
+  </div>
 </template>
 
 <script>
 import { io } from "socket.io-client";
-import VueDPlayer from '@/components/VueDPlayer';
+import VueDPlayer from "@/components/VueDPlayer";
 export default {
- name: 'Player',
- props: {
+  name: "Player",
+  props: {
     roomId: {
       type: Number,
-      default: null
+      default: null,
     },
     strConfig: {
       type: Object,
-      default: () => ({})
-    }
- },
- data () {
-  return {
-    video: {
-        url: '',
-        type: ''
+      default: () => ({}),
     },
-    lang: 'zh-cn',
-    logo: '',
-    autoplay: true,
-    contextmenu: [],
-    activityId: "",
-    tokenName: "",
-    token: "",
-    activityName: "弹幕墙",
-    }
- },
- components: {
-  'd-player': VueDPlayer
- },
- methods: {
-     getActivityName: async function () {
+  },
+  data() {
+    return {
+      video: {
+        url: "",
+        type: "",
+      },
+      lang: "zh-cn",
+      logo: "",
+      autoplay: true,
+      contextmenu: [],
+      activityId: "",
+      tokenName: "",
+      token: "",
+      activityName: "弹幕墙",
+    };
+  },
+  components: {
+    "d-player": VueDPlayer,
+  },
+  methods: {
+    getActivityName: async function () {
       const result = await this.axios
         .get(this.$rootPath + "/danmaku/config", {
           params: {
@@ -61,12 +69,12 @@ export default {
       if (result.success) {
         this.activityName = result.data.name;
         this.video.url = result.data.video_url;
-        switch (result.data.video_type){
-            case "hls":
-                this.video.type = 'customHls';
-                break;
-            default:
-                this.video.type = '';
+        switch (result.data.video_type) {
+          case "hls":
+            this.video.type = "customHls";
+            break;
+          default:
+            this.video.type = "";
         }
       }
       this.$refs.player.init();
@@ -136,7 +144,12 @@ export default {
       console.log(this.socket);
     },
     danmakuTest: function () {
-      const getColor = ()=>{return [0x000000,0xff4500, 0xff8c00, 0xffd700, 0x90ee90, 0x00ced1, 0x1e90ff,0xc71585][Math.floor(Math.random() * 8)]};
+      const getColor = () => {
+        return [
+          0x000000, 0xff4500, 0xff8c00, 0xffd700, 0x90ee90, 0x00ced1, 0x1e90ff,
+          0xc71585,
+        ][Math.floor(Math.random() * 8)];
+      };
       const cmt = [
         {
           mode: 1,
@@ -200,34 +213,35 @@ export default {
       this.cm.send(cmt[Math.floor(Math.random() * 6)]);
       setTimeout(this.danmakuTest, 100);
     },
- },
- mounted() {
+  },
+  mounted() {
     this.activityId = this.$route.params.id;
     this.tokenName = this.$route.params.name;
     this.token = this.$route.params.token;
-    if(this.activityId) this.getActivityName();
-    else{
-        this.video.url = 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8'
-        this.video.type = 'customHls'
-        this.$refs.player.init();
+    if (this.activityId) this.getActivityName();
+    else {
+      this.video.url = "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8";
+      this.video.type = "customHls";
+      this.$refs.player.init();
     }
     window.addEventListener("load", () => {
       this.setDanmaku();
-      if(this.activityId) this.setSocket();
+      if (this.activityId) this.setSocket();
       else this.danmakuTest();
     });
- }
-}
+  },
+};
 </script>
 
 <style>
-.dplayer-controller{
-    z-index: 5000;
+.dplayer-controller {
+  z-index: 5000;
 }
 </style>
 
 <style scoped>
-h1, h2 {
+h1,
+h2 {
   font-weight: normal;
 }
 ul {
@@ -241,13 +255,13 @@ li {
 a {
   color: #42b983;
 }
-.hello{
-    width: 750px;
-    margin: 0 auto 50px;
+.hello {
+  width: 750px;
+  margin: 0 auto 50px;
 }
-@media only screen and (max-width: 640px){
-  .hello{
-      width: 100%;
+@media only screen and (max-width: 640px) {
+  .hello {
+    width: 100%;
   }
 }
 

@@ -1,9 +1,9 @@
 <template>
-  <div style="text-align:center">
+  <div style="text-align: center">
     <remote-script
       :src="$rootPath + '/js/CommentCoreLibrary.min.js'"
     ></remote-script>
-    <div id="damaku-player" class="damaku-player" style="height:100vh">
+    <div id="damaku-player" class="damaku-player" style="height: 100vh">
       <h1>{{ activityName }}</h1>
       <div id="damaku-container" class="damaku-container"></div>
     </div>
@@ -27,10 +27,10 @@ export default {
     this.activityId = this.$route.params.id;
     this.tokenName = this.$route.params.name;
     this.token = this.$route.params.token;
-    if(this.activityId) this.getActivityName();
+    if (this.activityId) this.getActivityName();
     window.addEventListener("load", () => {
       this.setDanmaku();
-      if(this.activityId) this.setSocket();
+      if (this.activityId) this.setSocket();
       else this.danmakuTest();
     });
   },
@@ -113,7 +113,12 @@ export default {
       }
     },
     danmakuTest: function () {
-      const getColor = ()=>{return [0x000000,0xff4500, 0xff8c00, 0xffd700, 0x90ee90, 0x00ced1, 0x1e90ff,0xc71585][Math.floor(Math.random() * 8)]};
+      const getColor = () => {
+        return [
+          0x000000, 0xff4500, 0xff8c00, 0xffd700, 0x90ee90, 0x00ced1, 0x1e90ff,
+          0xc71585,
+        ][Math.floor(Math.random() * 8)];
+      };
       const cmt = [
         {
           mode: 1,

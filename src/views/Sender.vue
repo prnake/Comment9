@@ -1,5 +1,5 @@
 <template>
-  <div style="text-align:center">
+  <div style="text-align: center">
     <remote-script
       :src="$rootPath + '/js/CommentCoreLibrary.min.js'"
     ></remote-script>
@@ -72,18 +72,30 @@
             </div>
             <div style="margin-top: 20px">
               <p class="height-5">{{ $t("Choose Language") }}</p>
-              <el-radio-group v-model="$i18n.locale" size="small" @change="change_language">
+              <el-radio-group
+                v-model="$i18n.locale"
+                size="small"
+                @change="change_language"
+              >
                 <el-radio-button label="zh_CN">简体中文</el-radio-button>
                 <el-radio-button label="zh_TW">繁體中文</el-radio-button>
               </el-radio-group>
-              <el-radio-group v-model="$i18n.locale" size="small" @change="change_language">
+              <el-radio-group
+                v-model="$i18n.locale"
+                size="small"
+                @change="change_language"
+              >
                 <el-radio-button label="en">English</el-radio-button>
                 <el-radio-button label="ja">日本語</el-radio-button>
               </el-radio-group>
             </div>
             <div style="margin-top: 20px" v-if="username">
-              <p class="height-5">{{ $t("Your nickname:") + " " + username }}</p>
-              <el-button @click="setUsername('')">{{$t("Clear nickname")}}</el-button>
+              <p class="height-5">
+                {{ $t("Your nickname:") + " " + username }}
+              </p>
+              <el-button @click="setUsername('')">{{
+                $t("Clear nickname")
+              }}</el-button>
             </div>
             <el-button
               slot="reference"
@@ -125,11 +137,11 @@ export default {
         time: 0,
       },
       color: "rgba(0, 0, 0, 1)",
-      username: ""
+      username: "",
     };
   },
   mounted() {
-    this.username = Cookies.get("username")
+    this.username = Cookies.get("username");
     this.activityId = this.$route.params.id;
     this.tokenName = this.$route.params.name;
     this.token = this.$route.params.token;
@@ -141,37 +153,38 @@ export default {
     });
   },
   methods: {
-    setUsername(username){
+    setUsername(username) {
       this.username = username;
-      Cookies.set('username',username);
+      Cookies.set("username", username);
     },
     sendDanmaku: async function () {
-      if(!this.username){
-        this.$prompt(this.$t('Please set your nickname'), this.$t('Notice'), {
-          confirmButtonText: this.$t('Yes'),
-          cancelButtonText: this.$t('No')
-        }).then(({ value }) => {
-          if(value){
-            this.setUsername(value);
-            this.$message({
-              type: 'success',
-              message: this.$t('Success'),
-            });
-          }
-          else {
-            this.$message({
-              type: 'info',
-              message: this.$t('Input field can not be empty'),
-            });
-          }
-        }).catch(() => {});
+      if (!this.username) {
+        this.$prompt(this.$t("Please set your nickname"), this.$t("Notice"), {
+          confirmButtonText: this.$t("Yes"),
+          cancelButtonText: this.$t("No"),
+        })
+          .then(({ value }) => {
+            if (value) {
+              this.setUsername(value);
+              this.$message({
+                type: "success",
+                message: this.$t("Success"),
+              });
+            } else {
+              this.$message({
+                type: "info",
+                message: this.$t("Input field can not be empty"),
+              });
+            }
+          })
+          .catch(() => {});
         return;
       }
       const color = tinycolor(this.color);
       if (!this.danmaku.text) return;
       const danmaku = {
         ...this.danmaku,
-        username:Cookies.get('username'),
+        username: Cookies.get("username"),
         color: parseInt(color.toHexString().slice(1), 16),
         addons: {
           opacity: color.getAlpha(),
@@ -268,7 +281,7 @@ export default {
       }
     },
     change_language(language) {
-      Cookies.set('language', language)
+      Cookies.set("language", language);
     },
     danmakuTest: function () {
       const cmt = [

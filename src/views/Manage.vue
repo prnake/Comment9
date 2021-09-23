@@ -36,27 +36,20 @@
                 >{{ $t("Log Out") }}</el-menu-item
               >
 
-              <el-submenu style="float:right;">
+              <el-submenu style="float: right">
                 <template slot="title">Language</template>
-                  <el-menu-item
-                  index="zh_CN"
-                  @click="change_language('zh_CN')"
+                <el-menu-item index="zh_CN" @click="change_language('zh_CN')"
                   >简体中文</el-menu-item
                 >
-                <el-menu-item
-                  index="zh_TW"
-                  @click="change_language('zh_TW')"
+                <el-menu-item index="zh_TW" @click="change_language('zh_TW')"
                   >繁體中文</el-menu-item
                 >
-                <el-menu-item
-                  index="en"
-                  @click="change_language('en')"
+                <el-menu-item index="en" @click="change_language('en')"
                   >English</el-menu-item
                 >
-                <el-menu-item
-                  index="ja"
-                  @click="change_language('ja')"
-                  >日本語</el-menu-item>
+                <el-menu-item index="ja" @click="change_language('ja')"
+                  >日本語</el-menu-item
+                >
               </el-submenu>
             </el-menu>
           </el-col>
@@ -123,7 +116,12 @@
               </div>
               <div class="container">
                 <h1>{{ $t("Token Setting") }}</h1>
-                <el-table :data="activityTokens" style="width: 100%" :row-style="{height: '0'}" :cell-style="{padding: '0'}">
+                <el-table
+                  :data="activityTokens"
+                  style="width: 100%"
+                  :row-style="{ height: '0' }"
+                  :cell-style="{ padding: '0' }"
+                >
                   <el-table-column :label="$t('Name')">
                     <template slot-scope="scope">
                       <p>{{ scope.row.name }}</p>
@@ -209,7 +207,11 @@
                   <p class="font-16 height-5">{{ $t("Perms") }}</p>
                   <el-checkbox-group v-model="tokenForm.perms">
                     <div
-                      v-for="perm in tokenForm.perms.includes('protect') ? activityEditInfo.permList.filter(perm => perm.name === 'protect'):activityEditInfo.permList"
+                      v-for="perm in tokenForm.perms.includes('protect')
+                        ? activityEditInfo.permList.filter(
+                            (perm) => perm.name === 'protect'
+                          )
+                        : activityEditInfo.permList"
                       v-bind:key="perm.name"
                     >
                       <el-checkbox :label="perm.name"
@@ -237,8 +239,8 @@
                 <el-table
                   :data="activityEditInfo.addonList"
                   style="width: 100%"
-                  :row-style="{height: '0'}"
-                  :cell-style="{padding: '0'}"
+                  :row-style="{ height: '0' }"
+                  :cell-style="{ padding: '0' }"
                 >
                   <el-table-column :label="$t('Name')">
                     <template slot-scope="scope">
@@ -277,11 +279,9 @@
                       >
                         {{ $t("Edit") }}</el-button
                       >
-                      <el-button
-                        size="mini"
-                        @click="removeAddon(scope.row)"
-                        >{{ $t("Clear") }}</el-button
-                      >
+                      <el-button size="mini" @click="removeAddon(scope.row)">{{
+                        $t("Clear")
+                      }}</el-button>
                     </template>
                   </el-table-column>
                 </el-table>
@@ -342,86 +342,90 @@
               </div>
 
               <div
-                class="container" v-for="panel in activityEditInfo.panelList" v-bind:key="panel">
-
+                class="container"
+                v-for="panel in activityEditInfo.panelList"
+                v-bind:key="panel"
+              >
                 <h1 class="height-5">{{ $t(panel.title) }}</h1>
                 <p class="font-20">
-                  {{
-                    $t(
-                      panel.description
-                    )
-                  }}
+                  {{ $t(panel.description) }}
                 </p>
                 <div v-for="item in panel.items" v-bind:key="item">
                   <p class="height-5">
-                  {{ $t(item.name) }}
-                  <el-popover
-                    v-for="perm in item.perms"
-                    v-bind:key="perm"
-                    trigger="hover"
-                    placement="top"
-                    width="200"
-                  >
-                    <p>{{ $t(permDescription[perm]) }}</p>
-                    <el-tag size="medium" slot="reference">{{ perm }}</el-tag>
-                  </el-popover>
+                    {{ $t(item.name) }}
+                    <el-popover
+                      v-for="perm in item.perms"
+                      v-bind:key="perm"
+                      trigger="hover"
+                      placement="top"
+                      width="200"
+                    >
+                      <p>{{ $t(permDescription[perm]) }}</p>
+                      <el-tag size="medium" slot="reference">{{ perm }}</el-tag>
+                    </el-popover>
                   </p>
 
-                  <p class="font-18 margin-0">{{ $t(item.description)}}</p>
+                  <p class="font-18 margin-0">{{ $t(item.description) }}</p>
 
                   <el-input
-                  class="font-16 pad-right-60"
-                  v-if="item.type==='copy'"
-                  :value="item.url"
-                  :disabled="true"
-                >
-                  <el-button
-                    slot="suffix"
-                    type="text"
-                    icon="el-icon-document-copy"
-                    @click="$copyText(item.url);$message({
-          type: 'success',
-          message: $t('Copied'),
-        });"
-                    >{{ $t("Copy") }}</el-button>
-                </el-input>
-
-                <el-input
-                  class="font-16 pad-right-130"
-                  v-if="item.type==='open'"
-                  :value="item.url"
-                  :disabled="true"
-                >
-                  <a slot="suffix" target="_blank" :href="item.url"
-                    ><el-button
-                      type="text"
-                      icon="el-icon-share"
-                      >{{ $t("Open in new tab") }}</el-button
-                    ></a
+                    class="font-16 pad-right-60"
+                    v-if="item.type === 'copy'"
+                    :value="item.url"
+                    :disabled="true"
                   >
-                </el-input>
-
-                <el-input
-                  class="font-16 pad-right-130"
-                  v-if="item.type==='download'"
-                  :value="item.url"
-                  :disabled="true"
-                >
-                  <a slot="suffix" target="_blank" :href="item.url" :download="item.description"
-                    ><el-button
+                    <el-button
+                      slot="suffix"
                       type="text"
-                      icon="el-icon-download"
-                      >{{ $t("Download") }}</el-button
-                    ></a
+                      icon="el-icon-document-copy"
+                      @click="
+                        $copyText(item.url);
+                        $message({
+                          type: 'success',
+                          message: $t('Copied'),
+                        });
+                      "
+                      >{{ $t("Copy") }}</el-button
+                    >
+                  </el-input>
+
+                  <el-input
+                    class="font-16 pad-right-130"
+                    v-if="item.type === 'open'"
+                    :value="item.url"
+                    :disabled="true"
                   >
-                </el-input>
+                    <a slot="suffix" target="_blank" :href="item.url"
+                      ><el-button type="text" icon="el-icon-share">{{
+                        $t("Open in new tab")
+                      }}</el-button></a
+                    >
+                  </el-input>
+
+                  <el-input
+                    class="font-16 pad-right-130"
+                    v-if="item.type === 'download'"
+                    :value="item.url"
+                    :disabled="true"
+                  >
+                    <a
+                      slot="suffix"
+                      target="_blank"
+                      :href="item.url"
+                      :download="item.description"
+                      ><el-button type="text" icon="el-icon-download">{{
+                        $t("Download")
+                      }}</el-button></a
+                    >
+                  </el-input>
                 </div>
               </div>
             </div>
           </el-col>
         </el-row>
       </el-main>
-      <el-footer style="text-align: center;">Copyright (c) 2014-2021 SAST</el-footer>
+      <el-footer style="text-align: center"
+        >Copyright (c) 2014-2021 SAST</el-footer
+      >
     </el-container>
   </div>
 </template>
@@ -440,7 +444,7 @@ export default {
       activityEditInfo: {},
       activityTokens: [],
       permDescription: {},
-      tokenForm: {perms:[]},
+      tokenForm: { perms: [] },
       tokenFormVisible: false,
       addonForm: {},
       addonFormVisible: false,
@@ -656,8 +660,8 @@ export default {
       }
     },
     change_language(language) {
-      this.$i18n.locale = language
-      Cookies.set('language', language)
+      this.$i18n.locale = language;
+      Cookies.set("language", language);
     },
     async saveBasicInfo() {
       let result = { success: true };
@@ -803,8 +807,7 @@ export default {
           if (!this.activityEditInfo.addons[addon.name])
             this.activityEditInfo.addons[addon.name] = addon.default;
         }
-      }
-      else {
+      } else {
         this.$router.push({ name: "Login" });
       }
     },
@@ -865,10 +868,10 @@ export default {
 .col-20 {
   margin-top: 20px;
 }
-.font-18{
+.font-18 {
   font-size: 18px;
 }
-.margin-0{
+.margin-0 {
   margin: 0px;
 }
 .font-16,
@@ -884,8 +887,7 @@ export default {
 .el-table {
   font-size: 16px;
 }
-.el-tag
-{
+.el-tag {
   margin-right: 3px;
 }
 /deep/.el-input.is-disabled.pad-right-60 .el-input__inner {

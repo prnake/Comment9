@@ -13,18 +13,56 @@ const info = function (activity) {
 
   tool.setPerms(data.perms, "wechat", "permission to connect with wechat");
 
-  tool.setAddons(data.addons, "wechatToken", "please set manually", "String", "");
-  tool.setAddons(data.addons, "wechatAppid", "please set manually", "String", "");
-  tool.setAddons(data.addons, "wechatAESKey", "please set manually", "String", "");
+  tool.setAddons(
+    data.addons,
+    "wechatToken",
+    "please set manually",
+    "String",
+    ""
+  );
+  tool.setAddons(
+    data.addons,
+    "wechatAppid",
+    "please set manually",
+    "String",
+    ""
+  );
+  tool.setAddons(
+    data.addons,
+    "wechatAESKey",
+    "please set manually",
+    "String",
+    ""
+  );
 
-  tool.setPanelTitle(data.panel, "Wechat Configuration", 'Please read the docs and manually set addons begin with "wechat".');
-  
-  tool.addPanelItem(data.panel, "Wechat Docs", ["wechat"], "", "https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Access_Overview.html", "open");
+  tool.setPanelTitle(
+    data.panel,
+    "Wechat Configuration",
+    'Please read the docs and manually set addons begin with "wechat".'
+  );
 
-  tool.addPanelItem(data.panel, "Server Url", ["wechat"], "Configure in wechat background.", `${config.host}${config.rootPath}/wechat/${activity.id}/wechat/${activity.tokens.get("wechat").token}`, "copy");
+  tool.addPanelItem(
+    data.panel,
+    "Wechat Docs",
+    ["wechat"],
+    "",
+    "https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Access_Overview.html",
+    "open"
+  );
+
+  tool.addPanelItem(
+    data.panel,
+    "Server Url",
+    ["wechat"],
+    "Configure in wechat background.",
+    `${config.host}${config.rootPath}/wechat/${activity.id}/wechat/${
+      activity.tokens.get("wechat").token
+    }`,
+    "copy"
+  );
 
   return data;
-}
+};
 
 const generate_url = function (activity) {
   const wechatScreenToken = activity.tokens.get("wechatScreen");
@@ -50,7 +88,8 @@ router.all(
   "/:activity/:name/:token",
   auth.routerActivityByToken,
   async function (req, res) {
-    if (!req.activity_token.perms.includes("wechat")) return res.json({ success: false });
+    if (!req.activity_token.perms.includes("wechat"))
+      return res.json({ success: false });
     const activity = req.activity;
     const wechatConfig = {
       token: activity.addons.wechatToken,
@@ -66,7 +105,8 @@ router.all(
       const message = req.weixin;
       const urls = generate_url(activity);
       logger.info("Got wechat message %o", message);
-      const user_name = "wechat:" + wechatConfig.appid + ":" + message.FromUserName;
+      const user_name =
+        "wechat:" + wechatConfig.appid + ":" + message.FromUserName;
       const user_info = await DanmakuUser.getUser(user_name);
       if (message.MsgType == "text") {
         let content = message.Content.toString();
@@ -79,14 +119,15 @@ router.all(
           co: 1,
         };
         if (content.substr(0, 2).toLowerCase() === "xm") {
-          DanmakuUser.setName(user_name, content.substr(2).trim()).then(() => {
-            res.reply("姓名设置成功，您还可以发送图片到公众号以设置您的头像");
-          }).catch((err) => {
-            debug(err);
-            res.reply('姓名设置失败, 请稍后再试');
-          });
-        }
-        else if (!user_info || !user_info.name) {
+          DanmakuUser.setName(user_name, content.substr(2).trim())
+            .then(() => {
+              res.reply("姓名设置成功，您还可以发送图片到公众号以设置您的头像");
+            })
+            .catch((err) => {
+              logger.error(err);
+              res.reply("姓名设置失败, 请稍后再试");
+            });
+        } else if (!user_info || !user_info.name) {
           res.reply(`请先发送xm+您的姓名到公众号设置您的姓名`);
         } else if (command[content.substr(0, 2).toLowerCase()]) {
           let danmaku = {
@@ -119,15 +160,15 @@ router.all(
         } else if (content.toLowerCase() === "help") {
           res.reply(
             "Usage: \n" +
-            `发送弹幕: dm + 弹幕内容\n` +
-            `顶部弹幕: ts + 弹幕内容\n` +
-            `底部弹幕: bs + 弹幕内容\n` +
-            `上端滚动弹幕: to + 弹幕内容\n` +
-            `下端滚动弹幕: bo + 弹幕内容\n` +
-            `随机颜色滚动弹幕: co + 弹幕内容\n` +
-            `设置姓名: xm + 您的姓名\n` +
-            `设置头像: 发送图片\n` +
-            "\nMade with love by DCSTSAST"
+              `发送弹幕: dm + 弹幕内容\n` +
+              `顶部弹幕: ts + 弹幕内容\n` +
+              `底部弹幕: bs + 弹幕内容\n` +
+              `上端滚动弹幕: to + 弹幕内容\n` +
+              `下端滚动弹幕: bo + 弹幕内容\n` +
+              `随机颜色滚动弹幕: co + 弹幕内容\n` +
+              `设置姓名: xm + 您的姓名\n` +
+              `设置头像: 发送图片\n` +
+              "\nMade with love by DCSTSAST"
           );
         }
 
@@ -155,16 +196,18 @@ router.all(
               "Made with love by DCSTSAST"
           );
         }
-      }
-      else if (message.MsgType == "image") {
-        DanmakuUser.setImgUrl(user_name, message.PicUrl).then(() => {
-          res.reply("头像设置成功，您还可以发送xm+文字到公众号以设置您的姓名");
-        }).catch((err) => {
-          debug(err);
-          res.reply('头像设置失败, 请稍后再试');
-        });
-      }
-      else {
+      } else if (message.MsgType == "image") {
+        DanmakuUser.setImgUrl(user_name, message.PicUrl)
+          .then(() => {
+            res.reply(
+              "头像设置成功，您还可以发送xm+文字到公众号以设置您的姓名"
+            );
+          })
+          .catch((err) => {
+            logger.error(err);
+            res.reply("头像设置失败, 请稍后再试");
+          });
+      } else {
         res.reply("不支持此类消息");
       }
     });

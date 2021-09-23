@@ -35,7 +35,7 @@ activitySchema.methods.updateInfo = function (data, callback) {
       .filter((name) => !this.senders.includes(name))
       .map((name) => {
         const init = require(`../routes/sender/${name}`).init;
-        if(init) init(this);
+        if (init) init(this);
       });
     this.senders = data.senders;
   }
@@ -120,7 +120,7 @@ activitySchema.statics.deleteById = function (id, callback) {
 activitySchema.statics.getActivity = function (id, callback) {
   if (!callback) return;
   Activity.findOne({ _id: id }, function (err, activity) {
-    if(!activity){
+    if (!activity) {
       Activity.findOne({ name: id }, callback);
     } else {
       callback(err, activity);

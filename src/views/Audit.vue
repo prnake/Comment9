@@ -1,5 +1,5 @@
 <template>
-  <div style="text-align:center">
+  <div style="text-align: center">
     <remote-script
       :src="$rootPath + '/js/CommentCoreLibrary.min.js'"
     ></remote-script>
@@ -155,11 +155,19 @@
             </div>
             <div style="margin-top: 20px">
               <p class="height-5">{{ $t("Choose Language") }}</p>
-              <el-radio-group v-model="$i18n.locale" size="small" @change="change_language">
+              <el-radio-group
+                v-model="$i18n.locale"
+                size="small"
+                @change="change_language"
+              >
                 <el-radio-button label="zh_CN">简体中文</el-radio-button>
                 <el-radio-button label="zh_TW">繁體中文</el-radio-button>
               </el-radio-group>
-              <el-radio-group v-model="$i18n.locale" size="small" @change="change_language">
+              <el-radio-group
+                v-model="$i18n.locale"
+                size="small"
+                @change="change_language"
+              >
                 <el-radio-button label="en">English</el-radio-button>
                 <el-radio-button label="ja">日本語</el-radio-button>
               </el-radio-group>
@@ -310,7 +318,7 @@ export default {
       this.danmaku.text = "";
     },
     change_language(language) {
-      Cookies.set('language', language)
+      Cookies.set("language", language);
     },
     setDanmaku: function () {
       this.cm = new window.CommentManager(

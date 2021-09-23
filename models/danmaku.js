@@ -1,5 +1,4 @@
 const mongodb = require("../utils/mongodb");
-const redis = require("../utils/redis");
 const logger = require("../utils/logger");
 const counter = require("./counter");
 
@@ -91,14 +90,14 @@ danmakuSchema.statics.getDanmaku = function (id, callback) {
 
 danmakuSchema.statics.getAllDanmaku = function (activity_id, callback) {
   if (!callback) {
-    callback = function () { };
+    callback = function () {};
   }
   Danmaku.find({ activity: activity_id }, callback);
 };
 
 danmakuSchema.statics.getAllDanmakuText = function (activity_id, callback) {
   if (!callback) {
-    callback = function () { };
+    callback = function () {};
   }
   Danmaku.find({ activity: activity_id }, "text", callback);
 };
