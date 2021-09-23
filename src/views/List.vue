@@ -9,6 +9,7 @@ import * as chatConfig from '@/api/chatConfig'
 import ChatClientTest from '@/api/chat/ChatClientTest'
 import ChatClientDirect from '@/api/chat/ChatClientDirect'
 import ChatClientRelay from '@/api/chat/ChatClientRelay'
+import ChatClientComment from '@/api/chat/ChatClientComment'
 import ChatRenderer from '@/components/ChatRenderer'
 import * as constants from '@/components/ChatRenderer/constants'
 
@@ -98,7 +99,16 @@ export default {
     },
     initChatClient() {
       if (this.roomId === null) {
-        this.chatClient = new ChatClientTest()
+        if(this.$route.params.id){
+          this.chatClient = new ChatClientComment()
+          this.chatClient.activityId = this.$route.params.id;
+          this.chatClient.tokenName = this.$route.params.name;
+          this.chatClient.token = this.$route.params.token;
+        }
+        else {
+          this.chatClient = new ChatClientTest()
+        }
+        
       } else {
         if (!this.config.relayMessagesByServer) {
           this.chatClient = new ChatClientDirect(this.roomId)

@@ -22,6 +22,10 @@ const info = function (activity) {
   );
   tool.setPerms(data.perms, "audit", "permission to audit danmaku");
 
+  tool.setAddons(data.addons, "streamUrl", "streaming url", "String", "");
+
+  tool.setAddons(data.addons, "streamType", "streaming type(hls or empty)", "String", "");
+
   tool.setPanelTitle(data.panel, "Danmaku Address", "These are basic urls used for web and danmaQ.");
 
   // const danmaq_info = {
@@ -35,6 +39,8 @@ const info = function (activity) {
   tool.addPanelItem(data.panel, "DanmaQ Token", ["pull"], "This is the value of \"screen\" token.", activity.tokens.get("screen").token, "copy");
 
   tool.addPanelItem(data.panel, "Danmaku Wall", ["pull"], "", `${config.host}${config.rootPath}/#/wall/${activity.id}/screen/${activity.tokens.get("screen").token}`, "open");
+  tool.addPanelItem(data.panel, "Danmaku List Wall", ["pull"], "", `${config.host}${config.rootPath}/#/list/${activity.id}/screen/${activity.tokens.get("screen").token}`, "open");
+  tool.addPanelItem(data.panel, "Danmaku Stream Player", ["pull"], activity.addons.streamUrl ? "" : "Please set \"streamUrl\" first.", `${config.host}${config.rootPath}/#/player/${activity.id}/screen/${activity.tokens.get("screen").token}`, "open");
   tool.addPanelItem(data.panel, "Danmaku Web Sender", ["pull", "push"], "", `${config.host}${config.rootPath}/#/Sender/${activity.id}/user/${activity.tokens.get("user").token}`, "open");
   tool.addPanelItem(data.panel, "Danmaku Audit", ["pull", "push", "audit"], "", `${config.host}${config.rootPath}/#/Audit/${activity.id}/audit/${activity.tokens.get("audit").token}`, "open");
 
@@ -54,6 +60,8 @@ const init = function (activity) {
       token: tool.genToken(),
       perms: ["pull", "push", "audit", "protect"],
     });
+  activity.addons["streamType"] = "hls";
+  activity.markModified("addons");
 };
 
 router.get("/pull", auth.routerActivityByToken, async function (req, res) {
@@ -71,7 +79,7 @@ router.get("/pull", auth.routerActivityByToken, async function (req, res) {
 });
 
 router.get("/config", auth.routerActivityByToken, async function (req, res) {
-  res.json({ success: true, data: { name: req.activity.name } });
+  res.json({ success: true, data: { name: req.activity.name, video_url: req.activity.addons.streamUrl, video_type: req.activity.addons.streamType, } });
 });
 
 router.get("/url", async function (req, res) {

@@ -6,6 +6,7 @@ import Wall from "../views/Wall.vue";
 import Sender from "../views/Sender.vue";
 import Audit from "../views/Audit.vue";
 import List from "../views/List.vue";
+import Player from "../views/Player.vue";
 import NotFound from "../views/NotFound.vue";
 
 Vue.use(VueRouter);
@@ -33,7 +34,7 @@ const routes = [
   },
   {
     path: "/wall/test",
-    name: "TEST_WALL",
+    name: "Test Wall",
     component: Wall,
   },
   {
@@ -41,7 +42,7 @@ const routes = [
     name: "Wall",
     component: Wall,
   },
-  { path: '/list/test', name: 'TEST_LIST', component: List, props: route => ({ strConfig: route.query }) },
+  { path: '/list/test', name: 'Test List', component: List, props: route => ({ strConfig: route.query }) },
   { path: '/list/:id/:name/:token', name: 'LIST', component: List, props: route => ({ strConfig: route.query }) },
   {
     path: "/sender/:id/:name/:token",
@@ -52,6 +53,16 @@ const routes = [
     path: "/audit/:id/:name/:token",
     name: "Audit",
     component: Audit,
+  },
+  {
+    path: "/player/test",
+    name: "Test Player",
+    component: Player,
+  },
+  {
+    path: "/player/:id/:name/:token",
+    name: "Player",
+    component: Player,
   },
   {
     path: "/about",
