@@ -22,3 +22,8 @@ yarn lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+## 小tips
+
+审核界面聚焦在输入框，键盘向右通过，向左拒绝。

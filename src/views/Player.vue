@@ -3,7 +3,7 @@
         <center>
 		<h1>{{ activityName }}</h1>
 	    </center>
-        <div id="damaku-player" class="damaku-player">
+        <div id="damaku-player" class="damaku-player" style="height: 70vh">
         <remote-script
         :src="$rootPath + '/js/CommentCoreLibrary.min.js'"
         ></remote-script>
@@ -221,9 +221,6 @@ export default {
 </script>
 
 <style>
-.damaku-player {
-    height: 70vh;
-}
 .dplayer-controller{
     z-index: 5000;
 }

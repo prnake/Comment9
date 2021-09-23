@@ -75,7 +75,10 @@ danmakuSchema.methods.updateStatus = function (data, callback) {
     callback = function () {};
   }
   this.status = data.status;
-  if (data.star) this.addons.set("star", true);
+  if (data.star) {
+    this.addons.set("star", true);
+    this.addons.set("border", true);
+  }
   this.save(callback);
 };
 

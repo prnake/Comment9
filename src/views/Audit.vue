@@ -59,11 +59,6 @@
           :src="$rootPath + '/img/tinder/nope-txt.png'"
         />
         <img
-          class="super-pointer"
-          slot="super"
-          :src="$rootPath + '/img/tinder/super-txt.png'"
-        />
-        <img
           class="rewind-pointer"
           slot="rewind"
           :src="$rootPath + '/img/tinder/rewind-txt.png'"
@@ -73,22 +68,22 @@
         <img
           :src="$rootPath + '/img/tinder/rewind.png'"
           @click="decide('rewind')"
+          style="width: 53px"
         />
         <img
           :src="$rootPath + '/img/tinder/nope.png'"
           @click="decide('nope')"
-        />
-        <img
-          :src="$rootPath + '/img/tinder/super-like.png'"
-          @click="decide('super')"
+          style="width: 65px"
         />
         <img
           :src="$rootPath + '/img/tinder/like.png'"
           @click="decide('like')"
+          style="width: 65px"
         />
         <img
-          :src="$rootPath + '/img/tinder/help.png'"
-          @click="decide('help')"
+          :src="$rootPath + '/img/tinder/super-like.png'"
+          @click="decide('super')"
+          style="width: 53px"
         />
       </div>
       <div id="damaku-container" class="damaku-container"></div>
@@ -101,6 +96,8 @@
           :placeholder="$t('Send friendly danmaku to capture the moment')"
           v-model="danmaku.text"
           @keyup.enter.native="sendDanmaku()"
+          @keyup.left.native="decide('nope')"
+          @keyup.right.native="decide('like')"
           :maxlength="wordLimit"
           :autofocus="true"
         >
@@ -251,7 +248,6 @@ export default {
       }
     },
     onSubmit(data) {
-      console.log(data);
       switch (data.type) {
         case "nope":
           this.socket.emit("set audit status", {
@@ -279,12 +275,11 @@ export default {
       this.history.push(data.item);
     },
     async decide(choice) {
+      if (!this.queue.length) return;
       if (choice === "rewind") {
         if (this.history.length) {
           this.$refs.tinder.rewind([this.history.pop()]);
         }
-      } else if (choice === "help") {
-        this.getAuditDanmaku();
       } else {
         this.$refs.tinder.decide(choice);
       }
@@ -294,6 +289,7 @@ export default {
       if (!this.danmaku.text) return;
       const danmaku = {
         ...this.danmaku,
+        username: "auditor",
         color: parseInt(color.toHexString().slice(1), 16),
         addons: {
           opacity: color.getAlpha(),
@@ -731,14 +727,6 @@ body {
   border-radius: 50%;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-}
-
-.btns img:nth-child(2n + 1) {
-  width: 53px;
-}
-
-.btns img:nth-child(2n) {
-  width: 65px;
 }
 
 .btns img:nth-last-child(1) {

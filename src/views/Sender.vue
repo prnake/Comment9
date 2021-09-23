@@ -81,6 +81,10 @@
                 <el-radio-button label="ja">日本語</el-radio-button>
               </el-radio-group>
             </div>
+            <div style="margin-top: 20px" v-if="username">
+              <p class="height-5">{{ $t("Your nickname:") + " " + username }}</p>
+              <el-button @click="setUsername('')">{{$t("Clear nickname")}}</el-button>
+            </div>
             <el-button
               slot="reference"
               type="text"
@@ -121,9 +125,11 @@ export default {
         time: 0,
       },
       color: "rgba(0, 0, 0, 1)",
+      username: ""
     };
   },
   mounted() {
+    this.username = Cookies.get("username")
     this.activityId = this.$route.params.id;
     this.tokenName = this.$route.params.name;
     this.token = this.$route.params.token;
@@ -135,27 +141,42 @@ export default {
     });
   },
   methods: {
+    setUsername(username){
+      this.username = username;
+      Cookies.set('username',username);
+    },
     sendDanmaku: async function () {
+      if(!this.username){
+        this.$prompt(this.$t('Please set your nickname'), this.$t('Notice'), {
+          confirmButtonText: this.$t('Yes'),
+          cancelButtonText: this.$t('No')
+        }).then(({ value }) => {
+          if(value){
+            this.setUsername(value);
+            this.$message({
+              type: 'success',
+              message: this.$t('Success'),
+            });
+          }
+          else {
+            this.$message({
+              type: 'info',
+              message: this.$t('Input field can not be empty'),
+            });
+          }
+        }).catch(() => {});
+        return;
+      }
       const color = tinycolor(this.color);
       if (!this.danmaku.text) return;
       const danmaku = {
         ...this.danmaku,
+        username:Cookies.get('username'),
         color: parseInt(color.toHexString().slice(1), 16),
         addons: {
           opacity: color.getAlpha(),
         },
       };
-      // this.cm.send({
-      //   shadow: false,
-      //   ...danmaku.addons,
-      //   mode: danmaku.mode,
-      //   text: danmaku.text,
-      //   dur: danmaku.dur,
-      //   size: danmaku.size,
-      //   color: danmaku.color,
-      //   stime: danmaku.time,
-      //   border: true,
-      // });
       this.socket.emit("push", danmaku);
       this.danmaku.text = "";
     },
