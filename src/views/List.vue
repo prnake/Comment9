@@ -31,7 +31,11 @@ export default {
     return {
       config: {...chatConfig.DEFAULT_CONFIG},
       chatClient: null,
-      pronunciationConverter: null
+      pronunciationConverter: null,
+      activityId: "",
+      tokenName: "",
+      token: "",
+      activityName: "弹幕墙",
     }
   },
   computed: {
@@ -64,6 +68,9 @@ export default {
   methods: {
     initConfig() {
       let cfg = {}
+      this.activityId = this.$route.params.id;
+      this.tokenName = this.$route.params.name;
+      this.token = this.$route.params.token;
       // 留空的使用默认值
       for (let i in this.strConfig) {
         if (this.strConfig[i] !== '') {

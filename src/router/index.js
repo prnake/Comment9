@@ -32,11 +32,17 @@ const routes = [
     component: Manage,
   },
   {
+    path: "/wall/test",
+    name: "TEST_WALL",
+    component: Wall,
+  },
+  {
     path: "/wall/:id/:name/:token",
     name: "Wall",
     component: Wall,
   },
   { path: '/list/test', name: 'TEST_LIST', component: List, props: route => ({ strConfig: route.query }) },
+  { path: '/list/:id/:name/:token', name: 'LIST', component: List, props: route => ({ strConfig: route.query }) },
   {
     path: "/sender/:id/:name/:token",
     name: "Sender",

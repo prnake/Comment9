@@ -3,7 +3,7 @@
     <remote-script
       :src="$rootPath + '/js/CommentCoreLibrary.min.js'"
     ></remote-script>
-    <div id="damaku-player" class="damaku-player">
+    <div id="damaku-player" class="damaku-player" style="height:100vh">
       <h1>{{ activityName }}</h1>
       <div id="damaku-container" class="damaku-container"></div>
     </div>
@@ -27,11 +27,11 @@ export default {
     this.activityId = this.$route.params.id;
     this.tokenName = this.$route.params.name;
     this.token = this.$route.params.token;
-    this.getActivityName();
+    if(this.activityId) this.getActivityName();
     window.addEventListener("load", () => {
       this.setDanmaku();
-      this.setSocket();
-      //this.danmakuTest();
+      if(this.activityId) this.setSocket();
+      else this.danmakuTest();
     });
   },
   methods: {
@@ -113,13 +113,14 @@ export default {
       }
     },
     danmakuTest: function () {
+      const getColor = ()=>{return [0x000000,0xff4500, 0xff8c00, 0xffd700, 0x90ee90, 0x00ced1, 0x1e90ff,0xc71585][Math.floor(Math.random() * 8)]};
       const cmt = [
         {
           mode: 1,
           text: "1上上上上上端",
           stime: 0,
           size: 25,
-          color: 0x0000ff,
+          color: getColor(),
           border: true,
           shadow: false,
         },
@@ -128,7 +129,7 @@ export default {
           text: "2下下下下下端",
           stime: 0,
           size: 25,
-          color: 0x00ff00,
+          color: getColor(),
           border: false,
           shadow: false,
         },
@@ -137,7 +138,7 @@ export default {
           text: "4底底底底底部",
           stime: 0,
           size: 30,
-          color: 0x000000,
+          color: getColor(),
           border: false,
           shadow: false,
         },
@@ -146,7 +147,7 @@ export default {
           text: "5顶顶顶顶顶部",
           stime: 0,
           size: 25,
-          color: 0xff0000,
+          color: getColor(),
           border: false,
           shadow: false,
         },
@@ -155,7 +156,7 @@ export default {
           text: "6逆逆逆逆逆向",
           stime: 0,
           size: 30,
-          color: 0x000000,
+          color: getColor(),
           border: false,
           shadow: false,
         },
@@ -164,19 +165,17 @@ export default {
           text: "7定定定定定位",
           stime: 0,
           size: 25,
-          color: 0x0ffff0,
-          x: 180,
-          y: 180,
-          rY: 20,
-          rZ: 20,
+          color: getColor(),
+          x: Math.floor(Math.random() * 200),
+          y: Math.floor(Math.random() * 200),
+          rY: Math.floor(Math.random() * 20),
+          rZ: Math.floor(Math.random() * 20),
           border: false,
           shadow: false,
         },
       ];
-      this.cm.send(cmt);
-      setTimeout(() => {
-        this.cm.send(cmt);
-      }, 2000);
+      this.cm.send(cmt[Math.floor(Math.random() * 6)]);
+      setTimeout(this.danmakuTest, 100);
     },
   },
 };
