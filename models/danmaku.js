@@ -99,7 +99,7 @@ danmakuSchema.statics.getAllDanmakuText = function (activity_id, callback) {
   if (!callback) {
     callback = function () {};
   }
-  Danmaku.find({ activity: activity_id }, "text", callback);
+  Danmaku.find({ activity: activity_id, status: "publish" }, "text", callback);
 };
 
 const Danmaku = mongodb.model("Danmaku", danmakuSchema);

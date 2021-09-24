@@ -99,7 +99,7 @@ async function filter(danmaku, activity, next) {
     return Error("access forbidden");
   }
   if (activity.addons.blackwordsDict) {
-    const word = censor(map, danmaku.text);
+    const word = censor(map, danmaku.username + danmaku.text);
     if (word.length) {
       return Error("forbidden word " + word);
     }
@@ -109,7 +109,7 @@ async function filter(danmaku, activity, next) {
     for (const word of activity.addons.blackwords) {
       addWord(blackwords, word);
     }
-    const word = censor(blackwords, danmaku.text);
+    const word = censor(blackwords, danmaku.username + danmaku.text);
     if (word.length) {
       return Error("forbidden word " + word);
     }

@@ -150,7 +150,7 @@ router.all(
             (err, danmaku) => {
               if (err) {
                 logger.error(err);
-                res.reply("弹幕发送失败, 请稍后再试");
+                res.reply(err.message +"\n弹幕发送失败, 请稍后再试");
               } else {
                 if (danmaku.status == "publish") res.reply("弹幕发送成功");
                 else res.reply("弹幕发送成功，审核中");

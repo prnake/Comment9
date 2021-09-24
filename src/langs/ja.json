@@ -87,7 +87,7 @@
     "forbidden user list": "禁止されたユーザーのリスト",
     "custom forbidden word list": "カスタマイズされたフィルターワード",
     "using built-in forbidden word list": "内蔵フィルターワードバンクの使用",
-    "limit danmaku length (0 for no-limit)": "弾幕の最大長 (0 制限なし)",
+    "limit danmaku length (0 for no-limit)": "弾幕の最大長（0 無制限）",
     "Danmaku Address": "弾幕アドレス",
     "These are basic urls used for web and danmaQ.": "danmaQやWebページのアドレスです。",
     "DanmaQ Player": "DanmaQプレーヤー",
@@ -97,7 +97,7 @@
     "Danmaku Stream Player": "弾幕ビデオストリーマー",
     "Please set \"streamUrl\" first.": "まずは手動で「streamUrl」を設定してください。",
     "streaming url": "ストリーミングURL",
-    "streaming type(hls or empty)": "ストリーミングタイプ(hls or empty)",
+    "streaming type(hls or empty)": "ストリーミングタイプ（hls or empty）",
     "Danmaku Web Sender": "弾幕Webページの送信者",
     "Danmaku Audit": "弾幕監査",
     "Wechat Configuration": "WeChatの設定",
@@ -128,5 +128,6 @@
     "You can use any other token with perm \"pull\".": "また、「pull」の権限を持つ他のキーを使用することもできます。",
     "This is the value of \"screen\" token.": "これが「screen」の値です。",
     "Danmaku Export": "弾幕エクスポート",
-    "sender:export": "弾幕エクスポート"
+    "sender:export": "弾幕エクスポート",
+    "danmaku send intervals(seconds, 0 for no-limit)": "弾幕送信頻度（秒、0 無制限）"
 }

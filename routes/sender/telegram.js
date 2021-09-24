@@ -147,7 +147,8 @@ router.all(
                     logger.error(err);
                     bot.sendMessage(
                       msg.chat.id,
-                      "弹幕发送失败, 请稍后再试\nFailed to send, please try again later"
+                      err.message+
+                      "\n弹幕发送失败, 请稍后再试\nFailed to send, please try again later"
                     );
                   } else {
                     if (danmaku.status == "publish")

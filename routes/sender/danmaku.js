@@ -105,9 +105,10 @@ const info = function (activity) {
     "Danmaku Stream Player",
     ["pull"],
     activity.addons.streamUrl ? "" : 'Please set "streamUrl" first.',
+    activity.addons.streamUrl ?
     `${config.host}${config.rootPath}/#/player/${activity.id}/screen/${
       activity.tokens.get("screen").token
-    }`,
+    }`:"",
     "open"
   );
   tool.addPanelItem(

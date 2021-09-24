@@ -9,7 +9,7 @@ const info = function () {
     "API Docs",
     [],
     "",
-    "https://github.com",
+    "https://github.com/prnake/Comment9/blob/master/API.md",
     "open"
   );
   tool.addPanelItem(
@@ -17,7 +17,7 @@ const info = function () {
     "Backend Docs",
     [],
     "",
-    "https://github.com",
+    "https://github.com/prnake/Comment9/blob/master/README.md",
     "open"
   );
 

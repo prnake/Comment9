@@ -33,7 +33,7 @@ router.get(
   auth.routerSessionAuth,
   auth.routerActivityByOwner,
   function (req, res) {
-    Danmaku.getAllDanmakuText(req.activity.id, (err, data) => {
+    Danmaku.getAllDanmaku(req.activity.id, (err, data) => {
       if (!err) res.send(data);
       else res.json([]);
     });
@@ -45,7 +45,7 @@ router.get(
   auth.routerSessionAuth,
   auth.routerActivityByOwner,
   function (req, res) {
-    Danmaku.getAllDanmaku(req.activity.id, (err, data) => {
+    Danmaku.getAllDanmakuText(req.activity.id, (err, data) => {
       if (!err) {
         let result = "";
         for (const item of data) result += item.text + "\n";

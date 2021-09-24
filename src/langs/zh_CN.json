@@ -128,5 +128,6 @@
     "You can use any other token with perm \"pull\".": "您也可以使用其他拥有 \"pull\" 权限的密钥。",
     "This is the value of \"screen\" token.": "这是密钥 \"screen\" 的值。",
     "Danmaku Export": "弹幕导出",
-    "sender:export": "弹幕导出"
+    "sender:export": "弹幕导出",
+    "danmaku send intervals(seconds, 0 for no-limit)": "弹幕发送频率（秒，0不限制）"
 }
