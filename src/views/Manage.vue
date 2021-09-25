@@ -544,7 +544,13 @@ export default {
     } else if (this.$route.params.id) {
       this.getActivityInfo(this.$route.params.id);
     } else {
-      this.getActivityInfo(this.activities[0].id);
+      const cookie_id = Cookies.get("activity");
+      let activity_id = this.activities[0].id;
+      for(const activity of this.activities){
+        if(cookie_id === activity.id) 
+          activity_id = cookie_id;
+      }
+      this.getActivityInfo(activity_id);
     }
     // console.log(result.data);
     //     if (this.activities.length>0) {
@@ -781,6 +787,7 @@ export default {
       });
     },
     async getActivityInfo(id) {
+      Cookies.set("activity",id);
       this.activityId = id;
       const result = await this.axios
         .post(this.$rootPath + "/activity/config", {
