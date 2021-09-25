@@ -68,7 +68,7 @@ const generate_url = function (activity) {
   const wechatScreenToken = activity.tokens.get("wechatScreen");
   return {
     wechat_screen_url: `${config.host}${config.rootPath}/#/wall/${activity.id}/wechatScreen/${wechatScreenToken.token}`,
-    wechat_screen_list_url: `${config.host}${config.rootPath}/#/list/${activity.id}/telegramScreen/${wechatScreenToken.token}`
+    wechat_screen_list_url: `${config.host}${config.rootPath}/#/list/${activity.id}/wechatScreen/${wechatScreenToken.token}`
   };
 };
 
