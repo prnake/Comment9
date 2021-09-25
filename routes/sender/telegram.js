@@ -55,10 +55,12 @@ const generate_url = function (activity) {
   const telegramWebhookToken = activity.tokens.get("telegram");
   const telegramScreenToken = activity.tokens.get("telegramScreen");
   const telegram_screen_url = `${config.host}${config.rootPath}/#/wall/${activity.id}/telegramScreen/${telegramScreenToken.token}`;
+  const telegram_screen_list_url = `${config.host}${config.rootPath}/#/list/${activity.id}/telegramScreen/${telegramScreenToken.token}`;
   const telegram_webhook = `${config.host}${config.rootPath}/telegram/push/${activity.id}/telegram/${telegramWebhookToken.token}`;
   const telegram_webhook_set_url = `https://api.telegram.org/bot${telegramToken}/setWebhook?url=${telegram_webhook}`;
   return {
     telegram_screen_url: telegram_screen_url,
+    telegram_screen_list_url: telegram_screen_list_url,
     telegram_webhook: telegram_webhook,
     telegram_webhook_set_url: telegram_webhook_set_url,
   };
@@ -194,7 +196,8 @@ router.all(
               msg.chat.id,
               "Comment9 - 弹幕墙\n\n" +
                 "Usage: \n发送弹幕请输入 /dm + 弹幕内容\n更多帮助请输入 /help\nFor English help please input /help_en\n\n" +
-                `弹幕墙地址: \n${urls.telegram_screen_url}\n\n` +
+              `弹幕墙地址: \n${urls.telegram_screen_url}\n\n` +
+              `弹幕列表墙地址: \n${urls.telegram_screen_list_url}\n\n` +
                 "Made with love by DCSTSAST"
             );
           }
