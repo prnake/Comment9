@@ -129,5 +129,6 @@
     "This is the value of \"screen\" token.": "これが「screen」の値です。",
     "Danmaku Export": "弾幕エクスポート",
     "sender:export": "弾幕エクスポート",
-    "danmaku send intervals(seconds, 0 for no-limit)": "弾幕送信頻度（秒、0 無制限）"
+    "danmaku send intervals(seconds, 0 for no-limit)": "弾幕送信頻度（秒、0 無制限）",
+    "default danmaku color": "デフォルトの弾幕の色"
 }

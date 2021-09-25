@@ -26,6 +26,8 @@ const info = function (activity) {
   );
   tool.setPerms(data.perms, "audit", "permission to audit danmaku");
 
+  tool.setAddons(data.addons, "defaultDanmakuColor", "default danmaku color", "String", "#000000");
+
   tool.setAddons(data.addons, "streamUrl", "streaming url", "String", "");
 
   tool.setAddons(
@@ -200,7 +202,7 @@ const pushDanmaku = function (data, activity, io, callback) {
   if (!callback) {
     callback = function () {};
   }
-  Danmaku.createDanmaku(data, activity.id, function (err, danmaku) {
+  Danmaku.createDanmaku(data, activity, function (err, danmaku) {
     if (err) {
       logger.error(err);
       callback(new Error("danmaku creat error"));

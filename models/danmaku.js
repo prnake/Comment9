@@ -1,6 +1,7 @@
 const mongodb = require("../utils/mongodb");
 const logger = require("../utils/logger");
 const counter = require("./counter");
+const tinycolor = require("tinycolor2");
 
 const danmakuSchema = mongodb.Schema(
   {
@@ -32,7 +33,8 @@ const danmakuSchema = mongodb.Schema(
   }
 );
 
-danmakuSchema.statics.createDanmaku = function (config, activity_id, callback) {
+danmakuSchema.statics.createDanmaku = function (config, activity, callback) {
+  const activity_id = activity.id;
   if (!callback) {
     callback = function () {};
   }
@@ -55,7 +57,7 @@ danmakuSchema.statics.createDanmaku = function (config, activity_id, callback) {
         text: config.text,
         dur: config.dur,
         size: config.size,
-        color: config.color,
+        color: config.color ? config.color : parseInt(tinycolor(activity.addons.defaultDanmakuColor).toHexString().slice(1), 16),
         time: config.time,
         status: "draft",
         activity: activity_id,

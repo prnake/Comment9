@@ -129,5 +129,6 @@
     "This is the value of \"screen\" token.": "這是密鑰 \"screen\" 的值。",
     "Danmaku Export": "彈幕導出",
     "sender:export": "彈幕導出",
-    "danmaku send intervals(seconds, 0 for no-limit)": "彈幕發送頻率（秒，0不限制）"
+    "danmaku send intervals(seconds, 0 for no-limit)": "彈幕發送頻率（秒，0不限制）",
+    "default danmaku color": "默認彈幕顏色"
 }
