@@ -118,7 +118,9 @@ export default {
           this.chatClient = new ChatClientComment();
           this.chatClient.activityId = this.$route.params.id;
           this.chatClient.tokenName = this.$route.params.name;
-          this.chatClient.token = this.$route.params.token ? this.$route.params.token : "";
+          this.chatClient.token = this.$route.params.token
+            ? this.$route.params.token
+            : "";
         } else {
           this.chatClient = new ChatClientTest();
         }

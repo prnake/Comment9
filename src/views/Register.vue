@@ -18,7 +18,11 @@
       <el-form-item :label="$t('invite code')" prop="invite_code">
         <el-input type="text" v-model="form.invite_code" />
       </el-form-item>
-      <el-button style="width: 120px" v-on:click="$router.push({ name: 'Login' })">{{ $t("login") }}</el-button>
+      <el-button
+        style="width: 120px"
+        v-on:click="$router.push({ name: 'Login' })"
+        >{{ $t("login") }}</el-button
+      >
       <el-button style="width: 120px" type="primary" v-on:click="register()">{{
         $t("register")
       }}</el-button>
@@ -34,7 +38,7 @@ export default {
       form: {
         username: "",
         password: "",
-        invite_code: ""
+        invite_code: "",
       },
       rules: {
         username: [
@@ -70,7 +74,7 @@ export default {
             .post(this.$rootPath + "/user/register", {
               user: this.form.username,
               password: this.form.password,
-              invite_code: this.form.invite_code
+              invite_code: this.form.invite_code,
             })
             .then((data) => data.data.success);
           if (result) {

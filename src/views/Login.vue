@@ -18,7 +18,11 @@
       <el-button style="width: 120px" type="primary" v-on:click="login()">{{
         $t("login")
       }}</el-button>
-      <el-button style="width: 120px" v-on:click="$router.push({ name: 'Register' })">{{ $t("register") }}</el-button>
+      <el-button
+        style="width: 120px"
+        v-on:click="$router.push({ name: 'Register' })"
+        >{{ $t("register") }}</el-button
+      >
     </el-form>
   </div>
 </template>
