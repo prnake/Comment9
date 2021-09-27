@@ -130,5 +130,8 @@
     "Danmaku Export": "彈幕導出",
     "sender:export": "彈幕導出",
     "danmaku send intervals(seconds, 0 for no-limit)": "彈幕發送頻率（秒，0不限制）",
-    "default danmaku color": "默認彈幕顏色"
+    "default danmaku color": "默認彈幕顏色",
+    "publish": "發送成功",
+    "reject": "發送失敗",
+    "audit": "審核中"
 }

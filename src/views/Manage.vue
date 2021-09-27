@@ -431,7 +431,6 @@
 </template>
 
 <script>
-import config from "../../config";
 import Cookies from "js-cookie";
 export default {
   data() {
@@ -454,87 +453,6 @@ export default {
     hasActivity: function () {
       return this.activities.length > 0;
     },
-    danmaQUrl: function () {
-      let result = [];
-      const perms = ["pull"];
-      const cal = function (id, name, token) {
-        const info = {
-          host: config.host + config.rootPath + "/danmaku",
-          query: { activity: id, tokenName: name, token: token },
-        };
-        const url =
-          "danmaQ://" + Buffer.from(JSON.stringify(info)).toString("base64");
-        return url;
-      };
-      for (const token of this.activityTokens) {
-        if (
-          token.perms.every((perm) => perms.includes(perm)) &&
-          perms.every((perm) => token.perms.includes(perm))
-        )
-          result.push({
-            name: token.name,
-            url: cal(this.activityId, token.name, token.token),
-          });
-      }
-      return result;
-    },
-    danmakuWallUrl: function () {
-      let result = [];
-      const perms = ["pull"];
-      const cal = function (id, name, token) {
-        const url = `${config.host}${config.rootPath}/#/wall/${id}/${name}/${token}`;
-        return url;
-      };
-      for (const token of this.activityTokens) {
-        if (
-          token.perms.every((perm) => perms.includes(perm)) &&
-          perms.every((perm) => token.perms.includes(perm))
-        )
-          result.push({
-            name: token.name,
-            url: cal(this.activityId, token.name, token.token),
-          });
-      }
-      return result;
-    },
-    danmakuWebSenderUrl: function () {
-      let result = [];
-      const perms = ["pull", "push"];
-      const cal = function (id, name, token) {
-        const url = `${config.host}${config.rootPath}/#/sender/${id}/${name}/${token}`;
-        return url;
-      };
-      for (const token of this.activityTokens) {
-        if (
-          token.perms.every((perm) => perms.includes(perm)) &&
-          perms.every((perm) => token.perms.includes(perm))
-        )
-          result.push({
-            name: token.name,
-            url: cal(this.activityId, token.name, token.token),
-          });
-      }
-      return result;
-    },
-    danmakuAuditUrl: function () {
-      let result = [];
-      const perms = ["pull", "push", "audit"];
-      const cal = function (id, name, token) {
-        const url = `${config.host}${config.rootPath}/#/audit/${id}/${name}/${token}`;
-        return url;
-      };
-      for (const token of this.activityTokens) {
-        if (
-          token.perms.every((perm) => perms.includes(perm)) &&
-          perms.every((perm) => token.perms.includes(perm))
-        )
-          result.push({
-            name: token.name,
-            url: cal(this.activityId, token.name, token.token),
-          });
-      }
-      return result;
-    },
   },
   created: async function () {
     await this.getActivityList();
@@ -546,9 +464,8 @@ export default {
     } else {
       const cookie_id = Cookies.get("activity");
       let activity_id = this.activities[0].id;
-      for(const activity of this.activities){
-        if(cookie_id === activity.id) 
-          activity_id = cookie_id;
+      for (const activity of this.activities) {
+        if (cookie_id === activity.id) activity_id = cookie_id;
       }
       this.getActivityInfo(activity_id);
     }
@@ -787,7 +704,7 @@ export default {
       });
     },
     async getActivityInfo(id) {
-      Cookies.set("activity",id);
+      Cookies.set("activity", id);
       this.activityId = id;
       const result = await this.axios
         .post(this.$rootPath + "/activity/config", {

@@ -9,8 +9,8 @@ import Cookies from "js-cookie"
 Vue.use(VueI18n);
 
 export default new VueI18n({
-  locale: Cookies.get('language') || process.env.VUE_APP_I18N_LOCALE || "en",
-  fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || "en",
+  locale: Cookies.get('language') || "en",
+  fallbackLocale: "en",
   messages: {
     en: { ...require("./langs/en"), ...enLocale },
     zh_CN: { ...require("./langs/zh_CN"), ...zh_CNLocale },

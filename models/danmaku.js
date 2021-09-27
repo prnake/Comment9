@@ -57,7 +57,15 @@ danmakuSchema.statics.createDanmaku = function (config, activity, callback) {
         text: config.text,
         dur: config.dur,
         size: config.size,
-        color: config.color !== null ? config.color : parseInt(tinycolor(activity.addons.defaultDanmakuColor).toHexString().slice(1), 16),
+        color:
+          config.color !== null
+            ? config.color
+            : parseInt(
+                tinycolor(activity.addons.defaultDanmakuColor)
+                  .toHexString()
+                  .slice(1),
+                16
+              ),
         time: config.time,
         status: "draft",
         activity: activity_id,

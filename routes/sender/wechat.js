@@ -68,7 +68,7 @@ const generate_url = function (activity) {
   const wechatScreenToken = activity.tokens.get("wechatScreen");
   return {
     wechat_screen_url: `${config.host}${config.rootPath}/#/wall/${activity.id}/wechatScreen/${wechatScreenToken.token}`,
-    wechat_screen_list_url: `${config.host}${config.rootPath}/#/list/${activity.id}/wechatScreen/${wechatScreenToken.token}`
+    wechat_screen_list_url: `${config.host}${config.rootPath}/#/list/${activity.id}/wechatScreen/${wechatScreenToken.token}`,
   };
 };
 
@@ -151,7 +151,7 @@ router.all(
             (err, danmaku) => {
               if (err) {
                 logger.error(err);
-                res.reply(err.message +"\n弹幕发送失败, 请稍后再试");
+                res.reply(err.message + "\n弹幕发送失败, 请稍后再试");
               } else {
                 if (danmaku.status == "publish") res.reply("弹幕发送成功");
                 else res.reply("弹幕发送成功，审核中");
@@ -193,8 +193,8 @@ router.all(
           res.reply(
             "Comment9 - 弹幕墙\n\n" +
               "Usage: \n发送弹幕请输入 dm + 弹幕内容\n更多帮助请输入 help\n\n" +
-            `弹幕墙地址: \n${urls.wechat_screen_url}\n\n` +
-            `弹幕列表墙地址: \n${urls.wechat_screen_list_url}\n\n` +
+              `弹幕墙地址: \n${urls.wechat_screen_url}\n\n` +
+              `弹幕列表墙地址: \n${urls.wechat_screen_list_url}\n\n` +
               "Made with love by DCSTSAST"
           );
         }

@@ -1,7 +1,7 @@
 version: '3'
 services:
   web:
-    image: prnake/Comment9
+    image: prnake/comment9
     restart: always
     links:
       - mongo
@@ -12,13 +12,12 @@ services:
     ports:
       - '3000:3000'
     environment:
+      HOST: "https://comment.pka.moe"
       REDIS_HOST: "redis"
       REDIS_PORT: 6379
       MONGO_HOST: "mongo"
       MONGO_PORT: 27017
       MONGO_DATABASE: "Comment9"
-    volumes:
-      - ~/Comment9/pm2logs:/root/.pm2/logs
   mongo:
     image: mongo:latest
     restart: always
@@ -27,5 +26,5 @@ services:
   redis:
     image: redis:alpine
     restart: always
-    volumes:
-        - comment9-redis-data:/data
+volumes:
+    comment9-mongo-data:

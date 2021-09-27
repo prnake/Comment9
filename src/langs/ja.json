@@ -130,5 +130,8 @@
     "Danmaku Export": "弾幕エクスポート",
     "sender:export": "弾幕エクスポート",
     "danmaku send intervals(seconds, 0 for no-limit)": "弾幕送信頻度（秒、0 無制限）",
-    "default danmaku color": "デフォルトの弾幕の色"
+    "default danmaku color": "デフォルトの弾幕の色",
+    "publish": "送信の成功",
+    "reject": "送信失敗",
+    "audit": "監査中"
 }

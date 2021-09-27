@@ -26,7 +26,13 @@ const info = function (activity) {
   );
   tool.setPerms(data.perms, "audit", "permission to audit danmaku");
 
-  tool.setAddons(data.addons, "defaultDanmakuColor", "default danmaku color", "String", "#000000");
+  tool.setAddons(
+    data.addons,
+    "defaultDanmakuColor",
+    "default danmaku color",
+    "String",
+    "#000000"
+  );
 
   tool.setAddons(data.addons, "streamUrl", "streaming url", "String", "");
 
@@ -107,10 +113,11 @@ const info = function (activity) {
     "Danmaku Stream Player",
     ["pull"],
     activity.addons.streamUrl ? "" : 'Please set "streamUrl" first.',
-    activity.addons.streamUrl ?
-    `${config.host}${config.rootPath}/#/player/${activity.id}/screen/${
-      activity.tokens.get("screen").token
-    }`:"",
+    activity.addons.streamUrl
+      ? `${config.host}${config.rootPath}/#/player/${activity.id}/screen/${
+          activity.tokens.get("screen").token
+        }`
+      : "",
     "open"
   );
   tool.addPanelItem(

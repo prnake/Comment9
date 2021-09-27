@@ -1,6 +1,6 @@
 const tool = require("../../utils/tool");
 const redis = require("../../utils/redis");
-const { promisify } = require('util');
+const { promisify } = require("util");
 
 const info = function () {
   let data = { perms: [], addons: [] };
@@ -34,12 +34,12 @@ async function filter(danmaku, activity, next) {
     const key = `lock:acitvity:${activity.id}:user:${danmaku.userid}`;
     const ttl = promisify(redis.ttl).bind(redis);
     const time = await ttl(key);
-    if (time == -1)
-      redis.setex(key, 0, 1);
+    if (time == -1) redis.setex(key, 0, 1);
     else if (time >= 0) {
-      return Error("danmaku send too frequently, please retry after " + time + " seconds");
-    }
-    else {
+      return Error(
+        "danmaku send too frequently, please retry after " + time + " seconds"
+      );
+    } else {
       redis.setex(key, limitFrequency, 1);
     }
   }

@@ -1,4 +1,5 @@
-require('dotenv').config({ path: '.env.local' })
+process.env.NTBA_FIX_319 = 1;
+require('dotenv').config({ path: '.env' });
 module.exports = {
   port: process.env.PORT || 3000,
   mongodb: {
@@ -23,6 +24,6 @@ module.exports = {
     default_filters: ["default"],
     filters: ["default", "blacklist"],
   },
-  host: process.env.VUE_APP_HOST || "http://localhost:3000",
-  rootPath: process.env.VUE_APP_BASE_URL || "/comment",
+  host: process.env.HOST || "http://localhost:3000",
+  rootPath: process.env.BASE_URL || "",
 };

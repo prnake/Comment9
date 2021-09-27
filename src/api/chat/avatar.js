@@ -1,8 +1,8 @@
 import axios from 'axios'
 import config from '../../../config.js'
 
-export const DEFAULT_AVATAR_URL = `${config.host}${config.rootPath}/img/noface.gif`
-export const ADMIN_AVATAR_URL = `${config.host}${config.rootPath}/img/avater.png`
+export const DEFAULT_AVATAR_URL = `${config.rootPath}/img/noface.gif`
+export const ADMIN_AVATAR_URL = `${config.rootPath}/img/avater.png`
 
 export function processAvatarUrl (avatarUrl) {
   // 去掉协议，兼容HTTP、HTTPS
