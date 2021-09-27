@@ -34,6 +34,7 @@ function routerActivityByToken(req, res, next) {
     const params = Object.assign({}, req.params, req.query, req.body);
     if (!params.activity || !params.name)
         return res.status(500).end();
+    if (!params.token) params.token = "";
     Activity.getActivity(params.activity, function (err, activity) {
         if (err) {
             res.status(500).end();
@@ -53,8 +54,9 @@ function routerActivityByToken(req, res, next) {
 }
 
 function socketActivityByToken(socket, next) {
-    const query = Object.assign({}, socket.handshake.auth,socket.handshake.query);;
-    const activity = query["activity"], tokenName = query["tokenName"], token = query["token"];
+    const query = Object.assign({}, socket.handshake.auth, socket.handshake.query);
+    let activity = query["activity"], tokenName = query["tokenName"], token = query["token"];
+    if (!token) token = "";
     if (!activity || !tokenName) {
         next(new Error("Unauthorized"));
         return;

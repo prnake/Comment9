@@ -77,7 +77,7 @@ export default {
       let cfg = {};
       this.activityId = this.$route.params.id;
       this.tokenName = this.$route.params.name;
-      this.token = this.$route.params.token;
+      this.token = this.$route.params.token ? this.$route.params.token : "";
       // 留空的使用默认值
       for (let i in this.strConfig) {
         if (this.strConfig[i] !== "") {
@@ -118,7 +118,7 @@ export default {
           this.chatClient = new ChatClientComment();
           this.chatClient.activityId = this.$route.params.id;
           this.chatClient.tokenName = this.$route.params.name;
-          this.chatClient.token = this.$route.params.token;
+          this.chatClient.token = this.$route.params.token ? this.$route.params.token : "";
         } else {
           this.chatClient = new ChatClientTest();
         }

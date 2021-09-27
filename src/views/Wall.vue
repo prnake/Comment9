@@ -26,7 +26,7 @@ export default {
   mounted() {
     this.activityId = this.$route.params.id;
     this.tokenName = this.$route.params.name;
-    this.token = this.$route.params.token;
+    this.token = this.$route.params.token ? this.$route.params.token : "";
     if (this.activityId) this.getActivityName();
     window.addEventListener("load", () => {
       this.setDanmaku();

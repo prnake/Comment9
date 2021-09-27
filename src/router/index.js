@@ -44,7 +44,7 @@ const routes = [
     component: Wall,
   },
   {
-    path: "/wall/:id/:name/:token",
+    path: "/wall/:id/:name/:token?",
     name: "Wall",
     component: Wall,
   },
@@ -55,18 +55,18 @@ const routes = [
     props: (route) => ({ strConfig: route.query }),
   },
   {
-    path: "/list/:id/:name/:token",
+    path: "/list/:id/:name/:token?",
     name: "LIST",
     component: List,
     props: (route) => ({ strConfig: route.query }),
   },
   {
-    path: "/sender/:id/:name/:token",
+    path: "/sender/:id/:name/:token?",
     name: "Sender",
     component: Sender,
   },
   {
-    path: "/audit/:id/:name/:token",
+    path: "/audit/:id/:name/:token?",
     name: "Audit",
     component: Audit,
   },
@@ -76,7 +76,7 @@ const routes = [
     component: Player,
   },
   {
-    path: "/player/:id/:name/:token",
+    path: "/player/:id/:name/:token?",
     name: "Player",
     component: Player,
   },
