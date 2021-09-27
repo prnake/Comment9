@@ -5,7 +5,7 @@ LABEL MAINTAINER https://github.com/prnake/Comment9
 ARG USE_CHINA_NPM_REGISTRY=0;
 RUN ln -sf /bin/bash /bin/sh
 
-RUN apt-get update && apt-get install -yq dumb-init --no-install-recommends
+RUN apt-get update && apt-get install -yq python3 build-essential dumb-init --no-install-recommends
 
 WORKDIR /app
 COPY . /app
