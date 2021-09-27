@@ -133,5 +133,6 @@
     "default danmaku color": "デフォルトの弾幕の色",
     "publish": "送信の成功",
     "reject": "送信失敗",
-    "audit": "監査中"
+    "audit": "監査中",
+    "invite code": "招待コード"
 }

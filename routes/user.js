@@ -27,6 +27,7 @@ router.post('/register', function (req, res) {
     }
     else if (post.user && post.password && /\w+/.test(post.user)) {
         User.createUser(post.user, post.password, function (err, uid) {
+            req.session.manage_user_id = uid;
             res.json({ success: err === null });
         });
     } else {

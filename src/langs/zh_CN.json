@@ -133,5 +133,6 @@
     "default danmaku color": "默认弹幕颜色",
     "publish": "发送成功",
     "reject": "发送失败",
-    "audit": "审核中"
+    "audit": "审核中",
+    "invite code": "邀请码"
 }
