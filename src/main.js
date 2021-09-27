@@ -8,9 +8,9 @@ import clipboard from "./plugins/clipboard";
 import remotescript from "./plugins/remotescript";
 
 Vue.config.productionTip = false;
-Vue.prototype.$rootPath = window.location.pathname.replace(/\/$/, '');
+Vue.prototype.$rootPath = window.location.pathname.replace(/\/$/, "");
 
-Vue.config.ignoredElements = [/^yt-/]
+Vue.config.ignoredElements = [/^yt-/];
 
 new Vue({
   router,

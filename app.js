@@ -1,4 +1,3 @@
-const createError = require("http-errors");
 const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
@@ -47,16 +46,19 @@ for (const name of config.danmaku.senders) {
   if (sender.socket) sender.socket(io, config.rootPath + "/" + name);
 }
 
-app.use(config.rootPath + "/livechat/", express.static(path.join(__dirname,"livechat","dist")));
+app.use(
+  config.rootPath + "/livechat/",
+  express.static(path.join(__dirname, "livechat", "dist"))
+);
 app.use(config.rootPath, express.static(path.join(__dirname, "dist")));
 app.use(history());
 app.use(config.rootPath, express.static(path.join(__dirname, "public")));
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
+app.use(function (req, res) {
   // set locals, only providing error in development
   res.locals.message = "404: Not Found";
-  res.locals.error = ""
+  res.locals.error = "";
   res.status(404);
   res.render("error");
 });

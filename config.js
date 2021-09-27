@@ -1,5 +1,5 @@
 process.env.NTBA_FIX_319 = 1;
-require('dotenv').config({ path: '.env' });
+require("dotenv").config({ path: ".env" });
 module.exports = {
   port: process.env.PORT || 3000,
   mongodb: {
@@ -20,11 +20,11 @@ module.exports = {
   danmaku: {
     expire: 5,
     default_senders: ["danmaku"],
-    senders: ["danmaku","wechat","telegram","develop","export"],
+    senders: ["danmaku", "wechat", "telegram", "develop", "export"],
     default_filters: ["default"],
     filters: ["default", "blacklist"],
   },
   host: process.env.HOST || "http://localhost:3000",
   rootPath: process.env.BASE_URL || "",
-  inviteCode: process.env.INVITE_CODE || ""
+  inviteCode: process.env.INVITE_CODE || "",
 };

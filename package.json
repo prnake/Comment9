@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "yarn build && yarn start",
     "build": "vue-cli-service build",
-    "lint": "eslint models/**/*.js routes/**/*.js utils/**/*.js src/**/*.{js,vue} --fix",
-    "i18n:report": "vue-cli-service i18n:report --src \"./src/**/*.?(js|vue)\" --locales \"./src/langs/**/*.json\"",
     "start": "node bin/www",
-    "start-dev": "env NODE_ENV=development node bin/www"
+    "start-dev": "env NODE_ENV=development node bin/www",
+    "serve": "yarn build && yarn start",
+    "lint": "vue-cli-service lint && eslint bin/www models/**/*.js routes/**/*.js utils/**/*.js --fix",
+    "i18n:report": "vue-cli-service i18n:report --src \"./src/**/*.?(js|vue)\" --locales \"./src/langs/**/*.json\"",
+    "precommit": "yarn lint"
   },
   "dependencies": {
     "axios": "^0.21.1",
@@ -30,8 +31,8 @@
     "wechat": "^2.1.0"
   },
   "devDependencies": {
-    "@vercel/nft": "^0.15.0",
     "@intlify/vue-i18n-loader": "^1.0.0",
+    "@vercel/nft": "^0.15.0",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
@@ -46,6 +47,7 @@
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-vue": "^6.2.2",
     "hls.js": "^1.0.10",
+    "husky": "^7.0.2",
     "js-cookie": "^3.0.1",
     "node-sass": "^6.0.1",
     "prettier": "^2.2.1",
