@@ -22,7 +22,10 @@ router.post('/login', function (req, res) {
 
 router.post('/register', function (req, res) {
     var post = req.body;
-    if (post.user && post.password && /\w+/.test(post.user)) {
+    if (config.inviteCode && post.invite_code !== config.inviteCode){
+        res.json({ success: false, reason: 'invalid invite code' });
+    }
+    else if (post.user && post.password && /\w+/.test(post.user)) {
         User.createUser(post.user, post.password, function (err, uid) {
             res.json({ success: err === null });
         });

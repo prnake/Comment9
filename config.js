@@ -26,4 +26,5 @@ module.exports = {
   },
   host: process.env.HOST || "http://localhost:3000",
   rootPath: process.env.BASE_URL || "",
+  inviteCode: process.env.INVITE_CODE || ""
 };
