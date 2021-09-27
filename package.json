@@ -8,8 +8,7 @@
     "start-dev": "env NODE_ENV=development node bin/www",
     "serve": "yarn build && yarn start",
     "lint": "vue-cli-service lint && eslint bin/www models/**/*.js routes/**/*.js utils/**/*.js --fix",
-    "i18n:report": "vue-cli-service i18n:report --src \"./src/**/*.?(js|vue)\" --locales \"./src/langs/**/*.json\"",
-    "precommit": "yarn lint"
+    "i18n:report": "vue-cli-service i18n:report --src \"./src/**/*.?(js|vue)\" --locales \"./src/langs/**/*.json\""
   },
   "dependencies": {
     "axios": "^0.21.1",
@@ -47,7 +46,6 @@
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-vue": "^6.2.2",
     "hls.js": "^1.0.10",
-    "husky": "^7.0.2",
     "js-cookie": "^3.0.1",
     "node-sass": "^6.0.1",
     "prettier": "^2.2.1",
