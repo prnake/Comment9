@@ -1,17 +1,8 @@
-version: '2.2'
+version: '3'
 services:
-  mongo:
-    image: mongo:latest
-    ports:
-      - "127.0.0.1:27017:27017"
-    volumes:
-      - ~/Comment9/db:/data/db
-  redis:
-    image: redis:latest
-    ports:
-      - "127.0.0.1:6379:6379"
   web:
-    build: .
+    image: prnake/Comment9
+    restart: always
     links:
       - mongo
       - redis
@@ -19,7 +10,7 @@ services:
       - mongo
       - redis
     ports:
-      - 3000:3000
+      - '3000:3000'
     environment:
       REDIS_HOST: "redis"
       REDIS_PORT: 6379
@@ -28,3 +19,13 @@ services:
       MONGO_DATABASE: "Comment9"
     volumes:
       - ~/Comment9/pm2logs:/root/.pm2/logs
+  mongo:
+    image: mongo:latest
+    restart: always
+    volumes:
+      - comment9-mongo-data:/data
+  redis:
+    image: redis:alpine
+    restart: always
+    volumes:
+        - comment9-redis-data:/data

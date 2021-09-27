@@ -31,3 +31,6 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ## 存在的 Feature
 
 每个弹幕在审核处只会出现一次
+
+ElementUI 的 i18n 不能正常工作
+
