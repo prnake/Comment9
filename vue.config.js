@@ -1,6 +1,5 @@
-const config = require("./config");
 module.exports = {
-  publicPath: config.rootPath,
+  publicPath: './',
   pluginOptions: {
     i18n: {
       locale: "en",

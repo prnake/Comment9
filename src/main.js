@@ -6,18 +6,13 @@ import element from "./plugins/element";
 import axios from "./plugins/axios";
 import clipboard from "./plugins/clipboard";
 import remotescript from "./plugins/remotescript";
-import store from "./store";
-import config from "../config";
 
 Vue.config.productionTip = false;
-Vue.prototype.$rootPath = config.rootPath;
+Vue.prototype.$rootPath = window.location.pathname.replace(/\/$/, '');
 
-Vue.config.ignoredElements = [
-  /^yt-/
-]
+Vue.config.ignoredElements = [/^yt-/]
 
 new Vue({
-  store,
   router,
   i18n,
   element,

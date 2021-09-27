@@ -1,8 +1,7 @@
 import axios from 'axios'
-import config from '../../../config.js'
 
-export const DEFAULT_AVATAR_URL = `${config.rootPath}/img/noface.gif`
-export const ADMIN_AVATAR_URL = `${config.rootPath}/img/avater.png`
+export const DEFAULT_AVATAR_URL = `img/noface.gif`
+export const ADMIN_AVATAR_URL = `img/avater.png`
 
 export function processAvatarUrl (avatarUrl) {
   // 去掉协议，兼容HTTP、HTTPS
@@ -15,16 +14,4 @@ export function processAvatarUrl (avatarUrl) {
     avatarUrl += '@48w_48h'
   }
   return avatarUrl
-}
-
-export async function getAvatarUrl (uid) {
-  let res
-  try {
-    res = (await axios.get('/api/avatar_url', {params: {
-      uid: uid
-    }})).data
-  } catch {
-    return DEFAULT_AVATAR_URL
-  }
-  return res.avatarUrl
 }

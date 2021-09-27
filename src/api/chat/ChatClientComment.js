@@ -3,9 +3,8 @@ import * as constants from '@/components/ChatRenderer/constants'
 import * as avatar from './avatar'
 import { io } from "socket.io-client";
 import i18n from '@/i18n.js'
-import config from '../../../config.js'
 
-export default class ChatClientTest {
+export default class ChatClientComment {
     constructor() {
         this.minSleepTime = 800
         this.maxSleepTime = 1200
@@ -31,7 +30,7 @@ export default class ChatClientTest {
     }
 
     setSocket() {
-        this.socket = io(config.rootPath + "/danmaku", {
+        this.socket = io(window.location.pathname.replace(/\/$/, '') + "/danmaku", {
             query: {
                 activity: this.activityId,
                 tokenName: this.tokenName,
