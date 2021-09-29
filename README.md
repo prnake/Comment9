@@ -43,9 +43,9 @@ Comment9 是一个开源、简单易用、易于扩展的实时弹幕服务框�
 
 ## Demo
 
-我们使用 Comment9 部署了一个测试活动，提供[弹幕墙](https://comment.pka.moe/#/wall/demo/screen)、[弹幕列表墙](https://comment.pka.moe/#/list/demo/screen)、[弹幕视频播放器](https://comment.pka.moe/#/player/demo/screen)、[弹幕网页发送器](https://comment.pka.moe/#/wall/demo/user/userpass)与 Telegram 机器人 [@comment9_bot](https://t.me/comment9_bot) 进行测试，可能需要自行发送弹幕来查看效果。
+我们使用 Comment9 部署了一个测试活动，提供[弹幕墙](https://comment.pka.moe/#/Wall/demo/screen)、[弹幕列表墙](https://comment.pka.moe/#/List/demo/screen)、[弹幕视频播放器](https://comment.pka.moe/#/Player/demo/screen)、[弹幕网页发送器](https://comment.pka.moe/#/Sender/demo/user/userpass)与 Telegram 机器人 [@comment9_bot](https://t.me/comment9_bot) 进行测试，可能需要自行发送弹幕来查看效果。
 
-也可以直接访问[弹幕墙](https://comment.pka.moe/#/wall/test)、[弹幕列表墙](https://comment.pka.moe/#/list/test)和[弹幕视频播放器](https://comment.pka.moe/#/player/test)的测试页面查看弹幕较多时的效果。
+也可以直接访问[弹幕墙](https://comment.pka.moe/#/Wall/test)、[弹幕列表墙](https://comment.pka.moe/#/List/test)和[弹幕视频播放器](https://comment.pka.moe/#/Player/test)的测试页面查看弹幕较多时的效果。
 
 下面是 Comment9 的 Web 后台管理系统截图
 
@@ -60,7 +60,7 @@ Comment9 是一个开源、简单易用、易于扩展的实时弹幕服务框�
 下载 [docker-compose.yml](https://github.com/prnake/Comment9/blob/master/docker-compose.yml)
 
 ```bash
-wget https://github.com/prnake/Comment9/blob/master/docker-compose.yml
+wget https://raw.githubusercontent.com/prnake/Comment9/master/docker-compose.yml
 ```
 
 该部署方式只需要将 `docker-compose.yml` 中 `environment` 部分的 `HOST` 字段 `https://comment.pka.moe` 修改为实际的部署域名，更多配置项请看 [#配置](#配置)。
