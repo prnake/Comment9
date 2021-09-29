@@ -177,7 +177,7 @@ router.all(
                 `上端滚动弹幕: /to + 弹幕内容\n` +
                 `下端滚动弹幕: /bo + 弹幕内容\n` +
                 `随机颜色滚动弹幕: /co + 弹幕内容\n` +
-                "\nMade with love by DCSTSAST"
+                activity.addons.sign ? `\n${activity.addons.sign}`:"\nMade with love by Comment9"
             );
           } else if (content.toLowerCase() === "/help_en") {
             bot.sendMessage(
@@ -189,7 +189,7 @@ router.all(
                 `Top scrolling danmaku: /to + content\n` +
                 `Bottom scrolling danmaku: /bo + content\n` +
                 `Scrolling danmaku with random color: /co + content\n` +
-                "\nMade with love by DCSTSAST"
+                activity.addons.sign ? `\n${activity.addons.sign}`:"\nMade with love by Comment9"
             );
           } else {
             bot.sendMessage(
@@ -197,8 +197,8 @@ router.all(
               "Comment9 - 弹幕墙\n\n" +
                 "Usage: \n发送弹幕请输入 /dm + 弹幕内容\n更多帮助请输入 /help\nFor English help please input /help_en\n\n" +
                 `弹幕墙地址: \n${urls.telegram_screen_url}\n\n` +
-                `弹幕列表墙地址: \n${urls.telegram_screen_list_url}\n\n` +
-                "Made with love by DCSTSAST"
+                `弹幕列表墙地址: \n${urls.telegram_screen_list_url}\n` +
+                activity.addons.sign ? `\n${activity.addons.sign}`:"\nMade with love by Comment9"
             );
           }
         });

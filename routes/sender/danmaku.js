@@ -44,6 +44,14 @@ const info = function (activity) {
     ""
   );
 
+  tool.setAddons(
+    data.addons,
+    "sign",
+    "sign",
+    "String",
+    "Made with love by Comment9"
+  );
+
   tool.setPanelTitle(
     data.panel,
     "Danmaku Address",
