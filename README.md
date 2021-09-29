@@ -42,9 +42,13 @@ Comment9 是一个开源、简单易用、易于扩展的实时弹幕服务框�
 
 ## Demo
 
-我们使用 Comment9 部署了一个测试活动，提供弹幕墙、弹幕列表墙、弹幕视频播放器、弹幕网页发送器与 Telegram 机器人 [@comment9_bot](https://t.me/comment9_bot) 进行测试，这个活动将尝试采集一个B站直播间的弹幕，但可能需要自行发送弹幕来查看效果。
+我们使用 Comment9 部署了一个测试活动，提供[弹幕墙](https://comment.pka.moe/#/wall/demo/screen)、[弹幕列表墙](https://comment.pka.moe/#/list/demo/screen)、[弹幕视频播放器](https://comment.pka.moe/#/player/demo/screen)、[弹幕网页发送器](https://comment.pka.moe/#/wall/demo/user/userpass)与 Telegram 机器人 [@comment9_bot](https://t.me/comment9_bot) 进行测试，可能需要自行发送弹幕来查看效果。
 
 也可以直接访问[弹幕墙](https://comment.pka.moe/#/wall/test)、[弹幕列表墙](https://comment.pka.moe/#/list/test)和[弹幕视频播放器](https://comment.pka.moe/#/player/test)的测试页面查看弹幕较多时的效果。
+
+下面是弹幕服务器的 Web 后台管理系统截图
+
+![manage](docs/img/manage_zh.png)
 
 ## 部署
 
@@ -79,7 +83,7 @@ docker-compose up -d
 docker-compose down
 ```
 
-如果之前已经下载 / 使用过镜像，下方命令可以帮助你获取最新版本：这可能可以解决一些问题。
+如果之前已经下载 / 使用过镜像，下方命令可以帮助你获取最新版本
 
 ```bash
 docker pull prnake/comment9
@@ -189,6 +193,10 @@ pm2 start
 - 每条弹幕在审核处只会出现一次，如果刷新网页前有未审核的弹幕，该弹幕将保持未审核状态
 - 必须手动配置部署域名，例如向微信和 Telegram 发送的消息中需要带有这一字段
 - ElementUI 的 i18n 不能正常工作
+
+## 开发
+
+见 [开发](docs/develop.md)
 
 ## 致谢
 
