@@ -28,3 +28,5 @@ services:
   redis:
     image: redis:alpine
     restart: always
+volumes:
+    comment9-mongo-data:
