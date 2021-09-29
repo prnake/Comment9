@@ -6,10 +6,10 @@ const info = function () {
   tool.setPanelTitle(data.panel, "Development", "Docs for developer.");
   tool.addPanelItem(
     data.panel,
-    "API Docs",
+    "Docs",
     [],
     "",
-    "https://github.com/prnake/Comment9/blob/master/API.md",
+    "https://github.com/prnake/Comment9/blob/master/README.md",
     "open"
   );
   tool.addPanelItem(
@@ -17,7 +17,7 @@ const info = function () {
     "Backend Docs",
     [],
     "",
-    "https://github.com/prnake/Comment9/blob/master/README.md",
+    "https://github.com/prnake/Comment9/blob/master/docs/develop.md",
     "open"
   );
 

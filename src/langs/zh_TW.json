@@ -112,7 +112,7 @@
     "Please manually set \"telegramToken\" first.": "請先手動設置 \"telegramToken\"。",
     "Development": "開發",
     "Docs for developer.": "開發者文檔",
-    "API Docs": "API 文檔",
+    "Docs": "文檔",
     "Backend Docs": "後端文檔",
     "unknown error": "未知錯誤",
     "invalid name": "名稱不合法",
@@ -134,5 +134,6 @@
     "publish": "發送成功",
     "reject": "發送失敗",
     "audit": "審核中",
-    "invite code": "邀請碼"
+    "invite code": "邀請碼",
+    "sign":"簽名"
 }
