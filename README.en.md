@@ -43,9 +43,9 @@ Comment9 is an open source, easy to use, and extensible real-time danmaku servic
 
 ## Demo
 
-We deployed a demo using Comment9, providing [danmaku wall](https://comment.pka.moe/#/wall/demo/screen), [danmaku list wall](https://comment.pka.moe/#/list/demo/screen), [danmaku video player](https://comment.pka.moe/#/player/demo/screen), [danmaku web page sender](https://comment.pka.moe/#/wall/demo/user/userpass) and Telegram bot [@comment9_bot](https://t.me/comment9_bot) for testing, and you may need to send your own danmakus to see the effect.
+We deployed a demo using Comment9, providing [danmaku wall](https://comment.pka.moe/#/Wall/demo/screen), [danmaku list wall](https://comment.pka.moe/#/List/demo/screen), [danmaku stream player](https://comment.pka.moe/#/Player/demo/screen), [danmaku web page sender](https://comment.pka.moe/#/Sender/demo/user/userpass) and Telegram bot [@comment9_bot](https://t.me/comment9_bot) for testing, and you may need to send your own danmakus to see the effect.
 
-You can also directly visit the [danmaku wall](https://comment.pka.moe/#/wall/test), [danmaku list wall](https://comment.pka.moe/#/list/test) and [danmaku video player](https://comment.pka.moe/#/player/test) to see the effect when there are many danmakus.
+You can also directly visit the [danmaku wall](https://comment.pka.moe/#/Wall/test), [danmaku list wall](https://comment.pka.moe/#/List/test) and [danmaku stream player](https://comment.pka.moe/#/Player/test) to see the effect when there are many danmakus.
 
 Below is a screenshot of the web backend management system of Comment9
 
@@ -60,7 +60,7 @@ Below is a screenshot of the web backend management system of Comment9
 Download [docker-compose.yml](https://github.com/prnake/Comment9/blob/master/docker-compose.yml)
 
 ```bash
-wget https://github.com/prnake/Comment9/blob/master/docker-compose.yml
+wget https://raw.githubusercontent.com/prnake/Comment9/master/docker-compose.yml
 ```
 
 This deployment method only requires changing the `HOST` field `https://comment.pka.moe` in the `environment` section of `docker-compose.yml` to the actual deployment domain, see [#Configuration](#Configuration) for more configuration items
