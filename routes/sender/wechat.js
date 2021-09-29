@@ -169,7 +169,7 @@ router.all(
               `随机颜色滚动弹幕: co + 弹幕内容\n` +
               `设置姓名: xm + 您的姓名\n` +
               `设置头像: 发送图片\n` +
-              activity.addons.sign ? `\n${activity.addons.sign}`:"\nMade with love by Comment9"
+              `\n${activity.addons.sign}`
           );
         }
 
@@ -195,7 +195,7 @@ router.all(
               "Usage: \n发送弹幕请输入 dm + 弹幕内容\n更多帮助请输入 help\n\n" +
               `弹幕墙地址: \n${urls.wechat_screen_url}\n\n` +
               `弹幕列表墙地址: \n${urls.wechat_screen_list_url}\n` +
-              activity.addons.sign ? `\n${activity.addons.sign}`:"\nMade with love by Comment9"
+              `\n${activity.addons.sign}`
           );
         }
       } else if (message.MsgType == "image") {

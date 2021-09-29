@@ -169,6 +169,7 @@ const init = function (activity) {
       perms: ["pull", "push", "audit", "protect"],
     });
   activity.addons["streamType"] = "hls";
+  activity.addons["sign"] = "Made with love by Comment9";
   activity.markModified("addons");
 };
 
