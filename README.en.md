@@ -71,6 +71,12 @@ url="actual deploy domain"
 sed -i '' "s/https:\/\/comment.pka.moe/${url}/g" docker-compose.yml
 ```
 
+Create a docker volume to persist MongoDB data
+
+```bash
+docker volume create comment9-mongo-data
+```
+
 Launch
 
 ```bash
@@ -186,7 +192,7 @@ You can also read the `config.js` file to see the configurable environment varia
 
 ### Use API to actively collect Bilibili live danmakus
 
-Here we use [blivedm](https://github.com/xfgryujk/blivedm) to collect danmakus from Bilibili live stream, and send them to the Comment9 server via [python-socketio](https://python-socketio.readthedocs.io/ en/latest), see [example/bilibili](example/bilibili) folder for details.
+Here we use [blivedm](https://github.com/xfgryujk/blivedm) to collect danmakus from Bilibili live stream, and send them to the Comment9 server via [python-socketio](https://python-socketio.readthedocs.io/ en/latest), see [scripts/example/bilibili](scripts/example/bilibili) folder for details.
 
 ### Presence Features & Bugs
 

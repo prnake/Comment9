@@ -70,6 +70,12 @@ url="实际部署域名"
 sed -i '' "s/https:\/\/comment.pka.moe/${url}/g" docker-compose.yml
 ```
 
+创建 volume 持久化 MongoDB 缓存
+
+```bash
+docker volume create comment9-mongo-data
+```
+
 启动
 
 ```bash
@@ -185,7 +191,7 @@ pm2 start
 
 ### 使用 API 主动接入B站直播弹幕
 
-这里使用 [blivedm](https://github.com/xfgryujk/blivedm) 实现对B站直播弹幕的收集，通过 [python-socketio](https://python-socketio.readthedocs.io/en/latest) 发送到 Comment9 服务器，详情查看 [example/bilibili](example/bilibili) 文件夹。
+这里使用 [blivedm](https://github.com/xfgryujk/blivedm) 实现对B站直播弹幕的收集，通过 [python-socketio](https://python-socketio.readthedocs.io/en/latest) 发送到 Comment9 服务器，详情查看 [scripts/example/bilibili](scripts/example/bilibili) 文件夹。
 
 ### 存在的 Features & Bugs
 

@@ -17,7 +17,7 @@ HOST = "https://comment.pka.moe"
 # 在 "demo" 活动中创建名称和值均为 "bilibili" 的密钥
 activity = "demo"
 name = "bilibili"
-token = "bilibili2333"
+token = "bilibili"
 
 sio = socketio.Client()
 sio.connect(
