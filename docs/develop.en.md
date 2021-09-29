@@ -1,4 +1,4 @@
-<h1 align="center">Develop</h1>
+<h1 align="center">Development</h1>
 
 <p align="center">
 <a href="https://github.com/prnake/Comment9/blob/master/docs/develop.md" target="_blank" rel="noopener noreferrer">中文</a>
