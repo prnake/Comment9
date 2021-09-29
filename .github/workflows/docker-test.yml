@@ -1,4 +1,4 @@
-name: '[docker] CI for build tests'
+name: 'build tests'
 
 on:
     pull_request:
