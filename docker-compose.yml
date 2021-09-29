@@ -24,7 +24,7 @@ services:
     image: mongo:latest
     restart: always
     volumes:
-      - comment9-mongo-data:/data
+      - comment9-mongo-data:/data/db
   redis:
     image: redis:alpine
     restart: always
