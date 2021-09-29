@@ -18,7 +18,7 @@ module.exports = {
     cookieSecrect: process.env.SECRET || "Danmaku",
   },
   danmaku: {
-    expire: 5,
+    expire: process.env.EXPIRE_TIME || 5,
     default_senders: ["danmaku"],
     senders: ["danmaku", "wechat", "telegram", "develop", "export"],
     default_filters: ["default"],
