@@ -3,13 +3,14 @@
 > A simple & powerful danmaku framework.
 
 <p align="center">
-<a href="https://github.com/prnake/Comment9/blob/master/README.md" target="_blank" rel="noopener noreferrer">中文</a>
+中文
 |
 <a href="https://github.com/prnake/Comment9/blob/master/README.en.md" target="_blank" rel="noopener noreferrer">English</a>
 </p>
 
-![GitHub top language](https://img.shields.io/github/languages/top/prnake/Comment9.svg)
-[![build status](https://github.com/prnake/Comment9/actions/workflows/docker-release.yml/badge.svg)](https://github.com/prnake/comment9/actions/workflows/docker-release.yml)
+![GitHub Top Language](https://img.shields.io/github/languages/top/prnake/Comment9.svg)
+[![Build Status](https://github.com/prnake/Comment9/actions/workflows/docker-release.yml/badge.svg)](https://github.com/prnake/comment9/actions/workflows/docker-release.yml)
+![Docker Image Size](https://img.shields.io/docker/image-size/prnake/comment9/latest)
 [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fprnake%2FComment9.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fprnake%2FComment9?ref=badge_shield)
 
@@ -22,7 +23,7 @@ Comment9 是一个开源、简单易用、易于扩展的实时弹幕服务框�
 - 弹幕服务器
   - 支持多样化、可拓展的高级弹幕
   - 弹幕发送系统能够使用网页、微信、Telegram、API等多种方式接入
-  - 使用 HTTP 与 Socket.IO 实现弹幕的稳定推送
+  - 使用 Socket.IO 实现弹幕的稳定推送
   - 支持弹幕的自动和人工审核
   - 易用的 Web 后台管理系统
   - 支持独立的多用户与多个活动
@@ -46,7 +47,7 @@ Comment9 是一个开源、简单易用、易于扩展的实时弹幕服务框�
 
 也可以直接访问[弹幕墙](https://comment.pka.moe/#/wall/test)、[弹幕列表墙](https://comment.pka.moe/#/list/test)和[弹幕视频播放器](https://comment.pka.moe/#/player/test)的测试页面查看弹幕较多时的效果。
 
-下面是弹幕服务器的 Web 后台管理系统截图
+下面是 Comment9 的 Web 后台管理系统截图
 
 ![manage](docs/img/manage_zh.png)
 
@@ -62,7 +63,7 @@ Comment9 是一个开源、简单易用、易于扩展的实时弹幕服务框�
 wget https://github.com/prnake/Comment9/blob/master/docker-compose.yml
 ```
 
-该部署方式只需要将 `docker-compose.yml` 中 `environment` 部分的 `HOST` 字段 `https://comment.pka.moe` 修改为实际的部署域名，更多配置项请看 [#配置](#配置)
+该部署方式只需要将 `docker-compose.yml` 中 `environment` 部分的 `HOST` 字段 `https://comment.pka.moe` 修改为实际的部署域名，更多配置项请看 [#配置](#配置)。
 
 ```bash
 url="实际部署域名"
@@ -113,7 +114,7 @@ docker run -it --name comment9 -p 3000:3000 \
 
 ### 手动部署
 
-#### 环境准备
+#### 准备
 
 建议在 Node.js 版本不低于 12 的环境下使用 `yarn` 安装，如果没有 MongoDB 与 Redis 服务，可以使用 Docker 启动。
 
@@ -189,6 +190,7 @@ pm2 start
 ### 存在的 Features & Bugs
 
 - 在 url 中可以使用活动名称代替活动 id 进行索引，例如 [#Demo](#Demo) 中就使用了这个方法
+- 弹幕列表可以使用 [样式生成器](https://style.vtbs.moe) 生成 OBS 中使用的自定义样式，也可访问 [bililive_dm](https://github.com/copyliu/bililive_dm) 查看详情
 - 审核界面聚焦在输入框，键盘向右通过，向左拒绝
 - 每条弹幕在审核处只会出现一次，如果刷新网页前有未审核的弹幕，该弹幕将保持未审核状态
 - 必须手动配置部署域名，例如向微信和 Telegram 发送的消息中需要带有这一字段
@@ -204,9 +206,9 @@ pm2 start
 
 [![](https://contrib.rocks/image?repo=prnake/Comment9)](https://github.com/prnake/Comment9/graphs/contributors)
 
-### 使用的核心项目
+### 核心项目
 
-- 项目使用 [Node.js](https://nodejs.org) 开发，前端使用 [Vue2](https://vuejs.org)，后端使用 [Express](https://expressjs.com) 和 [Socket.IO](https://socket.io)，数据库使用 [MongoDB](https://www.mongodb.com) 和 [Redis](https://redis.io)。
+- 项目使用 [Node.js](https://nodejs.org) 开发，前端使用 [Vue2](https://vuejs.org)，后端使用 [Express](https://expressjs.com) 和 [Socket.IO](https://socket.io)，数据库使用 [MongoDB](https://www.mongodb.com) 和 [Redis](https://redis.io)
 - 使用 [CommentCoreLibrary](https://github.com/jabbany/CommentCoreLibrary) 规范设计弹幕格式，实现网页端的高级弹幕显示
 - 使用 [blivechat](https://github.com/xfgryujk/blivechat) 实现可用于 OBS 的 YouTube 风格弹幕列表
 - 参考 [vue-tinder](https://github.com/shanlh/vue-tinder) 实现卡片样式的审核界面

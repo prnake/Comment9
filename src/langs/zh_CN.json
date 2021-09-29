@@ -112,7 +112,7 @@
     "Please manually set \"telegramToken\" first.": "请先手动设置 \"telegramToken\"。",
     "Development": "开发",
     "Docs for developer.": "开发者文档",
-    "API Docs": "API 文档",
+    "Docs": "文档",
     "Backend Docs": "后端文档",
     "unknown error": "未知错误",
     "invalid name": "名称不合法",

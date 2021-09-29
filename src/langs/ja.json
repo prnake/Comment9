@@ -112,7 +112,7 @@
     "Please manually set \"telegramToken\" first.": "まずは手動で「telegramToken」を設定してください。",
     "Development": "開発",
     "Docs for developer.": "開発者向けドキュメント",
-    "API Docs": "APIドキュメント",
+    "Docs": "ドキュメント",
     "Backend Docs": "バックエンドドキュメント",
     "unknown error": "不明なエラー",
     "invalid name": "無効な名前",
