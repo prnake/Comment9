@@ -1,4 +1,6 @@
 # comment9
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fprnake%2FComment9.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fprnake%2FComment9?ref=badge_shield)
+
 
 ## Project setup
 ```
@@ -35,3 +37,6 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ElementUI 的 i18n 不能正常工作
 
 由于前端需要调用API，docker 部署不支持 rootPath 等参数
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fprnake%2FComment9.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fprnake%2FComment9?ref=badge_large)
