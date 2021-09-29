@@ -35,7 +35,7 @@ Comment9 is an open source, easy to use, and extensible real-time danmaku servic
   - Support diversified ways of displaying and sending danmakus such as danmaku wall, danmaku list and live broadcast
   - Advanced comment support based on CommentCoreLibrary
   - YouTube style danmaku list based on blivechat for OBS
-- DanmaQ
+- [DanmaQ](https://github.com/tuna/danmaQ)
   - Qt5 implementation of cross-platform desktop danmaku player
   - Full-screen danmaku top play layer with HiDPI screen and multi-monitor support
   - Quick subscription to Comment9 server with automatic reconnection
@@ -186,14 +186,16 @@ You can also read the `config.js` file to see the configurable environment varia
 
 ### Use API to actively collect Bilibili live danmakus
 
-Here we use [bililive_dm](https://github.com/copyliu/bililive_dm) to collect danmakus from Bilibili live stream, and send them to the Comment9 server via [python-socketio](https://python-socketio.readthedocs.io/ en/latest), see [example/bilibili](example/bilibili) folder for details.
+Here we use [blivedm](https://github.com/xfgryujk/blivedm) to collect danmakus from Bilibili live stream, and send them to the Comment9 server via [python-socketio](https://python-socketio.readthedocs.io/ en/latest), see [example/bilibili](example/bilibili) folder for details.
 
 ### Presence Features & Bugs
 
 - You can use the activity name in the url instead of the activity id for indexing, for example [#Demo](#Demo) uses this method
+- The danmaku list can use [style generator](https://style.vtbs.moe) to generate custom styles used in OBS, visiting [blivechat](https://github.com/xfgryujk/blivechat) for details
 - The audit screen is focused on the input box, the keyboard passes to the right and rejects to the left
 - Each danmaku will only appear once in the audit, if there is an un-audited danmaku before refreshing the page, the danmaku will remain un-audited
 - Deployment domain must be configured manually, e.g. messages sent to WeChat and Telegram need to have this field in the message
+- Deploying with a reverse proxy may require additional configuration of websockets, or Socket.IO will fall back to HTTP long polling mode and cause modules like `python-socketio` unable to work
 - ElementUI's i18n does not work properly
 
 ## Develop
@@ -212,7 +214,7 @@ Refer to [Develop](docs/develop.en.md)
 - Use [CommentCoreLibrary](https://github.com/jabbany/CommentCoreLibrary) to design the danmaku format and implement advanced danmaku display on the web side
 - Use [blivechat](https://github.com/xfgryujk/blivechat) to implement a YouTube style danmaku list that can be used for OBS
 - Implement a card-style review interface using [vue-tinder](https://github.com/shanlh/vue-tinder)
-- Use [bililive_dm](https://github.com/copyliu/bililive_dm) to collect danmakus from Bilibili live streams
+- Use [blivedm](https://github.com/xfgryujk/blivedm) to collect danmakus from Bilibili live streams
 - Refer to [RSSHub](https://github.com/DIYgod/RSSHub/) to improve the document and auto build process
 
 ## License

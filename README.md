@@ -35,7 +35,7 @@ Comment9 是一个开源、简单易用、易于扩展的实时弹幕服务框�
   - 支持弹幕墙、弹幕列表、直播等多样化的弹幕展示与发送方式
   - 基于 CommentCoreLibrary 的高级弹幕支持
   - 基于 blivechat 的可用于 OBS 的 YouTube 风格弹幕列表
-- 弹幕桌面端 danmaQ
+- 弹幕桌面端 [danmaQ](https://github.com/tuna/danmaQ)
   - Qt5 实现的跨平台桌面弹幕播放器
   - 支持高分屏与多显示器选择的全屏弹幕置顶播放层
   - 快捷订阅 Comment9 服务器，支持自动重连
@@ -185,15 +185,16 @@ pm2 start
 
 ### 使用 API 主动接入B站直播弹幕
 
-这里使用 [bililive_dm](https://github.com/copyliu/bililive_dm) 实现对B站直播弹幕的收集，通过 [python-socketio](https://python-socketio.readthedocs.io/en/latest) 发送到 Comment9 服务器，详情查看 [example/bilibili](example/bilibili) 文件夹。
+这里使用 [blivedm](https://github.com/xfgryujk/blivedm) 实现对B站直播弹幕的收集，通过 [python-socketio](https://python-socketio.readthedocs.io/en/latest) 发送到 Comment9 服务器，详情查看 [example/bilibili](example/bilibili) 文件夹。
 
 ### 存在的 Features & Bugs
 
 - 在 url 中可以使用活动名称代替活动 id 进行索引，例如 [#Demo](#Demo) 中就使用了这个方法
-- 弹幕列表可以使用 [样式生成器](https://style.vtbs.moe) 生成 OBS 中使用的自定义样式，也可访问 [bililive_dm](https://github.com/copyliu/bililive_dm) 查看详情
+- 弹幕列表可以使用 [样式生成器](https://style.vtbs.moe) 生成 OBS 中使用的自定义样式，也可访问 [blivechat](https://github.com/xfgryujk/blivechat) 查看详情
 - 审核界面聚焦在输入框，键盘向右通过，向左拒绝
 - 每条弹幕在审核处只会出现一次，如果刷新网页前有未审核的弹幕，该弹幕将保持未审核状态
 - 必须手动配置部署域名，例如向微信和 Telegram 发送的消息中需要带有这一字段
+- 部署时如果使用反向代理，可能需要额外配置 websockets，否则 Socket.IO 将回退到 HTTP 长轮询模式，并且导致 `python-socketio` 等模块无法正常工作
 - ElementUI 的 i18n 不能正常工作
 
 ## 开发
@@ -212,7 +213,7 @@ pm2 start
 - 使用 [CommentCoreLibrary](https://github.com/jabbany/CommentCoreLibrary) 规范设计弹幕格式，实现网页端的高级弹幕显示
 - 使用 [blivechat](https://github.com/xfgryujk/blivechat) 实现可用于 OBS 的 YouTube 风格弹幕列表
 - 参考 [vue-tinder](https://github.com/shanlh/vue-tinder) 实现卡片样式的审核界面
-- 使用 [bililive_dm](https://github.com/copyliu/bililive_dm) 实现对B站直播弹幕的收集
+- 使用 [blivedm](https://github.com/xfgryujk/blivedm) 实现对B站直播弹幕的收集
 - 参考 [RSSHub](https://github.com/DIYgod/RSSHub/) 完善文档与自动化流程
 
 ## 许可证
