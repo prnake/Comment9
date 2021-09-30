@@ -8,9 +8,9 @@
 <a href="https://github.com/prnake/Comment9/blob/master/README.en.md" target="_blank" rel="noopener noreferrer">English</a>
 </p>
 
-![GitHub Top Language](https://img.shields.io/github/languages/top/prnake/Comment9.svg)
+[![GitHub Top Language](https://img.shields.io/github/languages/top/prnake/Comment9.svg)](#)
 [![Build Status](https://github.com/prnake/Comment9/actions/workflows/docker-release.yml/badge.svg)](https://github.com/prnake/comment9/actions/workflows/docker-release.yml)
-![Docker Image Size](https://img.shields.io/docker/image-size/prnake/comment9/latest)
+[![Docker Image Size](https://img.shields.io/docker/image-size/prnake/comment9/latest)](https://hub.docker.com/r/prnake/comment9)
 [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fprnake%2FComment9.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fprnake%2FComment9?ref=badge_shield)
 
@@ -221,6 +221,7 @@ pm2 start
 - 参考 [vue-tinder](https://github.com/shanlh/vue-tinder) 实现卡片样式的审核界面
 - 使用 [blivedm](https://github.com/xfgryujk/blivedm) 实现对B站直播弹幕的收集
 - 参考 [RSSHub](https://github.com/DIYgod/RSSHub/) 完善文档与自动化流程
+- 使用 [tencent-sensitive-words](https://github.com/cjh0613/tencent-sensitive-words) 提供的过滤词库
 
 ## 许可证
 
