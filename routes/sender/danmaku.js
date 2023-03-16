@@ -228,7 +228,7 @@ const pushDanmaku = function (data, activity, io, callback) {
           callback(new Error(autherr.message));
         } else {
           if (danmaku.status === "publish") {
-            io.of(config.rootPath + "/danmaku")
+            io.of("/danmaku")
               .to(activity.id)
               .emit("danmaku", danmaku.toJSON());
             redis.setex(

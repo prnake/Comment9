@@ -29,7 +29,8 @@ export default class ChatClientComment {
   stop() {}
 
   setSocket() {
-    this.socket = io(window.location.pathname.replace(/\/$/, "") + "/danmaku", {
+    this.socket = io("/danmaku", {
+      path: window.location.pathname.replace(/\/$/, "") + "/socket.io",
       query: {
         activity: this.activityId,
         tokenName: this.tokenName,

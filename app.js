@@ -14,6 +14,7 @@ const activity = require("./routes/activity");
 const app = express();
 const server = require("http").Server(app);
 const io = require("socket.io")(server, {
+  path: `${config.rootPath}/socket.io`,
   cors: {
     origin: "*",
   },

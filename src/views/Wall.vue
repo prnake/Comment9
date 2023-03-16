@@ -49,7 +49,8 @@ export default {
       });
     },
     setSocket: function () {
-      this.socket = io(this.$rootPath + "/danmaku", {
+      this.socket = io("/danmaku", {
+        path: this.$rootPath + "/socket.io",
         query: {
           activity: this.activityId,
           tokenName: this.tokenName,
