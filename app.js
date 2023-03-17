@@ -44,7 +44,7 @@ app.use(config.rootPath + "/activity", activity);
 for (const name of config.danmaku.senders) {
   const sender = require("./routes/sender/" + name);
   if (sender.router) app.use(config.rootPath + "/" + name, sender.router);
-  if (sender.socket) sender.socket(io, config.rootPath + "/" + name);
+  if (sender.socket) sender.socket(io, "/" + name);
 }
 
 app.use(
