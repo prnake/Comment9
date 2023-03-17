@@ -177,13 +177,17 @@ router.get("/pull", auth.routerActivityByToken, async function (req, res) {
   const keysAsync = promisify(redis.keys).bind(redis);
   const getAsync = promisify(redis.get).bind(redis);
   const keys = await keysAsync(`acitvity:${req.activity.id}:danmaku:*`);
+  if (!req.start_id) {
+    req.start_id = 0;
+  }
   if (!keys) {
     res.json({ success: false, reason: "unkown error" });
   } else {
     const danmaku = await Promise.all(
       keys.map(async (key) => JSON.parse(await getAsync(key)))
     );
-    res.json({ success: true, danmaku: danmaku });
+    res.json({
+      success: true, danmaku: danmaku.filter((item) => item.id >= req.start_id) });
   }
 });
 
